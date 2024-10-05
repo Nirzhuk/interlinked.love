@@ -1,0 +1,219 @@
+"use client";
+import type { Event } from "@/src/lib/db/schema";
+
+import DayEventsModal from "@/src/components/Dashboard/Modals/DayEventsModal";
+import { eventColorStyle } from "@/src/lib/colors";
+import { cn } from "@/src/lib/utils";
+
+import EventCommentsModal from "@/src/components/Dashboard/Modals/EventCommentsModal";
+import React, { memo, useState, useCallback, useMemo } from "react";
+
+interface DayCellProps {
+	day: number;
+	events: Partial<Event>[];
+	currentDate: Date;
+	eventLayers: Partial<Event>[][];
+	hasComments: boolean; // New prop
+}
+
+const MAX_VISIBLE_EVENTS = 3;
+const EVENT_HEIGHT = 1.4; // rem
+const DAY_CELL_PADDING_TOP = 1.5; // rem
+const EVENT_VERTICAL_GAP = 0.2; // rem
+
+const DayCell: React.FC<DayCellProps> = memo(
+	({ day, events, currentDate, eventLayers, hasComments }) => {
+		const [isModalOpen, setIsModalOpen] = useState(false);
+		const [isCommentsModalOpen, setIsCommentsModalOpen] = useState(false);
+		const [position, setPosition] = useState(0);
+		const [reachedMaxEvents, setReachedMaxEvents] = useState<number | null>(
+			null,
+		);
+		const [modalPosition, setModalPosition] = useState<{
+			top: number;
+			left: number;
+			width: number;
+			height: number;
+		} | null>(null);
+		const [selectedEvent, setSelectedEvent] = useState<Partial<Event> | null>(
+			null,
+		);
+
+		const currentDay = useMemo(
+			() => new Date(currentDate.getFullYear(), currentDate.getMonth(), day),
+			[currentDate, day],
+		);
+
+		const handleDayClick = useCallback(
+			(e: React.MouseEvent<HTMLDivElement>) => {
+				e.stopPropagation();
+				const rect = e.currentTarget.getBoundingClientRect();
+				setModalPosition({
+					top: rect.top,
+					left: rect.left,
+					width: rect.width,
+					height: rect.height,
+				});
+				setIsModalOpen(true);
+			},
+			[],
+		);
+
+		const renderEvent = useCallback(
+			(event: Partial<Event>) => {
+				if (!event.initialDate || !event.finalDate) return null;
+				const eventStartDate = new Date(event.initialDate);
+				const eventEndDate = new Date(event.finalDate);
+
+				const isFirstDay =
+					currentDay.getTime() ===
+					new Date(
+						eventStartDate.getFullYear(),
+						eventStartDate.getMonth(),
+						eventStartDate.getDate(),
+					).getTime();
+				const isLastDay =
+					currentDay.getTime() ===
+					new Date(
+						eventEndDate.getFullYear(),
+						eventEndDate.getMonth(),
+						eventEndDate.getDate(),
+					).getTime();
+
+				const layerIndex = eventLayers.findIndex((layer) =>
+					layer.includes(event),
+				);
+
+				const style = eventColorStyle[event.color as keyof typeof eventColorStyle];
+				
+				const eventClass = cn(
+					"hidden sm:block absolute left-0 right-0 text-xs p-1 overflow-hidden",
+					isFirstDay && "rounded-l-md",
+					isLastDay && "rounded-r-md mr-2",
+					"border-t border-b",
+					isFirstDay && "border-l",
+					isLastDay && "border-r",
+					"transition-colors duration-200 ease-in-out cursor-pointer font-semibold "
+				);
+				
+				const eventStyle: React.CSSProperties = {
+					top: `${DAY_CELL_PADDING_TOP + layerIndex * (EVENT_HEIGHT + EVENT_VERTICAL_GAP)}rem`,
+					height: `${EVENT_HEIGHT}rem`,
+					borderColor: style.borderColor,
+					backgroundColor: style.backgroundColor,
+					
+				};
+
+				const handleEventClick = (e: React.MouseEvent) => {
+					e.stopPropagation();
+					setSelectedEvent(event);
+					setIsCommentsModalOpen(true);
+				};
+
+				const handleEventKeyDown = (e: React.KeyboardEvent) => {
+					if (e.key === "Enter" || e.key === " ") {
+						e.stopPropagation();
+						setSelectedEvent(event);
+						setIsCommentsModalOpen(true);
+					}
+				};
+
+				return (
+					<React.Fragment key={event.id}>
+						<div
+							className={cn(
+								"absolute inset-x-0 bottom-0.5 flex justify-center items-center",
+								"h-4 sm:hidden", // Adjust height as needed
+							)}
+						>
+							<div
+								className="rounded-full size-3"
+								style={{ backgroundColor: style.backgroundColor }}
+							/>
+						</div>
+						<div
+							className={eventClass}
+							style={eventStyle}
+							onClick={handleEventClick}
+							onKeyDown={handleEventKeyDown}
+							tabIndex={0}
+							role="button"
+							onMouseEnter={(e) => {
+								e.currentTarget.style.backgroundColor = style.hoverBackgroundColor;
+								
+							}}
+							onMouseLeave={(e) => {
+								e.currentTarget.style.backgroundColor = style.backgroundColor;
+								
+							}}
+						>
+							<span className="line-clamp-1">{event.title}</span>
+						</div>
+					</React.Fragment>
+				);
+			},
+			[currentDay, eventLayers],
+		);
+
+		const renderedEvents = useMemo(
+			() => events.map(renderEvent),
+			[events, renderEvent],
+		);
+
+		const handleDayCellKeyDown = useCallback(
+			(e: React.KeyboardEvent<HTMLDivElement>) => {
+				if (e.key === "Enter" || e.key === " ") {
+					handleDayClick(e as unknown as React.MouseEvent<HTMLDivElement>);
+				}
+			},
+			[handleDayClick],
+		);
+
+		
+
+		return (
+			<>
+				<div
+					className={cn(
+						"p-2 rounded-md text-center bg-gray-100 hover:bg-gray-150/80 cursor-pointer border border-transparent hover:border-gray-300 flex flex-col overflow-hidden h-10 sm:h-28 relative transition-all duration-200 ease-in-out",
+					)}
+					onClick={handleDayClick}
+					onKeyDown={handleDayCellKeyDown}
+					tabIndex={0}
+					role="button"
+				>
+					<span className="font-semibold absolute top-0 left-0 right-0">
+						{day}
+					</span>
+					<div className="absolute top-1 right-1 flex items-center space-x-1">
+						{hasComments && (
+							<div className="w-1.5 h-1.5 rounded-full bg-yellow-500" />
+						)}
+					</div>
+					{renderedEvents}
+					{/* 					{(events.length > MAX_VISIBLE_EVENTS || reachedMaxEvents) && (
+						<div className="absolute bottom-0 left-0 right-0 text-xs text-center bg-gray-200 hover:bg-gray-300 transition-colors duration-200 ease-in-out">
+							more
+						</div>
+					)} */}
+				</div>
+				<DayEventsModal
+					events={events}
+					currentDay={currentDay}
+					isModalOpen={isModalOpen}
+					setIsModalOpen={setIsModalOpen}
+					modalPosition={modalPosition}
+				/>
+				<EventCommentsModal
+					isOpen={isCommentsModalOpen}
+					onClose={() => setIsCommentsModalOpen(false)}
+					event={selectedEvent || {}}
+				/>
+			</>
+		);
+	},
+);
+
+DayCell.displayName = "DayCell";
+
+export default DayCell;
