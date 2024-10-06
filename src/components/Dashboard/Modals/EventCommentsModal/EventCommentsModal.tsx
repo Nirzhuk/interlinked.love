@@ -40,14 +40,14 @@ const EventCommentsModal: React.FC<EventCommentsModalProps> = memo(
 
 		return (
 			<Dialog open={isOpen} onOpenChange={onClose}>
-				<DialogContent>
+				<DialogContent >
 					<DialogHeader className="mt-2 flex flex-row place-items-center items-center justify-between">
-						<DialogTitle>	
+						<DialogTitle>
 							<span className="font-semibold">{event.title}</span>
 						</DialogTitle>
 						<div>
-							<span className=" text-muted-foreground text-xs">Location: </span>
-							<span className="font-semibold">{event.location}</span>
+							<span className="text-muted-foreground text-xs">Location: </span>
+							<span className="text-sm font-semibold">{event.location}</span>
 						</div>
 					</DialogHeader>
 					<div>
@@ -66,10 +66,10 @@ const EventCommentsModal: React.FC<EventCommentsModalProps> = memo(
 								</p>
 							</div>
 						</div>
-						
+
 						<div>
 							<p className="text-xs text-muted-foreground">Description: </p>
-						<p className="">{event.description}</p>
+							<p className="">{event.description}</p>
 						</div>
 					</div>
 					<hr className="my-2" />

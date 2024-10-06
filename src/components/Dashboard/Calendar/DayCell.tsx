@@ -18,7 +18,7 @@ interface DayCellProps {
 
 const MAX_VISIBLE_EVENTS = 3;
 const EVENT_HEIGHT = 1.4; // rem
-const DAY_CELL_PADDING_TOP = 1.5; // rem
+const DAY_CELL_PADDING_TOP = 1.35; // rem
 const EVENT_VERTICAL_GAP = 0.2; // rem
 
 const DayCell: React.FC<DayCellProps> = memo(
@@ -60,7 +60,7 @@ const DayCell: React.FC<DayCellProps> = memo(
 		);
 
 		const renderEvent = useCallback(
-			(event: Partial<Event>) => {
+			(event: Partial<Event>, index: number) => {
 				if (!event.initialDate || !event.finalDate) return null;
 				const eventStartDate = new Date(event.initialDate);
 				const eventEndDate = new Date(event.finalDate);
@@ -93,16 +93,21 @@ const DayCell: React.FC<DayCellProps> = memo(
 					"border-t border-b",
 					isFirstDay && "border-l",
 					isLastDay && "border-r",
-					"transition-colors duration-200 ease-in-out cursor-pointer font-semibold "
+					"transition-colors duration-200 text-center ease-in-out cursor-pointer font-semibold "
 				);
 				
+				const isHighPositionedEvent = layerIndex >= 3 && events.length <= 2;
+				if (layerIndex >= MAX_VISIBLE_EVENTS && !isHighPositionedEvent) return null;
+
 				const eventStyle: React.CSSProperties = {
-					top: `${DAY_CELL_PADDING_TOP + layerIndex * (EVENT_HEIGHT + EVENT_VERTICAL_GAP)}rem`,
+					top: isHighPositionedEvent
+						? `${DAY_CELL_PADDING_TOP + index * (EVENT_HEIGHT + EVENT_VERTICAL_GAP)}rem`
+						: `${DAY_CELL_PADDING_TOP + layerIndex * (EVENT_HEIGHT + EVENT_VERTICAL_GAP)}rem`,
 					height: `${EVENT_HEIGHT}rem`,
 					borderColor: style.borderColor,
 					backgroundColor: style.backgroundColor,
 					
-				};
+					};
 
 				const handleEventClick = (e: React.MouseEvent) => {
 					e.stopPropagation();
@@ -152,11 +157,11 @@ const DayCell: React.FC<DayCellProps> = memo(
 					</React.Fragment>
 				);
 			},
-			[currentDay, eventLayers],
+			[currentDay, eventLayers, events.length] // Add events.length to the dependency array
 		);
 
 		const renderedEvents = useMemo(
-			() => events.map(renderEvent),
+			() => events.map((event, index) => renderEvent(event, index)),
 			[events, renderEvent],
 		);
 
@@ -185,15 +190,18 @@ const DayCell: React.FC<DayCellProps> = memo(
 					<span className="font-semibold absolute top-0 left-0 right-0">
 						{day}
 					</span>
+					<div className="hidden sm:block font-semibold absolute bottom-0 left-0 right-0 text-xs text-muted-foreground">
+						{events.length} events
+					</div>
 					<div className="absolute top-1 right-1 flex items-center space-x-1">
 						{hasComments && (
 							<div className="w-1.5 h-1.5 rounded-full bg-yellow-500" />
 						)}
 					</div>
 					{renderedEvents}
-					{/* 					{(events.length > MAX_VISIBLE_EVENTS || reachedMaxEvents) && (
+{/* 					 					{(events.length > MAX_VISIBLE_EVENTS ) && (
 						<div className="absolute bottom-0 left-0 right-0 text-xs text-center bg-gray-200 hover:bg-gray-300 transition-colors duration-200 ease-in-out">
-							more
+							More events
 						</div>
 					)} */}
 				</div>
