@@ -36,10 +36,6 @@ const routes = [
 		url: "/dashboard/settings",
 		items: [
 			{
-				title: "Account",
-				url: "/dashboard/security",
-			},
-			{
 				title: "General",
 				url: "/dashboard/general",
 			},

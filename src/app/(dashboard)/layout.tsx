@@ -29,7 +29,9 @@ export default function DashboardLayout({
 				<UserProvider userPromise={userPromise}>
 					<div className="flex flex-col min-h-screen">
 						<Header />
-						<main className="w-full h-full px-4 pb-0 pt-8">{children}</main>
+						<main className="w-10/12 mx-auto h-full px-4 pb-0 pt-8">
+							{children}
+						</main>
 					</div>
 				</UserProvider>
 			</body>
