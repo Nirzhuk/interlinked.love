@@ -26,10 +26,11 @@ const colorOptions = [
 interface ColorPickerProps {
 	name: string;
 	id: string;
+	defaultValue?: string;
 }
 
-export function ColorPicker({ name, id }: ColorPickerProps) {
-	const [value, setValue] = useState<string>("pink");
+export function ColorPicker({ name, defaultValue = "pink" }: ColorPickerProps) {
+	const [value, setValue] = useState<string>(defaultValue);
 	return (
 		<>
 			<input type="hidden" name={name} value={value} />

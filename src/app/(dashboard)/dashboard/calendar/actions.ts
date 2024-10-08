@@ -12,6 +12,7 @@ import {
 	eventsComments,
 	users,
 } from "@/src/lib/db/schema";
+import { eq } from "drizzle-orm";
 
 import { z } from "zod";
 
@@ -108,6 +109,52 @@ export const createEvent = validatedActionWithUser(
 		return {
 			success: "Event created successfully.",
 			event: createdEvent,
+		};
+	},
+);
+
+const editEventSchema = createEventSchema.extend({
+	eventId: z.string().transform((value) => Number(value)),
+});
+
+export const updateEvent = validatedActionWithUser(
+	editEventSchema,
+	async (data, _, user) => {
+		const {
+			title,
+			eventId,
+			description,
+			initialDate,
+			finalDate,
+			location,
+			color,
+		} = data;
+		const userWithCouple = await getUserWithCouple(user.id);
+		if (!userWithCouple) {
+			return { error: "User is not in a couple." };
+		}
+		const [updatedEvent] = await db
+			.update(events)
+			.set({
+				title,
+				description,
+				initialDate: new Date(initialDate),
+				finalDate: new Date(finalDate),
+				location,
+				color,
+				coupleId: userWithCouple.coupleId as number,
+			})
+			.where(eq(events.id, data.eventId))
+			.returning();
+
+		await logActivity(
+			userWithCouple.coupleId,
+			user.id,
+			ActivityType.CREATE_EVENT,
+		);
+		return {
+			success: "Event updated successfully.",
+			event: updatedEvent,
 		};
 	},
 );

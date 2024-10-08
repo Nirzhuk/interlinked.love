@@ -10,7 +10,7 @@ export default function HomePage() {
 					<div className="flex">
 						<div className="text-center md:max-w-2xl md:mx-auto justify-center items-center">
 							<h1 className="text-3xl font-bold text-gray-900 tracking-tight sm:text-5xl md:text-6xl ">
-								Organize your {" "}
+								Organize your{" "}
 								<WordRotate
 									className="inline"
 									words={["Trips", "Events", "Life"]}

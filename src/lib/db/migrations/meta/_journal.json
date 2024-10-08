@@ -1,34 +1,34 @@
 {
-  "version": "7",
-  "dialect": "postgresql",
-  "entries": [
-    {
-      "idx": 0,
-      "version": "7",
-      "when": 1727794354754,
-      "tag": "0000_dark_dorian_gray",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1727917921992,
-      "tag": "0001_fresh_franklin_richards",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1728031255135,
-      "tag": "0002_aromatic_dragon_man",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1728032895063,
-      "tag": "0003_real_stone_men",
-      "breakpoints": true
-    }
-  ]
+	"version": "7",
+	"dialect": "postgresql",
+	"entries": [
+		{
+			"idx": 0,
+			"version": "7",
+			"when": 1727794354754,
+			"tag": "0000_dark_dorian_gray",
+			"breakpoints": true
+		},
+		{
+			"idx": 1,
+			"version": "7",
+			"when": 1727917921992,
+			"tag": "0001_fresh_franklin_richards",
+			"breakpoints": true
+		},
+		{
+			"idx": 2,
+			"version": "7",
+			"when": 1728031255135,
+			"tag": "0002_aromatic_dragon_man",
+			"breakpoints": true
+		},
+		{
+			"idx": 3,
+			"version": "7",
+			"when": 1728032895063,
+			"tag": "0003_real_stone_men",
+			"breakpoints": true
+		}
+	]
 }

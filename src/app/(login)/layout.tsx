@@ -21,7 +21,6 @@ export default function RootLayout({
 }: {
 	children: React.ReactNode;
 }) {
-
 	const userPromise = getUser();
 
 	return (
@@ -40,4 +39,3 @@ export default function RootLayout({
 		</html>
 	);
 }
-

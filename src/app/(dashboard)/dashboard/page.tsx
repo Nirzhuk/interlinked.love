@@ -1,4 +1,8 @@
-import { getCoupleForUser, getUpcomingEvents, getUser } from "@/src/lib/db/queries";
+import {
+	getCoupleForUser,
+	getUpcomingEvents,
+	getUser,
+} from "@/src/lib/db/queries";
 import { redirect } from "next/navigation";
 import { Settings } from "./settings";
 
@@ -15,6 +19,6 @@ export default async function SettingsPage() {
 	if (!coupleData) {
 		throw new Error("Couple not found");
 	}
-	
+
 	return <Settings coupleData={coupleData} upcomingEvents={upcomingEvents} />;
 }

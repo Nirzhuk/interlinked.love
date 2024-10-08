@@ -28,7 +28,7 @@ type ActionState = {
 export function Settings({
 	coupleData,
 	upcomingEvents,
-}: { coupleData: CoupleDataWithMembers, upcomingEvents: Partial<Event>[] }) {
+}: { coupleData: CoupleDataWithMembers; upcomingEvents: Partial<Event>[] }) {
 	const [removeState, removeAction, isRemovePending] = useActionState<
 		ActionState,
 		FormData
@@ -37,29 +37,36 @@ export function Settings({
 	const getUserDisplayName = (user: Pick<User, "id" | "name" | "email">) => {
 		return user.name || user.email || "Unknown User";
 	};
-	
+
 	return (
 		<section className="flex-1 p-4 lg:p-8 w-full">
 			<h2 className="text-lg lg:text-2xl font-medium mb-6">Upcoming Events</h2>
-			<Marquee className="mb-6 py-2 bg-violet-100 rounded-lg" repeat={1} pauseOnHover={true} >
+			<Marquee
+				className="mb-6 py-2 bg-violet-100 rounded-lg"
+				repeat={1}
+				pauseOnHover={true}
+			>
 				{upcomingEvents.map((e, index) => (
-					<div 
-						key={`${e.id}-${index}`} 
+					<div
+						key={`${e.id}-${index}`}
 						className={cn(
 							"mx-4 cursor-pointer flex flex-col space-x-2 px-4",
-							index !== upcomingEvents.length - 1 && "border-r border-violet-200"
+							index !== upcomingEvents.length - 1 &&
+								"border-r border-violet-200",
 						)}
 					>
 						<div className="text-sm font-medium">{e.location}</div>
 						<div className="text-xs text-muted-foreground">
-							{e.initialDate ? new Date(e.initialDate).toLocaleDateString() : "No date set"}
+							{e.initialDate
+								? new Date(e.initialDate).toLocaleDateString()
+								: "No date set"}
 						</div>
 					</div>
 				))}
 			</Marquee>
 
-				<h1 className="text-lg lg:text-2xl font-medium mb-6">Couple Settings</h1>
-			
+			<h1 className="text-lg lg:text-2xl font-medium mb-6">Couple Settings</h1>
+
 			<Card className="mb-8">
 				<CardHeader>
 					<CardTitle>Couple Subscription</CardTitle>

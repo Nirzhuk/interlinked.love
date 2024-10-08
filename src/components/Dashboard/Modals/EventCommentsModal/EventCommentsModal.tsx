@@ -40,7 +40,7 @@ const EventCommentsModal: React.FC<EventCommentsModalProps> = memo(
 
 		return (
 			<Dialog open={isOpen} onOpenChange={onClose}>
-				<DialogContent >
+				<DialogContent>
 					<DialogHeader className="mt-2 flex flex-row place-items-center items-center justify-between">
 						<DialogTitle>
 							<span className="font-semibold">{event.title}</span>

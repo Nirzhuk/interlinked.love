@@ -41,6 +41,6 @@ const Comments = ({ comments, height = "200px" }: CommentsProps) => {
 			</ul>
 		</ScrollArea>
 	);
-}
+};
 
 export default Comments;

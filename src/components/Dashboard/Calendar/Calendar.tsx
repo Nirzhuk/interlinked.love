@@ -24,7 +24,7 @@ const Calendar: React.FC<CalendarProps> = ({ events }) => {
 	const { comments } = useCalendar();
 
 	const sortedEvents = useMemo(() => sortEventsByStartDate(events), [events]);
-	
+
 	const eventLayers = useMemo(() => {
 		const layers: Partial<Event>[][] = [];
 		for (const event of sortedEvents) {
@@ -33,7 +33,10 @@ const Calendar: React.FC<CalendarProps> = ({ events }) => {
 			let placed = false;
 			for (const layer of layers) {
 				const lastEvent = layer[layer.length - 1];
-				if (lastEvent?.finalDate && eventStart >= new Date(lastEvent.finalDate)) {
+				if (
+					lastEvent?.finalDate &&
+					eventStart >= new Date(lastEvent.finalDate)
+				) {
 					layer.push(event);
 					placed = true;
 					break;
@@ -59,19 +62,34 @@ const Calendar: React.FC<CalendarProps> = ({ events }) => {
 			const currentDay = new Date(
 				currentDate.getFullYear(),
 				currentDate.getMonth(),
-				i
+				i,
 			);
 			const dayEvents = sortedEvents.filter((event) => {
 				if (!event.initialDate || !event.finalDate) return false;
 				const eventStartDate = new Date(event.initialDate);
 				const eventEndDate = new Date(event.finalDate);
 				return (
-					currentDay >= new Date(eventStartDate.getFullYear(), eventStartDate.getMonth(), eventStartDate.getDate()) &&
-					currentDay <= new Date(eventEndDate.getFullYear(), eventEndDate.getMonth(), eventEndDate.getDate())
+					currentDay >=
+						new Date(
+							eventStartDate.getFullYear(),
+							eventStartDate.getMonth(),
+							eventStartDate.getDate(),
+						) &&
+					currentDay <=
+						new Date(
+							eventEndDate.getFullYear(),
+							eventEndDate.getMonth(),
+							eventEndDate.getDate(),
+						)
 				);
 			});
 
-			const hasComments = comments ? comments.some((comment) => comment.eventId === dayEvents.find((event) => event.id)?.id) : false;
+			const hasComments = comments
+				? comments.some(
+						(comment) =>
+							comment.eventId === dayEvents.find((event) => event.id)?.id,
+					)
+				: false;
 
 			days.push(
 				<motion.div key={i} layoutId={`day-${i}`}>
@@ -82,7 +100,7 @@ const Calendar: React.FC<CalendarProps> = ({ events }) => {
 						eventLayers={eventLayers}
 						hasComments={hasComments}
 					/>
-				</motion.div>
+				</motion.div>,
 			);
 		}
 
@@ -90,32 +108,44 @@ const Calendar: React.FC<CalendarProps> = ({ events }) => {
 	}, [currentDate, sortedEvents, eventLayers, comments]);
 
 	const nextMonth = useCallback(() => {
-		setCurrentDate((prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() + 1, 1));
+		setCurrentDate(
+			(prevDate) =>
+				new Date(prevDate.getFullYear(), prevDate.getMonth() + 1, 1),
+		);
 	}, []);
 
 	const prevMonth = useCallback(() => {
-		setCurrentDate((prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() - 1, 1));
+		setCurrentDate(
+			(prevDate) =>
+				new Date(prevDate.getFullYear(), prevDate.getMonth() - 1, 1),
+		);
 	}, []);
 
 	const handleCreateEvent = useCallback((newEvent: Partial<Event>) => {
-		
 		setIsCreateModalOpen(false);
 	}, []);
 
 	return (
-		<div className="max-w-4xl flex flex-col mx-auto mt-4 mb-10">
+		<div className="max-w-4xl flex flex-col mx-auto mb-10">
 			<div className="flex justify-end">
 				<Button onClick={() => setIsCreateModalOpen(true)} variant="outline">
 					<Plus className="mr-2 h-4 w-4" /> New Event
 				</Button>
 			</div>
-			<div className="flex items-center justify-between mb-4">
+			<div className="flex items-center justify-between">
 				<h2 className="text-2xl font-bold mr-4">
 					<span>{currentDate.toLocaleString("en-US", { month: "long" })}</span>
-					<span className="text-purple-500 ml-2">{currentDate.getFullYear()}</span>
+					<span className="text-purple-500 ml-2">
+						{currentDate.getFullYear()}
+					</span>
 				</h2>
 				<div className="flex">
-					<Button onClick={prevMonth} variant="ghost" size="icon" className="mr-2">
+					<Button
+						onClick={prevMonth}
+						variant="ghost"
+						size="icon"
+						className="mr-2"
+					>
 						<ChevronLeft className="h-4 w-4" />
 					</Button>
 					<Button onClick={nextMonth} variant="ghost" size="icon">

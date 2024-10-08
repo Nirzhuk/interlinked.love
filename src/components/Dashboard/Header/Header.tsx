@@ -80,7 +80,7 @@ const Header = () => {
 
 				{/* Desktop Navigation */}
 				<nav className="hidden md:flex items-center space-x-4">
-					{routes.map((route) => (
+					{routes.map((route) =>
 						route.items ? (
 							<DropdownMenu key={route.url}>
 								<DropdownMenuTrigger className="flex items-center text-sm font-medium text-gray-700 hover:text-violet-900">
@@ -96,7 +96,7 @@ const Header = () => {
 													"w-full",
 													isActiveRoute(item.url)
 														? "text-violet-900 font-bold"
-														: "text-gray-700 hover:text-violet-900"
+														: "text-gray-700 hover:text-violet-900",
 												)}
 											>
 												{item.title}
@@ -114,13 +114,13 @@ const Header = () => {
 									isActiveRoute(route.url)
 										? "text-violet-900 font-bold"
 										: "text-gray-700 hover:text-violet-900",
-									route.url === "/dashboard/calendar" && "font-bold uppercase"
+									route.url === "/dashboard/calendar" && "font-bold uppercase",
 								)}
 							>
 								{route.title}
 							</Link>
-						)
-					))}
+						),
+					)}
 				</nav>
 
 				{/* Mobile Menu Button */}
@@ -179,7 +179,7 @@ const Header = () => {
 			{isMobileMenuOpen && (
 				<div className="md:hidden">
 					<nav className="flex flex-col px-4 py-2 space-y-2">
-						{routes.map((route) => (
+						{routes.map((route) =>
 							route.items ? (
 								<div key={route.url} className="space-y-2">
 									<div className="font-medium text-gray-700">{route.title}</div>
@@ -191,7 +191,7 @@ const Header = () => {
 												"block pl-4 text-sm",
 												isActiveRoute(item.url)
 													? "text-violet-900 font-bold"
-													: "text-gray-700 hover:text-violet-900"
+													: "text-gray-700 hover:text-violet-900",
 											)}
 											onClick={() => setIsMobileMenuOpen(false)}
 										>
@@ -207,14 +207,14 @@ const Header = () => {
 										"text-sm font-medium",
 										isActiveRoute(route.url)
 											? "text-violet-900 font-bold"
-											: "text-gray-700 hover:text-violet-900"
+											: "text-gray-700 hover:text-violet-900",
 									)}
 									onClick={() => setIsMobileMenuOpen(false)}
 								>
 									{route.title}
 								</Link>
-							)
-						))}
+							),
+						)}
 					</nav>
 					{user ? (
 						<div className="px-4 py-2">
@@ -251,6 +251,6 @@ const Header = () => {
 			)}
 		</header>
 	);
-}
+};
 
 export default Header;

@@ -12,7 +12,7 @@ import { use } from "react";
 
 type CalendarContextType = {
 	comments: EventCommentWithUser[] | null;
-  setComments: (comments: EventCommentWithUser[]) => void;
+	setComments: (comments: EventCommentWithUser[]) => void;
 };
 
 const CalendarContext = createContext<CalendarContextType | null>(null);
@@ -33,12 +33,13 @@ export function CalendarProvider({
 	commentsPromise: Promise<EventCommentWithUser[] | null>;
 }) {
 	const initialComments = use(commentsPromise);
-	const [comments, setComments] = useState<EventCommentWithUser[] | null>(initialComments);
+	const [comments, setComments] = useState<EventCommentWithUser[] | null>(
+		initialComments,
+	);
 
 	useEffect(() => {
 		setComments(initialComments);
 	}, [initialComments]);
-  
 
 	return (
 		<CalendarContext.Provider value={{ comments, setComments }}>

@@ -84,20 +84,20 @@ const DayCell: React.FC<DayCellProps> = memo(
 					layer.includes(event),
 				);
 
-				const style = eventColorStyle[event.color as keyof typeof eventColorStyle];
-				
+				const style =
+					eventColorStyle[event.color as keyof typeof eventColorStyle];
+
 				const eventClass = cn(
 					"hidden sm:block absolute left-0 right-0 text-xs p-1 overflow-hidden",
-					isFirstDay && "rounded-l-md",
-					isLastDay && "rounded-r-md mr-2",
 					"border-t border-b",
-					isFirstDay && "border-l",
-					isLastDay && "border-r",
-					"transition-colors duration-200 text-center ease-in-out cursor-pointer font-semibold "
+					isFirstDay && "rounded-l-md  border-l ",
+					isLastDay && "rounded-r-md mr-2 border-r",
+					"transition-colors duration-200 text-center ease-in-out cursor-pointer font-semibold ",
 				);
-				
+
 				const isHighPositionedEvent = layerIndex >= 3 && events.length <= 2;
-				if (layerIndex >= MAX_VISIBLE_EVENTS && !isHighPositionedEvent) return null;
+				if (layerIndex >= MAX_VISIBLE_EVENTS && !isHighPositionedEvent)
+					return null;
 
 				const eventStyle: React.CSSProperties = {
 					top: isHighPositionedEvent
@@ -106,8 +106,7 @@ const DayCell: React.FC<DayCellProps> = memo(
 					height: `${EVENT_HEIGHT}rem`,
 					borderColor: style.borderColor,
 					backgroundColor: style.backgroundColor,
-					
-					};
+				};
 
 				const handleEventClick = (e: React.MouseEvent) => {
 					e.stopPropagation();
@@ -144,12 +143,11 @@ const DayCell: React.FC<DayCellProps> = memo(
 							tabIndex={0}
 							role="button"
 							onMouseEnter={(e) => {
-								e.currentTarget.style.backgroundColor = style.hoverBackgroundColor;
-								
+								e.currentTarget.style.backgroundColor =
+									style.hoverBackgroundColor;
 							}}
 							onMouseLeave={(e) => {
 								e.currentTarget.style.backgroundColor = style.backgroundColor;
-								
 							}}
 						>
 							<span className="line-clamp-1">{event.title}</span>
@@ -157,7 +155,7 @@ const DayCell: React.FC<DayCellProps> = memo(
 					</React.Fragment>
 				);
 			},
-			[currentDay, eventLayers, events.length] // Add events.length to the dependency array
+			[currentDay, eventLayers, events.length], // Add events.length to the dependency array
 		);
 
 		const renderedEvents = useMemo(
@@ -173,8 +171,6 @@ const DayCell: React.FC<DayCellProps> = memo(
 			},
 			[handleDayClick],
 		);
-
-		
 
 		return (
 			<>
@@ -199,7 +195,7 @@ const DayCell: React.FC<DayCellProps> = memo(
 						)}
 					</div>
 					{renderedEvents}
-{/* 					 					{(events.length > MAX_VISIBLE_EVENTS ) && (
+					{/* 					 					{(events.length > MAX_VISIBLE_EVENTS ) && (
 						<div className="absolute bottom-0 left-0 right-0 text-xs text-center bg-gray-200 hover:bg-gray-300 transition-colors duration-200 ease-in-out">
 							More events
 						</div>

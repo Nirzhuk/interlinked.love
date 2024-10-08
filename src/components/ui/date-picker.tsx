@@ -1,49 +1,52 @@
-"use client"
- 
-import { format } from "date-fns"
-import { Calendar as CalendarIcon } from "lucide-react"
-import * as React from "react"
- 
-import { Button } from "@/src/components/ui/button"
-import { Calendar } from "@/src/components/ui/calendar"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/src/components/ui/popover"
-import { cn } from "@/src/lib/utils"
-import { useState } from "react"
+"use client";
 
-export function DatePicker({ id, name }: { id: string, name: string }) {
-	const [date, setDate] = useState<Date | undefined>(undefined);
-	
-  return (
-    <>
-    <input type="hidden" name={name} value={date?.toISOString()} />
-    
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button
-          variant={"outline"}
-          className={cn(
-            "w-[280px] justify-start text-left font-normal",
-            !date && "text-muted-foreground"
-          )}
-        >
-          <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(date, "PPP") : <span>Pick a date</span>}
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-auto p-0">
-        
-				<Calendar
-					id={id}
-					mode="single"
-					selected={date}
-					onSelect={setDate}
-					initialFocus
-        />
-      </PopoverContent>
+import { format } from "date-fns";
+import { Calendar as CalendarIcon } from "lucide-react";
+import * as React from "react";
+
+import { Button } from "@/src/components/ui/button";
+import { Calendar } from "@/src/components/ui/calendar";
+import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+} from "@/src/components/ui/popover";
+import { cn } from "@/src/lib/utils";
+import { useState } from "react";
+
+export function DatePicker({
+	id,
+	name,
+	defaultValue = undefined,
+}: { id: string; name: string; defaultValue: Date | undefined }) {
+	const [date, setDate] = useState<Date | undefined>(defaultValue);
+
+	return (
+		<>
+			<input type="hidden" name={name} value={date?.toISOString()} />
+
+			<Popover>
+				<PopoverTrigger asChild>
+					<Button
+						variant={"outline"}
+						className={cn(
+							"w-[280px] justify-start text-left font-normal",
+							!date && "text-muted-foreground",
+						)}
+					>
+						<CalendarIcon className="mr-2 h-4 w-4" />
+						{date ? format(date, "PPP") : <span>Pick a date</span>}
+					</Button>
+				</PopoverTrigger>
+				<PopoverContent className="w-auto p-0">
+					<Calendar
+						id={id}
+						mode="single"
+						selected={date}
+						onSelect={setDate}
+						initialFocus
+					/>
+				</PopoverContent>
 			</Popover>
 		</>
 	);
