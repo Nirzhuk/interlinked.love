@@ -55,7 +55,8 @@ const Header = () => {
 										{user.email
 											.split(" ")
 											.map((n) => n[0])
-											.join("")}
+											.join("")
+											.toUpperCase()}
 									</AvatarFallback>
 								</Avatar>
 							</DropdownMenuTrigger>

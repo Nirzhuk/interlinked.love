@@ -19,7 +19,7 @@ import { useActionState } from "react";
 type ActionState = {
 	error?: string;
 	success?: string;
-	inviteId?: string;
+	inviteId?: number;
 };
 
 export function InviteCoupleMember() {
@@ -30,7 +30,6 @@ export function InviteCoupleMember() {
 		FormData
 	>(inviteCoupleMember, { error: "", success: "" });
 
-	console.log("inviteState", inviteState);
 	return (
 		<Card>
 			<CardHeader>
