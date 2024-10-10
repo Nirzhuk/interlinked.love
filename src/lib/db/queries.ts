@@ -129,8 +129,7 @@ export async function getEvents(date: Date) {
 	}
 
 	const { startOfRange, endOfRange } = getDateRange(date);
-	console.log("startOfRange", startOfRange);
-	console.log("endOfRange", endOfRange);
+
 	return await db
 		.select({
 			id: events.id,
