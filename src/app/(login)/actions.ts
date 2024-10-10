@@ -119,7 +119,7 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
 	const passwordHash = await hashPassword(password);
 
 	const newUser: NewUser = {
-		email,
+		email: email.toLowerCase().trim(),
 		passwordHash,
 		role: "owner", // Default role, will be overridden if there's an invitation
 		name,
@@ -143,7 +143,7 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
 			.where(
 				and(
 					eq(invitations.id, Number.parseInt(inviteId)),
-					eq(invitations.email, email),
+					eq(invitations.email, email.toLowerCase().trim()),
 					eq(invitations.status, "pending"),
 				),
 			)
