@@ -3,6 +3,7 @@
 import CreateEventModal from "@/src/components/Dashboard/Modals/CreateEventModal";
 import { Button } from "@/src/components/ui/button";
 import { useCalendar } from "@/src/contexts/CalendarContext";
+import { useUser } from "@/src/lib/auth";
 import {
 	daysInMonth,
 	firstDayOfMonth,
@@ -22,6 +23,7 @@ interface CalendarProps {
 
 const Calendar = ({ events }: CalendarProps) => {
 	const { comments } = useCalendar();
+	const { user } = useUser();
 
 	const [currentDateParam, setCurrentDateParam] = useQueryState("date", {
 		defaultValue: new Date().toISOString().split("T")[0],
@@ -98,10 +100,7 @@ const Calendar = ({ events }: CalendarProps) => {
 			});
 
 			const hasComments =
-				comments?.some(
-					(comment) =>
-						comment.eventId === dayEvents.find((event) => event.id)?.id,
-				) ?? false;
+				comments?.some((comment) => comment.userId !== user?.id) ?? false;
 
 			days.push(
 				<motion.div key={i} layoutId={`day-${i}`}>
@@ -117,7 +116,7 @@ const Calendar = ({ events }: CalendarProps) => {
 		}
 
 		return days;
-	}, [currentDate, sortedEvents, eventLayers, comments]);
+	}, [currentDate, sortedEvents, eventLayers, user, comments]);
 	const nextMonth = useCallback(() => {
 		const nextDate = new Date(currentDate);
 		nextDate.setMonth(nextDate.getMonth() + 1);
@@ -131,7 +130,7 @@ const Calendar = ({ events }: CalendarProps) => {
 	}, [currentDate, setCurrentDateParam]);
 
 	return (
-		<div className="max-w-4xl flex flex-col mx-auto mb-10">
+		<div className="max-w-4xl flex flex-col sm:mx-auto mb-10">
 			<div className="flex items-center justify-between">
 				<h2 className="text-2xl font-bold mr-4">
 					<span>{currentDate.toLocaleString("en-US", { month: "long" })}</span>
@@ -139,7 +138,7 @@ const Calendar = ({ events }: CalendarProps) => {
 						{currentDate.getFullYear()}
 					</span>
 				</h2>
-				<div className="flex items-center justify-between">
+				<div className="flex items-center justify-between sm:flex-row flex-col-reverse">
 					<div className="flex">
 						<Button
 							onClick={prevMonth}

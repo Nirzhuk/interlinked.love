@@ -421,13 +421,16 @@ export const inviteCoupleMember = validatedActionWithUser(
 		}
 
 		// Create a new invitation
-		await db.insert(invitations).values({
-			coupleId: userWithCouple.coupleId,
-			email,
-			role,
-			invitedBy: user.id,
-			status: "pending",
-		});
+		const [invitation] = await db
+			.insert(invitations)
+			.values({
+				coupleId: userWithCouple.coupleId,
+				email,
+				role,
+				invitedBy: user.id,
+				status: "pending",
+			})
+			.returning();
 
 		await logActivity(
 			userWithCouple.coupleId,
@@ -438,6 +441,6 @@ export const inviteCoupleMember = validatedActionWithUser(
 		// TODO: Send invitation email and include ?inviteId={id} to sign-up URL
 		// await sendInvitationEmail(email, userWithCouple.couple.name, role)
 
-		return { success: "Invitation sent successfully" };
+		return { inviteId: invitation.id, success: "Invitation sent successfully" };
 	},
 );

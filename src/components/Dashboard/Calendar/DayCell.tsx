@@ -13,22 +13,19 @@ interface DayCellProps {
 	events: Partial<Event>[];
 	currentDate: Date;
 	eventLayers: Partial<Event>[][];
-	hasComments: boolean; // New prop
+	hasComments: boolean;
 }
 
 const MAX_VISIBLE_EVENTS = 3;
-const EVENT_HEIGHT = 1.4; // rem
-const DAY_CELL_PADDING_TOP = 1.35; // rem
-const EVENT_VERTICAL_GAP = 0.2; // rem
+const EVENT_HEIGHT = 1.4;
+const DAY_CELL_PADDING_TOP = 1.35;
+const EVENT_VERTICAL_GAP = 0.2;
 
 const DayCell: React.FC<DayCellProps> = memo(
 	({ day, events, currentDate, eventLayers, hasComments }) => {
 		const [isModalOpen, setIsModalOpen] = useState(false);
 		const [isCommentsModalOpen, setIsCommentsModalOpen] = useState(false);
-		const [position, setPosition] = useState(0);
-		const [reachedMaxEvents, setReachedMaxEvents] = useState<number | null>(
-			null,
-		);
+
 		const [modalPosition, setModalPosition] = useState<{
 			top: number;
 			left: number;
@@ -132,7 +129,10 @@ const DayCell: React.FC<DayCellProps> = memo(
 						>
 							<div
 								className="rounded-full size-3"
-								style={{ backgroundColor: style.backgroundColor }}
+								style={{
+									backgroundColor: style.backgroundColor,
+									border: `1px solid ${style.borderColor}50`,
+								}}
 							/>
 						</div>
 						<div

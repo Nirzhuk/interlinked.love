@@ -20,8 +20,6 @@ const CalendarPage = async ({
 }) => {
 	const { date } = searchParamsCache.parse(searchParams);
 	const events = await getEvents(date);
-	console.log("events", events);
-	const subscription = await getSubscription();
 
 	const commentsPromise = getEventComments();
 	return (
