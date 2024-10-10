@@ -1,6 +1,14 @@
+import AvatarCircles from "@/src/components/ui/avatar-circles";
 import { Button } from "@/src/components/ui/button";
 import WordRotate from "@/src/components/ui/word-rotate";
 import { ArrowRight, CreditCard, Database } from "lucide-react";
+
+const avatarUrls = [
+	"https://avatars.githubusercontent.com/u/16860528",
+	"https://avatars.githubusercontent.com/u/20110627",
+	"https://avatars.githubusercontent.com/u/106103625",
+	"https://avatars.githubusercontent.com/u/59228569",
+];
 
 export default function HomePage() {
 	return (
@@ -8,7 +16,8 @@ export default function HomePage() {
 			<section className="py-20">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 					<div className="flex">
-						<div className="text-center md:max-w-2xl md:mx-auto justify-center items-center">
+						<div className="text-center md:max-w-2xl md:mx-auto flex flex-col justify-center items-center">
+							<AvatarCircles numPeople={99} avatarUrls={avatarUrls} />
 							<h1 className="text-3xl font-bold text-gray-900 tracking-tight sm:text-5xl md:text-6xl ">
 								Organize your{" "}
 								<WordRotate
@@ -20,22 +29,9 @@ export default function HomePage() {
 								</span>
 							</h1>
 							<p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
-								Launch your SaaS product in record time with our powerful,
-								ready-to-use template. Packed with modern technologies and
-								essential integrations.
+								Interlinked is a platform that helps you organize your life with
+								the people you love.
 							</p>
-							<div className="mt-8 mx-auto text-center">
-								<a
-									href="https://vercel.com/templates/next.js/next-js-saas-starter"
-									target="_blank"
-									rel="noreferrer"
-								>
-									<Button className="bg-white hover:bg-gray-100 text-black border border-gray-200 rounded-full text-lg px-8 py-4 inline-flex items-center justify-center">
-										Deploy your own
-										<ArrowRight className="ml-2 h-5 w-5" />
-									</Button>
-								</a>
-							</div>
 						</div>
 					</div>
 				</div>
