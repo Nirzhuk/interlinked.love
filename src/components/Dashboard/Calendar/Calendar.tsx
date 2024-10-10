@@ -5,12 +5,14 @@ import { useCalendar } from "@/src/contexts/CalendarContext";
 import {
 	daysInMonth,
 	firstDayOfMonth,
+	parseUrlDate,
 	sortEventsByStartDate,
 } from "@/src/lib/dateUtils";
 import type { Event } from "@/src/lib/db/schema";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
-import React, { useMemo, useState, useCallback, useEffect } from "react";
+import { useQueryState } from "nuqs";
+import React, { useMemo, useState, useCallback } from "react";
 import DayCell from "./DayCell";
 
 interface CalendarProps {
@@ -18,10 +20,20 @@ interface CalendarProps {
 }
 
 const Calendar: React.FC<CalendarProps> = ({ events }) => {
-	const [currentDate, setCurrentDate] = useState(() => new Date());
+	const [currentDateParam, setCurrentDateParam] = useQueryState("date", {
+		defaultValue: new Date().toISOString().split("T")[0],
+		parse: (value) => value,
+		serialize: (value) => value,
+	});
+
 	const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
 	const { comments } = useCalendar();
+
+	const currentDate = useMemo(
+		() => parseUrlDate(currentDateParam),
+		[currentDateParam],
+	);
 
 	const sortedEvents = useMemo(() => sortEventsByStartDate(events), [events]);
 
@@ -108,30 +120,19 @@ const Calendar: React.FC<CalendarProps> = ({ events }) => {
 	}, [currentDate, sortedEvents, eventLayers, comments]);
 
 	const nextMonth = useCallback(() => {
-		setCurrentDate(
-			(prevDate) =>
-				new Date(prevDate.getFullYear(), prevDate.getMonth() + 1, 1),
-		);
-	}, []);
+		const nextDate = new Date(currentDate);
+		nextDate.setMonth(nextDate.getMonth() + 1);
+		setCurrentDateParam(nextDate.toISOString().split("T")[0]);
+	}, [currentDate, setCurrentDateParam]);
 
 	const prevMonth = useCallback(() => {
-		setCurrentDate(
-			(prevDate) =>
-				new Date(prevDate.getFullYear(), prevDate.getMonth() - 1, 1),
-		);
-	}, []);
-
-	const handleCreateEvent = useCallback((newEvent: Partial<Event>) => {
-		setIsCreateModalOpen(false);
-	}, []);
+		const prevDate = new Date(currentDate);
+		prevDate.setMonth(prevDate.getMonth() - 1);
+		setCurrentDateParam(prevDate.toISOString().split("T")[0]);
+	}, [currentDate, setCurrentDateParam]);
 
 	return (
 		<div className="max-w-4xl flex flex-col mx-auto mb-10">
-			<div className="flex justify-end">
-				<Button onClick={() => setIsCreateModalOpen(true)} variant="outline">
-					<Plus className="mr-2 h-4 w-4" /> New Event
-				</Button>
-			</div>
 			<div className="flex items-center justify-between">
 				<h2 className="text-2xl font-bold mr-4">
 					<span>{currentDate.toLocaleString("en-US", { month: "long" })}</span>
@@ -139,18 +140,28 @@ const Calendar: React.FC<CalendarProps> = ({ events }) => {
 						{currentDate.getFullYear()}
 					</span>
 				</h2>
-				<div className="flex">
-					<Button
-						onClick={prevMonth}
-						variant="ghost"
-						size="icon"
-						className="mr-2"
-					>
-						<ChevronLeft className="h-4 w-4" />
-					</Button>
-					<Button onClick={nextMonth} variant="ghost" size="icon">
-						<ChevronRight className="h-4 w-4" />
-					</Button>
+				<div className="flex items-center justify-between">
+					<div className="flex">
+						<Button
+							onClick={prevMonth}
+							variant="ghost"
+							size="icon"
+							className="mr-2"
+						>
+							<ChevronLeft className="h-4 w-4" />
+						</Button>
+						<Button onClick={nextMonth} variant="ghost" size="icon">
+							<ChevronRight className="h-4 w-4" />
+						</Button>
+					</div>
+					<div className="flex justify-end">
+						<Button
+							onClick={() => setIsCreateModalOpen(true)}
+							variant="outline"
+						>
+							<Plus className="mr-2 h-4 w-4" /> New Event
+						</Button>
+					</div>
 				</div>
 			</div>
 			<div className="grid grid-cols-7 gap-1">

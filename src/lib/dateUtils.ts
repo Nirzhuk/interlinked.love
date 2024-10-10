@@ -27,3 +27,9 @@ export const formatDateTime = (date: string) => {
 		year: "numeric",
 	});
 };
+
+export const parseUrlDate = (dateString: string | null): Date => {
+	if (!dateString) return new Date();
+	const parsedDate = new Date(dateString);
+	return Number.isNaN(parsedDate.getTime()) ? new Date() : parsedDate;
+};
