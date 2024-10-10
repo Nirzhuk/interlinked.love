@@ -149,6 +149,7 @@ volumes:
 
 async function getStripeSecretKey(): Promise<string> {
 	console.log("Step 3: Getting Stripe Secret Key");
+
 	console.log(
 		"You can find your Stripe Secret Key at: https://dashboard.stripe.com/test/apikeys",
 	);

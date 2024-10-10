@@ -11,6 +11,22 @@ import {
 	users,
 } from "./schema";
 
+const getDateRange = (date: Date): { startOfRange: Date; endOfRange: Date } => {
+	const currentYear = date.getFullYear();
+	const currentMonth = date.getMonth();
+
+	const isJanuary = currentMonth === 0;
+	const isDecember = currentMonth === 11;
+
+	const startYear = isJanuary ? currentYear - 1 : currentYear;
+	const endYear = isDecember ? currentYear + 1 : currentYear;
+
+	return {
+		startOfRange: new Date(startYear, 0, 1),
+		endOfRange: new Date(endYear, 11, 0, 23, 59, 59, 999),
+	};
+};
+
 export async function getUser() {
 	const sessionCookie = cookies().get("session");
 	if (!sessionCookie || !sessionCookie.value) {
@@ -106,15 +122,15 @@ export async function getActivityLogs() {
 		.limit(10);
 }
 
-export async function getEvents(year = 2024) {
+export async function getEvents(date: Date) {
 	const user = await getUser();
 	if (!user) {
 		throw new Error("User not authenticated");
 	}
 
-	const startOfYear = new Date(year, 0, 1);
-	const endOfYear = new Date(year, 11, 31, 23, 59, 59, 999);
-
+	const { startOfRange, endOfRange } = getDateRange(date);
+	console.log("startOfRange", startOfRange);
+	console.log("endOfRange", endOfRange);
 	return await db
 		.select({
 			id: events.id,
@@ -132,8 +148,8 @@ export async function getEvents(year = 2024) {
 		.where(
 			and(
 				eq(coupleMembers.userId, user.id),
-				gte(events.initialDate, startOfYear),
-				lte(events.initialDate, endOfYear),
+				gte(events.initialDate, startOfRange),
+				lte(events.initialDate, endOfRange),
 			),
 		)
 		.orderBy(asc(events.initialDate));

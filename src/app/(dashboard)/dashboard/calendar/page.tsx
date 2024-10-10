@@ -5,10 +5,22 @@ import {
 	getEvents,
 	getSubscription,
 } from "@/src/lib/db/queries";
+import { createSearchParamsCache, parseAsIsoDateTime } from "nuqs/server";
 import React from "react";
 
-const CalendarPage = async () => {
-	const events = await getEvents();
+const searchParamsCache = createSearchParamsCache({
+	// List your search param keys and associated parsers here:
+	date: parseAsIsoDateTime.withDefault(new Date()),
+});
+
+const CalendarPage = async ({
+	searchParams,
+}: {
+	searchParams: Record<string, string | string[] | undefined>;
+}) => {
+	const { date } = searchParamsCache.parse(searchParams);
+	const events = await getEvents(date);
+	console.log("events", events);
 	const subscription = await getSubscription();
 
 	const commentsPromise = getEventComments();

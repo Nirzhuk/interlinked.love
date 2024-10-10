@@ -12,6 +12,7 @@ import { Input } from "@/src/components/ui/input";
 import { Textarea } from "@/src/components/ui/textarea";
 import type { Event } from "@/src/lib/db/schema";
 import { Loader2 } from "lucide-react";
+import { useQueryState } from "nuqs";
 import React from "react";
 import { useActionState } from "react";
 import { ColorPicker } from "../../Modals/CreateEventModal/components/ColorPicker";
@@ -28,6 +29,11 @@ type ActionState = {
 };
 
 const EventForm = ({ mode, event }: EditEventFormProps) => {
+	const [currentDateParam, setCurrentDateParam] = useQueryState("date", {
+		defaultValue: new Date().toISOString().split("T")[0],
+		parse: (value) => value,
+		serialize: (value) => value,
+	});
 	const [state, formAction, isPending] = useActionState<ActionState, FormData>(
 		mode === "create" ? createEvent : updateEvent,
 		{ error: "", success: "" },
@@ -54,6 +60,14 @@ const EventForm = ({ mode, event }: EditEventFormProps) => {
 						id="initialDate"
 						name="initialDate"
 						defaultValue={event?.initialDate}
+						fromYear={
+							currentDateParam
+								? new Date(currentDateParam).getFullYear()
+								: new Date().getFullYear()
+						}
+						fromMonth={
+							currentDateParam ? new Date(currentDateParam) : new Date()
+						}
 					/>
 				</FormField>
 
@@ -62,6 +76,14 @@ const EventForm = ({ mode, event }: EditEventFormProps) => {
 						id="finalDate"
 						name="finalDate"
 						defaultValue={event?.finalDate}
+						fromYear={
+							currentDateParam
+								? new Date(currentDateParam).getFullYear()
+								: new Date().getFullYear()
+						}
+						fromMonth={
+							currentDateParam ? new Date(currentDateParam) : new Date()
+						}
 					/>
 				</FormField>
 

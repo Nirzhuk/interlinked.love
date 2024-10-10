@@ -1,4 +1,5 @@
 "use client";
+
 import CreateEventModal from "@/src/components/Dashboard/Modals/CreateEventModal";
 import { Button } from "@/src/components/ui/button";
 import { useCalendar } from "@/src/contexts/CalendarContext";
@@ -19,16 +20,16 @@ interface CalendarProps {
 	events: Partial<Event>[];
 }
 
-const Calendar: React.FC<CalendarProps> = ({ events }) => {
+const Calendar = ({ events }: CalendarProps) => {
+	const { comments } = useCalendar();
+
 	const [currentDateParam, setCurrentDateParam] = useQueryState("date", {
 		defaultValue: new Date().toISOString().split("T")[0],
 		parse: (value) => value,
 		serialize: (value) => value,
+		shallow: false,
 	});
-
 	const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-
-	const { comments } = useCalendar();
 
 	const currentDate = useMemo(
 		() => parseUrlDate(currentDateParam),
@@ -96,12 +97,11 @@ const Calendar: React.FC<CalendarProps> = ({ events }) => {
 				);
 			});
 
-			const hasComments = comments
-				? comments.some(
-						(comment) =>
-							comment.eventId === dayEvents.find((event) => event.id)?.id,
-					)
-				: false;
+			const hasComments =
+				comments?.some(
+					(comment) =>
+						comment.eventId === dayEvents.find((event) => event.id)?.id,
+				) ?? false;
 
 			days.push(
 				<motion.div key={i} layoutId={`day-${i}`}>
@@ -118,7 +118,6 @@ const Calendar: React.FC<CalendarProps> = ({ events }) => {
 
 		return days;
 	}, [currentDate, sortedEvents, eventLayers, comments]);
-
 	const nextMonth = useCallback(() => {
 		const nextDate = new Date(currentDate);
 		nextDate.setMonth(nextDate.getMonth() + 1);

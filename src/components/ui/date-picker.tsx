@@ -18,7 +18,15 @@ export function DatePicker({
 	id,
 	name,
 	defaultValue = undefined,
-}: { id: string; name: string; defaultValue: Date | undefined }) {
+	fromYear,
+	fromMonth,
+}: {
+	id: string;
+	name: string;
+	defaultValue: Date | undefined;
+	fromYear: number;
+	fromMonth: Date;
+}) {
 	const [date, setDate] = useState<Date | undefined>(defaultValue);
 
 	return (
@@ -45,6 +53,8 @@ export function DatePicker({
 						selected={date}
 						onSelect={setDate}
 						initialFocus
+						fromYear={fromYear}
+						fromMonth={fromMonth}
 					/>
 				</PopoverContent>
 			</Popover>
