@@ -16,7 +16,7 @@ export function ColorOption({ value, label, cssClass }: ColorOptionProps) {
 			<Label
 				htmlFor={value}
 				className={cn(
-					"size-8 rounded cursor-pointer relative",
+					"size-6 rounded cursor-pointer relative",
 					cssClass,
 					"ring-offset-2 ring-offset-background transition-all",
 					"hover:ring-2 hover:ring-slate-400",

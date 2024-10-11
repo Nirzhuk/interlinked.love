@@ -10,7 +10,7 @@ interface CreateEventModalProps {
 const CreateEventModal = ({ isOpen, onChange }: CreateEventModalProps) => {
 	return (
 		<Dialog open={isOpen} onOpenChange={onChange}>
-			<DialogContent className="max-w-[40%]">
+			<DialogContent className="w-full max-w-3xl">
 				<DialogHeader>
 					<DialogTitle>Create New Event</DialogTitle>
 				</DialogHeader>

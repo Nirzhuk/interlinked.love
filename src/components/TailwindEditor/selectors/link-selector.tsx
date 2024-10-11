@@ -4,7 +4,7 @@ import { cn } from "@/src/lib/utils";
 import { Popover, PopoverTrigger } from "@radix-ui/react-popover";
 import { Check, Trash } from "lucide-react";
 import { useEditor } from "novel";
-import { type Dispatch, type FC, type SetStateAction, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 export function isValidUrl(url: string) {
 	try {

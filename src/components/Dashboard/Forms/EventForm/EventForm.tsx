@@ -41,45 +41,53 @@ const EventForm = ({ mode, event }: EditEventFormProps) => {
 	return (
 		<form action={formAction}>
 			<div className="grid gap-4 py-4">
-				<input type="hidden" name="eventId" value={event?.id} />
-				<FormField label="Title">
-					<Input name="title" required defaultValue={event?.title || ""} />
-				</FormField>
+				<div className="flex gap-2">
+					<input type="hidden" name="eventId" value={event?.id} />
+					<FormField label="Title" required>
+						<Input name="title" required defaultValue={event?.title || ""} />
+					</FormField>
 
-				<FormField label="Description">
-					<Textarea id="description" name="description" defaultValue={event?.description || ""} />
-				</FormField>
+					<FormField label="Description" mainClassName="flex-1">
+						<Input id="description" name="description" defaultValue={event?.description || ""} />
+					</FormField>
+					<FormField label="Location">
+						<Input id="location" name="location" defaultValue={event?.location || ""} />
+					</FormField>
+				</div>
 
-				<FormField label="Start Date">
-					<DatePicker
-						id="initialDate"
-						name="initialDate"
-						defaultValue={event?.initialDate}
-						fromYear={currentDateParam ? new Date(currentDateParam).getFullYear() : new Date().getFullYear()}
-						fromMonth={currentDateParam ? new Date(currentDateParam) : new Date()}
-					/>
-				</FormField>
+				<div className="flex gap-2">
+					<FormField label="Start Date" required>
+						<DatePicker
+							id="initialDate"
+							name="initialDate"
+							defaultValue={event?.initialDate}
+							fromYear={currentDateParam ? new Date(currentDateParam).getFullYear() : new Date().getFullYear()}
+							fromMonth={currentDateParam ? new Date(currentDateParam) : new Date()}
+						/>
+					</FormField>
 
-				<FormField label="End Date">
-					<DatePicker
-						id="finalDate"
-						name="finalDate"
-						defaultValue={event?.finalDate}
-						fromYear={currentDateParam ? new Date(currentDateParam).getFullYear() : new Date().getFullYear()}
-						fromMonth={currentDateParam ? new Date(currentDateParam) : new Date()}
-					/>
-				</FormField>
-
-				<FormField label="Color">
+					<FormField label="End Date" required>
+						<DatePicker
+							id="finalDate"
+							name="finalDate"
+							defaultValue={event?.finalDate}
+							fromYear={currentDateParam ? new Date(currentDateParam).getFullYear() : new Date().getFullYear()}
+							fromMonth={currentDateParam ? new Date(currentDateParam) : new Date()}
+						/>
+					</FormField>
+				</div>
+				<FormField label="Color" required>
 					<ColorPicker id="color" name="color" defaultValue={event?.color} />
 				</FormField>
 
-				<FormField label="Location">
-					<Input id="location" name="location" defaultValue={event?.location || ""} />
-				</FormField>
-
-				<FormField label="Notes">
-					<TailwindEditor content={event?.content as JSONContent} editable={true} />
+				<FormField
+					label={
+						<span>
+							Notes - <span className="text-xs text-muted-foreground">Rich text editor, select text to format.</span>
+						</span>
+					}
+				>
+					<TailwindEditor name="content" content={event?.content as JSONContent} editable={true} />
 				</FormField>
 			</div>
 			<DialogFooter>

@@ -3,7 +3,6 @@ import {
 	CheckSquare,
 	ChevronDown,
 	Code,
-	Heading1,
 	Heading2,
 	Heading3,
 	ListOrdered,
@@ -31,12 +30,6 @@ const items: SelectorItem[] = [
 		command: (editor) => editor?.chain().focus().toggleNode("paragraph", "paragraph").run(),
 		isActive: (editor) =>
 			Boolean(editor?.isActive("paragraph") && !editor?.isActive("bulletList") && !editor?.isActive("orderedList")),
-	},
-	{
-		name: "Heading 1",
-		icon: Heading1,
-		command: (editor) => editor?.chain().focus().toggleHeading({ level: 1 }).run(),
-		isActive: (editor) => Boolean(editor?.isActive("heading", { level: 1 })),
 	},
 	{
 		name: "Heading 2",

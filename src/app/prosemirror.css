@@ -1,5 +1,5 @@
 .ProseMirror {
-  @apply p-12 px-8 sm:px-12;
+  @apply p-2 px-4 sm:px-8;
 }
 
 .ProseMirror .is-editor-empty:first-child::before {
@@ -49,6 +49,17 @@
     animation: spinning 0.6s linear infinite;
   }
 }
+
+
+.ProseMirror h2 {
+  @apply text-xl font-semibold;
+}
+
+.ProseMirror h3 {
+  @apply text-lg font-semibold;
+}
+
+
 
 @keyframes spinning {
   to {

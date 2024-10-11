@@ -1,5 +1,4 @@
 import {
-	AIHighlight,
 	HorizontalRule,
 	Placeholder,
 	StarterKit,
@@ -13,8 +12,10 @@ import { UploadImagesPlugin } from "novel/plugins";
 
 import { cx } from "class-variance-authority";
 
-const aiHighlight = AIHighlight;
-const placeholder = Placeholder;
+const placeholder = Placeholder.configure({
+	showOnlyCurrent: false,
+	showOnlyWhenEditable: false,
+});
 const tiptapLink = TiptapLink.configure({
 	HTMLAttributes: {
 		class: cx(
@@ -104,12 +105,10 @@ const starterKit = StarterKit.configure({
 
 export const defaultExtensions = [
 	starterKit,
-	placeholder,
 	tiptapLink,
 	tiptapImage,
 	updatedImage,
 	taskList,
 	taskItem,
 	horizontalRule,
-	aiHighlight,
 ];

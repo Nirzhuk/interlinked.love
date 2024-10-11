@@ -51,7 +51,7 @@ const DayEventsModal = ({ events, currentDay, isModalOpen, setIsModalOpen, modal
 								animate={{
 									top: `calc(50% - ${modalPosition.height / 2}px)`,
 									left: "calc(50% - 12rem)",
-									width: modalState !== "general" ? "40%" : "90%",
+									width: modalState !== "general" ? "60%" : "90%",
 									height: "auto",
 								}}
 								exit={modalPosition}
@@ -123,7 +123,7 @@ const DayEventsModal = ({ events, currentDay, isModalOpen, setIsModalOpen, modal
 													{events.map((event) => (
 														<Card
 															key={event.id}
-															className="overflow-hidden relative cursor-pointer"
+															className="overflow-hidden relative cursor-pointer border"
 															onClick={(e) => {
 																e.preventDefault();
 																e.stopPropagation();
@@ -131,6 +131,7 @@ const DayEventsModal = ({ events, currentDay, isModalOpen, setIsModalOpen, modal
 																setModalState("showcase");
 															}}
 														>
+															<div className="absolute p-px z-10 w-full h-full border-2 border-white pointer-events-none rounded-xl" />
 															<div className="absolute top-0 right-0 z-0">
 																<div
 																	className="size-20 blur-2xl"
