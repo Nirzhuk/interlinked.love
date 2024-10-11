@@ -1,0 +1,1 @@
+ALTER TABLE "events" ALTER COLUMN "content" SET DEFAULT '{"type":"doc","content":[]}'::json;

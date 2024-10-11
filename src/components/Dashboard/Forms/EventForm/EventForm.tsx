@@ -1,17 +1,16 @@
 "use client";
 
-import {
-	createEvent,
-	updateEvent,
-} from "@/src/app/(dashboard)/dashboard/calendar/actions";
+import { createEvent, updateEvent } from "@/src/app/(dashboard)/dashboard/calendar/actions";
 import { Button } from "@/src/components/ui/button";
 
+import TailwindEditor from "@/src/components/TailwindEditor/TailwindEdit";
 import { DatePicker } from "@/src/components/ui/date-picker";
 import { DialogFooter } from "@/src/components/ui/dialog";
 import { Input } from "@/src/components/ui/input";
 import { Textarea } from "@/src/components/ui/textarea";
 import type { Event } from "@/src/lib/db/schema";
 import { Loader2 } from "lucide-react";
+import type { JSONContent } from "novel";
 import { useQueryState } from "nuqs";
 import React from "react";
 import { useActionState } from "react";
@@ -19,7 +18,7 @@ import { ColorPicker } from "../../Modals/CreateEventModal/components/ColorPicke
 import { FormField } from "../../Modals/CreateEventModal/components/FormField";
 
 interface EditEventFormProps {
-	event?: Partial<Event>;
+	event: Partial<Event> | null;
 	mode: "create" | "edit";
 }
 
@@ -48,11 +47,7 @@ const EventForm = ({ mode, event }: EditEventFormProps) => {
 				</FormField>
 
 				<FormField label="Description">
-					<Textarea
-						id="description"
-						name="description"
-						defaultValue={event?.description || ""}
-					/>
+					<Textarea id="description" name="description" defaultValue={event?.description || ""} />
 				</FormField>
 
 				<FormField label="Start Date">
@@ -60,14 +55,8 @@ const EventForm = ({ mode, event }: EditEventFormProps) => {
 						id="initialDate"
 						name="initialDate"
 						defaultValue={event?.initialDate}
-						fromYear={
-							currentDateParam
-								? new Date(currentDateParam).getFullYear()
-								: new Date().getFullYear()
-						}
-						fromMonth={
-							currentDateParam ? new Date(currentDateParam) : new Date()
-						}
+						fromYear={currentDateParam ? new Date(currentDateParam).getFullYear() : new Date().getFullYear()}
+						fromMonth={currentDateParam ? new Date(currentDateParam) : new Date()}
 					/>
 				</FormField>
 
@@ -76,14 +65,8 @@ const EventForm = ({ mode, event }: EditEventFormProps) => {
 						id="finalDate"
 						name="finalDate"
 						defaultValue={event?.finalDate}
-						fromYear={
-							currentDateParam
-								? new Date(currentDateParam).getFullYear()
-								: new Date().getFullYear()
-						}
-						fromMonth={
-							currentDateParam ? new Date(currentDateParam) : new Date()
-						}
+						fromYear={currentDateParam ? new Date(currentDateParam).getFullYear() : new Date().getFullYear()}
+						fromMonth={currentDateParam ? new Date(currentDateParam) : new Date()}
 					/>
 				</FormField>
 
@@ -92,11 +75,11 @@ const EventForm = ({ mode, event }: EditEventFormProps) => {
 				</FormField>
 
 				<FormField label="Location">
-					<Input
-						id="location"
-						name="location"
-						defaultValue={event?.location || ""}
-					/>
+					<Input id="location" name="location" defaultValue={event?.location || ""} />
+				</FormField>
+
+				<FormField label="Notes">
+					<TailwindEditor content={event?.content as JSONContent} editable={true} />
 				</FormField>
 			</div>
 			<DialogFooter>

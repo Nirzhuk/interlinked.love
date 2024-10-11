@@ -44,7 +44,8 @@
 			"quoteProperties": "asNeeded",
 			"semicolons": "always",
 			"trailingCommas": "all",
-			"quoteStyle": "double"
+			"quoteStyle": "double",
+			"lineWidth": 120
 		}
 	}
 }

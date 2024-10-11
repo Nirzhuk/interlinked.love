@@ -1,10 +1,5 @@
 "use client";
-import {
-	Dialog,
-	DialogContent,
-	DialogHeader,
-	DialogTitle,
-} from "@/src/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/src/components/ui/dialog";
 import EventForm from "../../Forms/EventForm";
 
 interface CreateEventModalProps {
@@ -15,11 +10,11 @@ interface CreateEventModalProps {
 const CreateEventModal = ({ isOpen, onChange }: CreateEventModalProps) => {
 	return (
 		<Dialog open={isOpen} onOpenChange={onChange}>
-			<DialogContent className="sm:max-w-[425px]">
+			<DialogContent className="max-w-[40%]">
 				<DialogHeader>
 					<DialogTitle>Create New Event</DialogTitle>
 				</DialogHeader>
-				<EventForm mode="create" />
+				<EventForm mode="create" event={null} />
 			</DialogContent>
 		</Dialog>
 	);

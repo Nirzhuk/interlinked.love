@@ -1,4 +1,5 @@
 import "../globals.css";
+import "../prosemirror.css";
 import Header from "@/src/components/Dashboard/Header";
 import { UserProvider } from "@/src/lib/auth";
 import { getUser } from "@/src/lib/db/queries";

@@ -1,0 +1,1 @@
+ALTER TABLE "events" ADD COLUMN "content" json DEFAULT '{}'::json NOT NULL;

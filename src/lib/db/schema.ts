@@ -1,6 +1,7 @@
 import { relations } from "drizzle-orm";
 import {
 	integer,
+	json,
 	pgTable,
 	serial,
 	text,
@@ -51,6 +52,10 @@ export const events = pgTable("events", {
 	finalDate: timestamp("final_date").notNull(),
 	location: text("location"),
 	description: text("description"),
+	content: json("content").notNull().default({
+		type: "doc",
+		content: [],
+	}),
 	title: text("title").notNull().default("Event"),
 	color: text("color").notNull().default("violet"),
 	coupleId: integer("couple_id")
