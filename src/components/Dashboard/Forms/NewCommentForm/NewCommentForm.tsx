@@ -1,6 +1,6 @@
 "use client";
 
-import { createComment } from "@/src/app/(dashboard)/dashboard/calendar/actions";
+import { createComment } from "@/src/app/(app)/app/calendar/actions";
 import { Button } from "@/src/components/ui/button";
 import { Textarea } from "@/src/components/ui/textarea";
 import { Loader2 } from "lucide-react";
@@ -17,21 +17,16 @@ type ActionState = {
 };
 
 const NewCommentForm = ({ eventId }: NewCommentFormProps) => {
-	const [state, formAction, isPending] = useActionState<ActionState, FormData>(
-		createComment,
-		{ error: "", success: "" },
-	);
+	const [state, formAction, isPending] = useActionState<ActionState, FormData>(createComment, {
+		error: "",
+		success: "",
+	});
 
 	return (
 		<form action={formAction} className="flex flex-col gap-1">
 			<input type="hidden" name="eventId" value={eventId} />
 			<Textarea placeholder="Add a comment" name="content" required />
-			<Button
-				disabled={isPending}
-				type="submit"
-				className="w-[125px]"
-				size="sm"
-			>
+			<Button disabled={isPending} type="submit" className="w-[125px]" size="sm">
 				{isPending ? (
 					<>
 						<Loader2 className="animate-spin mr-2 h-4 w-4" />

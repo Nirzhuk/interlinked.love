@@ -2,14 +2,7 @@ import { verifyToken } from "@/src/lib/auth/session";
 import { and, asc, desc, eq, gte, isNull, lt, lte } from "drizzle-orm";
 import { cookies } from "next/headers";
 import { db } from "./drizzle";
-import {
-	events,
-	activityLogs,
-	coupleMembers,
-	couples,
-	eventsComments,
-	users,
-} from "./schema";
+import { events, activityLogs, coupleMembers, couples, eventsComments, users } from "./schema";
 
 const getDateRange = (date: Date): { startOfRange: Date; endOfRange: Date } => {
 	const currentYear = date.getFullYear();
@@ -34,11 +27,7 @@ export async function getUser() {
 	}
 
 	const sessionData = await verifyToken(sessionCookie.value);
-	if (
-		!sessionData ||
-		!sessionData.user ||
-		typeof sessionData.user.id !== "number"
-	) {
+	if (!sessionData || !sessionData.user || typeof sessionData.user.id !== "number") {
 		return null;
 	}
 
@@ -60,11 +49,7 @@ export async function getUser() {
 }
 
 export async function getCoupleByStripeCustomerId(customerId: string) {
-	const result = await db
-		.select()
-		.from(couples)
-		.where(eq(couples.stripeCustomerId, customerId))
-		.limit(1);
+	const result = await db.select().from(couples).where(eq(couples.stripeCustomerId, customerId)).limit(1);
 
 	return result.length > 0 ? result[0] : null;
 }
@@ -140,6 +125,7 @@ export async function getEvents(date: Date) {
 			coupleId: events.coupleId,
 			color: events.color,
 			title: events.title,
+			content: events.content,
 		})
 		.from(events)
 		.leftJoin(couples, eq(events.coupleId, couples.id))

@@ -84,7 +84,7 @@ export const LinkSelector = ({ open, onOpenChange }: LinkSelectorProps) => {
 							<Trash className="h-4 w-4" />
 						</Button>
 					) : (
-						<Button size="icon" className="h-8">
+						<Button size="icon" className="h-8" type="submit">
 							<Check className="h-4 w-4" />
 						</Button>
 					)}

@@ -2,7 +2,7 @@
 
 import Comments from "@/src/components/Dashboard/Comments";
 import NewCommentForm from "@/src/components/Dashboard/Forms/NewCommentForm";
-import TailwindEditor from "@/src/components/TailwindEditor/TailwindEdit";
+import TailwindEditor from "@/src/components/TailwindEditor";
 
 import { useCalendar } from "@/src/contexts/CalendarContext/CalendarContext";
 import type { Event } from "@/src/lib/db/schema";
@@ -20,6 +20,7 @@ const EventShowcase = ({ event }: { event: Partial<Event> }) => {
 		() => (comments?.filter((comment) => comment.eventId === event.id) as EventCommentWithUser[]) ?? [],
 		[comments, event.id],
 	);
+	console.log(event);
 
 	return (
 		<>

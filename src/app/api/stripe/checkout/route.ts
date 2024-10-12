@@ -1,9 +1,9 @@
-import { eq } from "drizzle-orm";
-import { db } from "@/src/lib/db/drizzle";
-import { users, coupleMembers, couples } from "@/src/lib/db/schema";
 import { setSession } from "@/src/lib/auth/session";
-import { type NextRequest, NextResponse } from "next/server";
+import { db } from "@/src/lib/db/drizzle";
+import { coupleMembers, couples, users } from "@/src/lib/db/schema";
 import { stripe } from "@/src/lib/payments/stripe";
+import { eq } from "drizzle-orm";
+import { type NextRequest, NextResponse } from "next/server";
 import type Stripe from "stripe";
 
 export async function GET(request: NextRequest) {
@@ -24,10 +24,7 @@ export async function GET(request: NextRequest) {
 		}
 
 		const customerId = session.customer.id;
-		const subscriptionId =
-			typeof session.subscription === "string"
-				? session.subscription
-				: session.subscription?.id;
+		const subscriptionId = typeof session.subscription === "string" ? session.subscription : session.subscription?.id;
 
 		if (!subscriptionId) {
 			throw new Error("No subscription found for this session.");
@@ -89,7 +86,7 @@ export async function GET(request: NextRequest) {
 			.where(eq(couples.id, userCouple[0].coupleId));
 
 		await setSession(user[0]);
-		return NextResponse.redirect(new URL("/dashboard", request.url));
+		return NextResponse.redirect(new URL("/app", request.url));
 	} catch (error) {
 		console.error("Error handling successful checkout:", error);
 		return NextResponse.redirect(new URL("/error", request.url));

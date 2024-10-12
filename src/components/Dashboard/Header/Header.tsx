@@ -1,11 +1,7 @@
 "use client";
 
 import { signOut } from "@/src/app/(login)/actions";
-import {
-	Avatar,
-	AvatarFallback,
-	AvatarImage,
-} from "@/src/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/src/components/ui/avatar";
 import { Button } from "@/src/components/ui/button";
 import {
 	DropdownMenu,
@@ -24,24 +20,24 @@ import { useState } from "react";
 const routes = [
 	{
 		title: "Dashboard",
-		url: "/dashboard",
+		url: "/app",
 	},
 	{
 		title: "Calendar",
-		url: "/dashboard/calendar",
+		url: "/app/calendar",
 	},
 
 	{
 		title: "Settings",
-		url: "/dashboard/settings",
+		url: "/app/settings",
 		items: [
 			{
 				title: "General",
-				url: "/dashboard/general",
+				url: "/app/general",
 			},
 			{
 				title: "Activity",
-				url: "/dashboard/activity",
+				url: "/app/activity",
 			},
 		],
 	},
@@ -67,11 +63,9 @@ const Header = () => {
 	return (
 		<header className="border-b border-gray-200">
 			<div className="max-w-5xl mx-auto px-4 py-4 flex justify-between items-center">
-				<Link href="/dashboard" className="flex items-center">
+				<Link href="/app" className="flex items-center">
 					<CircleIcon className="h-6 w-6 text-violet-500" />
-					<span className="ml-2 text-xl font-semibold text-gray-900">
-						Interlinked.love
-					</span>
+					<span className="ml-2 text-xl font-semibold text-gray-900">Interlinked.love</span>
 				</Link>
 
 				{/* Desktop Navigation */}
@@ -90,9 +84,7 @@ const Header = () => {
 												href={item.url}
 												className={cn(
 													"w-full",
-													isActiveRoute(item.url)
-														? "text-violet-900 font-bold"
-														: "text-gray-700 hover:text-violet-900",
+													isActiveRoute(item.url) ? "text-violet-900 font-bold" : "text-gray-700 hover:text-violet-900",
 												)}
 											>
 												{item.title}
@@ -107,10 +99,8 @@ const Header = () => {
 								href={route.url}
 								className={cn(
 									"text-sm font-medium",
-									isActiveRoute(route.url)
-										? "text-violet-900 font-bold"
-										: "text-gray-700 hover:text-violet-900",
-									route.url === "/dashboard/calendar" && "font-bold uppercase",
+									isActiveRoute(route.url) ? "text-violet-900 font-bold" : "text-gray-700 hover:text-violet-900",
+									route.url === "/app/calendar" && "font-bold uppercase",
 								)}
 							>
 								{route.title}
@@ -120,11 +110,7 @@ const Header = () => {
 				</nav>
 
 				{/* Mobile Menu Button */}
-				<button
-					className="md:hidden"
-					onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-					type="button"
-				>
+				<button className="md:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} type="button">
 					<Menu className="h-6 w-6 text-gray-700" />
 				</button>
 
@@ -146,7 +132,7 @@ const Header = () => {
 							</DropdownMenuTrigger>
 							<DropdownMenuContent align="end" className="flex flex-col gap-1">
 								<DropdownMenuItem className="cursor-pointer">
-									<Link href="/dashboard" className="flex w-full items-center">
+									<Link href="/app" className="flex w-full items-center">
 										<Home className="mr-2 h-4 w-4" />
 										<span>Dashboard</span>
 									</Link>
@@ -162,10 +148,7 @@ const Header = () => {
 							</DropdownMenuContent>
 						</DropdownMenu>
 					) : (
-						<Button
-							asChild
-							className="bg-black hover:bg-gray-800 text-white text-sm px-4 py-2 rounded-full"
-						>
+						<Button asChild className="bg-black hover:bg-gray-800 text-white text-sm px-4 py-2 rounded-full">
 							<Link href="/sign-up">Sign Up</Link>
 						</Button>
 					)}
@@ -186,9 +169,7 @@ const Header = () => {
 											href={item.url}
 											className={cn(
 												"block pl-4 text-sm",
-												isActiveRoute(item.url)
-													? "text-violet-900 font-bold"
-													: "text-gray-700 hover:text-violet-900",
+												isActiveRoute(item.url) ? "text-violet-900 font-bold" : "text-gray-700 hover:text-violet-900",
 											)}
 											onClick={() => setIsMobileMenuOpen(false)}
 										>
@@ -202,9 +183,7 @@ const Header = () => {
 									href={route.url}
 									className={cn(
 										"text-sm font-medium",
-										isActiveRoute(route.url)
-											? "text-violet-900 font-bold"
-											: "text-gray-700 hover:text-violet-900",
+										isActiveRoute(route.url) ? "text-violet-900 font-bold" : "text-gray-700 hover:text-violet-900",
 									)}
 									onClick={() => setIsMobileMenuOpen(false)}
 								>
@@ -216,7 +195,7 @@ const Header = () => {
 					{user ? (
 						<div className="px-4 py-2">
 							<Link
-								href="/dashboard"
+								href="/app"
 								className="flex items-center text-gray-700 hover:text-violet-900"
 								onClick={() => setIsMobileMenuOpen(false)}
 							>
@@ -224,10 +203,7 @@ const Header = () => {
 								<span>Dashboard</span>
 							</Link>
 							<form action={handleSignOut} className="mt-2">
-								<button
-									type="submit"
-									className="flex items-center text-gray-700 hover:text-violet-900"
-								>
+								<button type="submit" className="flex items-center text-gray-700 hover:text-violet-900">
 									<LogOut className="mr-2 h-4 w-4" />
 									<span>Sign out</span>
 								</button>

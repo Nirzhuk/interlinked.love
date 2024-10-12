@@ -1,9 +1,9 @@
 "use client";
 
-import { createEvent, updateEvent } from "@/src/app/(dashboard)/dashboard/calendar/actions";
+import { createEvent, updateEvent } from "@/src/app/(app)/app/calendar/actions";
 import { Button } from "@/src/components/ui/button";
 
-import TailwindEditor from "@/src/components/TailwindEditor/TailwindEdit";
+import TailwindEditor from "@/src/components/TailwindEditor";
 import { DatePicker } from "@/src/components/ui/date-picker";
 import { DialogFooter } from "@/src/components/ui/dialog";
 import { Input } from "@/src/components/ui/input";

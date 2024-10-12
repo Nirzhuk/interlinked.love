@@ -2,7 +2,7 @@ import { signToken, verifyToken } from "@/src/lib/auth/session";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const protectedRoutes = "/dashboard";
+const protectedRoutes = "/app";
 
 export async function middleware(request: NextRequest) {
 	const { pathname } = request.nextUrl;

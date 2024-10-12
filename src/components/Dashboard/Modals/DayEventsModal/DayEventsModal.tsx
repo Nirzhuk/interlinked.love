@@ -1,3 +1,5 @@
+import EventShowcase from "@/src/components/Dashboard/EventShowcase";
+import EventForm from "@/src/components/Dashboard/Forms/EventForm";
 import { Card, CardContent, CardHeader, CardTitle } from "@/src/components/ui/card";
 import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle } from "@/src/components/ui/dialog";
 import { eventColorStyle } from "@/src/lib/colors";
@@ -6,8 +8,6 @@ import type { Event } from "@/src/lib/db/schema";
 import { Cross2Icon, Pencil1Icon } from "@radix-ui/react-icons";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useState } from "react";
-import EventShowcase from "../../Events/EventShowcase/EventShowcase";
-import EventForm from "../../Forms/EventForm";
 import CreateEventModal from "../CreateEventModal";
 
 interface DayEventsModalProps {

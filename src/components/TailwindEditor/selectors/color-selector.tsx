@@ -103,7 +103,7 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
 	return (
 		<Popover modal={true} open={open} onOpenChange={onOpenChange}>
 			<PopoverTrigger asChild>
-				<Button size="sm" className="gap-2 rounded-none" variant="ghost">
+				<Button size="sm" className="gap-2 rounded-none" variant="ghost" type="button">
 					<span
 						className="rounded-sm px-1"
 						style={{
@@ -126,7 +126,7 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
 					<div className="my-1 px-2 text-sm font-semibold text-muted-foreground">Color</div>
 					{TEXT_COLORS.map(({ name, color }, index) => (
 						<EditorBubbleItem
-							key={`${name}-${index}`}
+							key={`${name}`}
 							onSelect={() => {
 								editor.commands.unsetColor();
 								name !== "Default" &&
