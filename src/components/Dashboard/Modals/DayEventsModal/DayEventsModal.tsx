@@ -7,6 +7,7 @@ import { formatDateTime } from "@/src/lib/dateUtils";
 import type { Event } from "@/src/lib/db/schema";
 import { Cross2Icon, Pencil1Icon } from "@radix-ui/react-icons";
 import { AnimatePresence, motion } from "framer-motion";
+import { ArrowLeftIcon } from "lucide-react";
 import React, { useState } from "react";
 import CreateEventModal from "../CreateEventModal";
 
@@ -60,7 +61,11 @@ const DayEventsModal = ({ events, currentDay, isModalOpen, setIsModalOpen, modal
 								{modalState === "showcase" && (
 									<div className="p-6">
 										<DialogHeader className="relative">
-											<DialogTitle className="text-xl font-bold">
+											<DialogTitle className="text-xl font-bold flex items-center">
+												<ArrowLeftIcon
+													className="mr-2 size-5 cursor-pointer text-muted-foreground"
+													onClick={() => setModalState("general")}
+												/>
 												{currentDay.toLocaleDateString("en-US", {
 													weekday: "long",
 													year: "numeric",
@@ -82,7 +87,11 @@ const DayEventsModal = ({ events, currentDay, isModalOpen, setIsModalOpen, modal
 								{modalState === "edit" && (
 									<div className="p-6">
 										<DialogHeader className="relative">
-											<DialogTitle className="text-xl font-bold">
+											<DialogTitle className="text-xl font-bold flex">
+												<ArrowLeftIcon
+													className="mr-2 size-5 cursor-pointer text-muted-foreground"
+													onClick={() => setModalState("general")}
+												/>
 												{currentDay.toLocaleDateString("en-US", {
 													weekday: "long",
 													year: "numeric",

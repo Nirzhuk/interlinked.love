@@ -6,7 +6,7 @@ import { useDebouncedCallback } from "use-debounce";
 import { defaultValue } from "./default-value";
 import { LinkSelector } from "./selectors/link-selector";
 import { NodeSelector } from "./selectors/node-selector";
-import { TextButtons } from "./selectors/text-buttonts";
+import { TextButtons } from "./selectors/text-buttons";
 
 import { cn } from "@/src/lib/utils";
 import { defaultExtensions } from "./extensions";

@@ -59,10 +59,10 @@ export const createComment = validatedActionWithUser(createCommentSchema, async 
 
 const createEventSchema = z.object({
 	title: z.string().min(2, "Title is required").max(250),
-	description: z.string().min(5, "Description is required").max(250).nullable(),
+	description: z.string().min(5, "Description is required").max(250).optional().or(z.literal("")),
 	initialDate: z.string(),
 	finalDate: z.string(),
-	location: z.string().min(2, "Location is required").max(250).nullable(),
+	location: z.string().min(2, "Location is required").max(250).optional().or(z.literal("")),
 	color: z.enum(Object.keys(eventColorStyle) as [string, ...string[]]),
 	content: z.string(),
 });
