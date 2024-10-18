@@ -1,0 +1,153 @@
+import { hashPassword } from "@/lib/auth/session";
+import { stripe } from "../payments/stripe";
+import { db } from "./drizzle";
+import { events, coupleMembers, couples, eventsComments, users } from "./schema";
+
+async function createStripeProducts() {
+	console.log("Creating Stripe products and prices...");
+
+	const baseProduct = await stripe.products.create({
+		name: "Couple",
+		description: "Couple subscription plan",
+	});
+
+	await stripe.prices.create({
+		product: baseProduct.id,
+		unit_amount: 499, // $1.99 in cents
+		currency: "usd",
+		recurring: {
+			interval: "month",
+			trial_period_days: 7,
+		},
+	});
+	/* 
+	const plusProduct = await stripe.products.create({
+		name: "Plus",
+		description: "Plus subscription plan",
+	});
+
+	await stripe.prices.create({
+		product: plusProduct.id,
+		unit_amount: 1200, // $12 in cents
+		currency: "usd",
+		recurring: {
+			interval: "month",
+			trial_period_days: 7,
+		},
+	}); */
+
+	console.log("Stripe products and prices created successfully.");
+}
+
+async function seed() {
+	const email = "test@test.com";
+	const password = "admin123";
+	const passwordHash = await hashPassword(password);
+
+	const [user] = await db
+		.insert(users)
+		.values([
+			{
+				email: email,
+				password: passwordHash,
+				role: "owner",
+				name: "Test User",
+			},
+		])
+		.returning();
+	const [user2] = await db
+		.insert(users)
+		.values([
+			{
+				email: "test2@test.com",
+				password: passwordHash,
+				role: "owner",
+				name: "Test User 2",
+			},
+		])
+		.returning();
+
+	console.log("Initial user created.");
+
+	const [couple] = await db
+		.insert(couples)
+		.values({
+			name: "Test Couple",
+		})
+		.returning();
+
+	await db.insert(coupleMembers).values({
+		coupleId: couple.id,
+		userId: user.id,
+		role: "owner",
+	});
+	await db.insert(coupleMembers).values({
+		coupleId: couple.id,
+		userId: user2.id,
+		role: "owner",
+	});
+
+	const eventData = [
+		{
+			initialDate: new Date(),
+			daysOffset: 5,
+			location: "Test Location 1",
+			description: "Test Description 1",
+		},
+		{
+			initialDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 1 week from now
+			daysOffset: 3,
+			location: "Test Location 2",
+			description: "Test Description 2",
+		},
+		{
+			initialDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000), // 2 weeks from now
+			daysOffset: 7,
+			location: "Test Location 3",
+			description: "Test Description 3",
+		},
+	];
+
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	const eventIds: any[] = [];
+
+	for (const event of eventData) {
+		const finalDate = new Date(event.initialDate);
+		finalDate.setDate(finalDate.getDate() + event.daysOffset);
+
+		const [eventt] = await db
+			.insert(events)
+			.values({
+				coupleId: couple.id,
+				initialDate: event.initialDate,
+				finalDate: finalDate,
+				location: event.location,
+				description: event.description,
+			})
+			.returning();
+
+		eventIds.push(eventt.id);
+	}
+	console.log(eventIds);
+
+	await db.insert(eventsComments).values({
+		content: "This is a test comment",
+		eventId: eventIds[0],
+		userId: user.id,
+		coupleId: couple.id,
+	});
+
+	console.log("Multiple events created for the test couple.");
+
+	await createStripeProducts();
+}
+
+seed()
+	.catch((error) => {
+		console.error("Seed process failed:", error);
+		process.exit(1);
+	})
+	.finally(() => {
+		console.log("Seed process finished. Exiting...");
+		process.exit(0);
+	});
