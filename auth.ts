@@ -14,6 +14,9 @@ export class CustomAuthError extends AuthError {
 		this.stack = undefined;
 	}
 }
+class InvalidLoginError extends CredentialsSignin {
+	code = "Invalid identifier or password";
+}
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
 	// @ts-expect-error Some random error due using rcs, we will fix it later
@@ -48,7 +51,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 				});
 
 				if (!user || !(await bcrypt.compare(String(credentials.password), user.password || ""))) {
-					throw new CustomAuthError("Password not the same");
+					throw new InvalidLoginError();
 				}
 
 				return user;
