@@ -159,6 +159,9 @@ importers:
       drizzle-kit:
         specifier: 0.24.2
         version: 0.24.2
+      husky:
+        specifier: ^9.1.6
+        version: 9.1.6
 
 packages:
 
@@ -2241,6 +2244,11 @@ packages:
   highlight.js@11.9.0:
     resolution: {integrity: sha512-fJ7cW7fQGCYAkgv4CPfwFHrfd/cLS4Hau96JuJ+ZTOWhjnhoeN1ub1tFmALm/+lW5z4WCAuAV9bm05AP0mS6Gw==}
     engines: {node: '>=12.0.0'}
+
+  husky@9.1.6:
+    resolution: {integrity: sha512-sqbjZKK7kf44hfdE94EoX8MZNk0n7HeW37O4YrVGCF4wzgQjp+akPAkfUK5LZ6KuR/6sqeAVuXHji+RzQgOn5A==}
+    engines: {node: '>=18'}
+    hasBin: true
 
   import-fresh@3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
@@ -5200,6 +5208,8 @@ snapshots:
   highlight.js@11.10.0: {}
 
   highlight.js@11.9.0: {}
+
+  husky@9.1.6: {}
 
   import-fresh@3.3.0:
     dependencies:

@@ -103,7 +103,7 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
 	return (
 		<Popover modal={true} open={open} onOpenChange={onOpenChange}>
 			<PopoverTrigger asChild>
-				<Button size="sm" className="gap-2 rounded-none" variant="ghost" type="button">
+				<Button variant="ghost" className="gap-2 rounded-none border-none" type="button">
 					<span
 						className="rounded-sm px-1"
 						style={{
