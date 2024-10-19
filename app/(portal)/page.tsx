@@ -1,3 +1,4 @@
+import Hero from "@/components/Portal/Hero/Hero";
 import AvatarCircles from "@/components/ui/avatar-circles";
 import { Button } from "@/components/ui/button";
 import WordRotate from "@/components/ui/word-rotate";
@@ -13,22 +14,7 @@ const avatarUrls = [
 export default function HomePage() {
 	return (
 		<main>
-			<section className="py-20">
-				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-					<div className="flex">
-						<div className="text-center md:max-w-2xl md:mx-auto flex flex-col justify-center items-center">
-							<AvatarCircles numPeople={99} avatarUrls={avatarUrls} />
-							<h1 className="text-3xl font-bold text-gray-900 tracking-tight sm:text-5xl md:text-6xl ">
-								Organize your <WordRotate className="inline" words={["Trips", "Events", "Life"]} />
-								<span className="block text-violet-500">with the people you love</span>
-							</h1>
-							<p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
-								Interlinked is a platform that helps you organize your life with the people you love.
-							</p>
-						</div>
-					</div>
-				</div>
-			</section>
+			<Hero />
 
 			<section className="py-16 bg-white w-full">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

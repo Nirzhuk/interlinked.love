@@ -3,7 +3,7 @@
 import { validatedAction, validatedActionWithUser } from "@/lib/auth/middleware";
 import { comparePasswords, hashPassword } from "@/lib/auth/session";
 import { db } from "@/lib/db/drizzle";
-import {  getUserWithCouple } from "@/lib/db/queries";
+import { getUserWithCouple } from "@/lib/db/queries";
 import {
 	ActivityType,
 	type NewActivityLog,
@@ -17,11 +17,10 @@ import {
 	invitations,
 	users,
 } from "@/lib/db/schema";
-import { createCheckoutSession } from "@/lib/payments/stripe";
+
 import { and, eq, sql } from "drizzle-orm";
-import { signIn, signOut } from "next-auth/react";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import { signOut } from "next-auth/react";
+
 import { z } from "zod";
 
 async function logActivity(
@@ -41,7 +40,6 @@ async function logActivity(
 	};
 	await db.insert(activityLogs).values(newActivity);
 }
-
 
 const signUpSchema = z.object({
 	email: z.string().email("Please enter a valid email address"),
@@ -167,18 +165,20 @@ const updatePasswordSchema = z
 		path: ["confirmPassword"],
 	});
 
-
 export const updatePassword = validatedActionWithUser(updatePasswordSchema, async (data, _, user) => {
 	const { currentPassword, newPassword } = data;
 
-	const userWithPass = await db.select().from(users).where(eq(users.id, user.id as string)).limit(1);
+	const userWithPass = await db
+		.select()
+		.from(users)
+		.where(eq(users.id, user.id as string))
+		.limit(1);
 
 	if (!userWithPass[0]) {
 		return { error: "User does not have a password." };
 	}
 
 	const isPasswordValid = await comparePasswords(currentPassword, userWithPass[0]?.password as string);
-
 
 	if (!isPasswordValid) {
 		return { error: "Current password is incorrect." };
@@ -194,7 +194,10 @@ export const updatePassword = validatedActionWithUser(updatePasswordSchema, asyn
 	const userWithCouple = await getUserWithCouple(user.id as string);
 
 	await Promise.all([
-		db.update(users).set({ password: newPasswordHash }).where(eq(users.id, user.id as string)),
+		db
+			.update(users)
+			.set({ password: newPasswordHash })
+			.where(eq(users.id, user.id as string)),
 		logActivity(userWithCouple?.coupleId, user.id as string, ActivityType.UPDATE_PASSWORD),
 	]);
 
@@ -211,7 +214,11 @@ export const deleteAccount = validatedActionWithUser(deleteAccountSchema, async 
 	}
 	const { password } = data;
 
-const userWithPass = await db.select().from(users).where(eq(users.id, user.id as string)).limit(1);
+	const userWithPass = await db
+		.select()
+		.from(users)
+		.where(eq(users.id, user.id as string))
+		.limit(1);
 
 	if (!userWithPass[0]) {
 		return { error: "User does not have a password." };
@@ -259,7 +266,10 @@ export const updateAccount = validatedActionWithUser(updateAccountSchema, async 
 	const userWithCouple = await getUserWithCouple(user.id as string);
 
 	await Promise.all([
-		db.update(users).set({ name, email }).where(eq(users.id, user.id as string)),
+		db
+			.update(users)
+			.set({ name, email })
+			.where(eq(users.id, user.id as string)),
 		logActivity(userWithCouple?.coupleId, user.id as string, ActivityType.UPDATE_ACCOUNT),
 	]);
 

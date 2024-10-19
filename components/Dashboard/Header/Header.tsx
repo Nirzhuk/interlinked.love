@@ -9,7 +9,7 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
-import { ChevronDown, CircleIcon, Home, LogOut, Menu } from "lucide-react";
+import { ChevronDown, HeartIcon, Home, LogOut, Menu } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
@@ -63,7 +63,7 @@ const Header = () => {
 		<header className="border-b border-gray-200">
 			<div className="max-w-5xl mx-auto px-4 py-4 flex justify-between items-center">
 				<Link href="/app" className="flex items-center">
-					<CircleIcon className="h-6 w-6 text-violet-500" />
+					<HeartIcon className="h-6 w-6 text-violet-500" />
 					<span className="ml-2 text-xl font-semibold text-gray-900">Interlinked.love</span>
 				</Link>
 
@@ -82,7 +82,7 @@ const Header = () => {
 											<Link
 												href={item.url}
 												className={cn(
-													"w-full",
+													"w-full cursor-pointer",
 													isActiveRoute(item.url) ? "text-violet-900 font-bold" : "text-gray-700 hover:text-violet-900",
 												)}
 											>

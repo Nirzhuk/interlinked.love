@@ -7,9 +7,10 @@ export const users = pgTable("users", {
 		.primaryKey()
 		.$defaultFn(() => crypto.randomUUID()),
 	name: varchar("name", { length: 100 }).notNull(),
+	password: text("password"),
 	email: varchar("email", { length: 255 }).notNull().unique(),
 	emailVerified: timestamp("emailVerified", { mode: "date" }),
-	password: text("password"),
+	image: text("image"),
 	role: varchar("role", { length: 20 }).notNull().default("member"),
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 	updatedAt: timestamp("updated_at").notNull().defaultNow(),

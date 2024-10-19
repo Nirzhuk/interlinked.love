@@ -19,8 +19,8 @@ type ActionState = {
 
 export function InviteCoupleMember() {
 	const { data: session } = useSession();
-	console.log(session);
-	const role = session?.role;
+	console.log(process.env.NEXT_PUBLIC_BASE_URL);
+	const role = session?.user.role;
 	const isOwner = role === "owner";
 	const [inviteState, inviteAction, isInvitePending] = useActionState<ActionState, FormData>(inviteCoupleMember, {
 		error: "",
@@ -73,7 +73,7 @@ export function InviteCoupleMember() {
 					<h2>Due the feature being in development, invite the user and after that give them this link</h2>
 					{inviteState?.inviteId && (
 						<pre>
-							{process.env.NEXT_PUBLIC_URL}/sign-up?inviteId=
+							{process.env.NEXT_PUBLIC_BASE_URL}/sign-up?inviteId=
 							{inviteState?.inviteId}
 						</pre>
 					)}

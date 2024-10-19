@@ -1,9 +1,7 @@
-import { verifyToken } from "@/lib/auth/session";
-import { and, asc, desc, eq, gte, isNull, lt, lte } from "drizzle-orm";
-import { cookies } from "next/headers";
+import { auth } from "@/auth";
+import { and, asc, desc, eq, gte, lte } from "drizzle-orm";
 import { db } from "./drizzle";
 import { events, activityLogs, coupleMembers, couples, eventsComments, users } from "./schema";
-import { auth } from "@/auth";
 
 const getDateRange = (date: Date): { startOfRange: Date; endOfRange: Date } => {
 	const currentYear = date.getFullYear();
@@ -20,7 +18,6 @@ const getDateRange = (date: Date): { startOfRange: Date; endOfRange: Date } => {
 		endOfRange: new Date(endYear, 11, 0, 23, 59, 59, 999),
 	};
 };
-
 
 export async function getCoupleByStripeCustomerId(customerId: string) {
 	const result = await db.select().from(couples).where(eq(couples.stripeCustomerId, customerId)).limit(1);

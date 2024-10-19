@@ -11,5 +11,6 @@ export const checkoutAction = withCouple(async (formData, couple) => {
 
 export const customerPortalAction = withCouple(async (_, couple) => {
 	const portalSession = await createCustomerPortalSession(couple);
+	console.log("portalSession", portalSession);
 	redirect(portalSession.url);
 });

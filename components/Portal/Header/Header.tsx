@@ -8,11 +8,11 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useUser } from "@/lib/auth/client/context";
-import { CircleIcon, Home, LogOut } from "lucide-react";
+
+import { HeartIcon, Home, LogOut } from "lucide-react";
 import { useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import Link from "next/link";
-import { signOut } from "next-auth/react"
 
 import { useState } from "react";
 
@@ -25,9 +25,9 @@ const Header = () => {
 	const user = session.data?.user;
 	return (
 		<header className="border-b border-gray-200">
-			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+			<div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
 				<Link href="/" className="flex items-center">
-					<CircleIcon className="h-6 w-6 text-violet-500" />
+					<HeartIcon className="h-6 w-6 text-violet-500" />
 					<span className="ml-2 text-xl font-semibold text-gray-900">Interlinked.love</span>
 				</Link>
 				<div className="flex items-center space-x-4">
@@ -55,14 +55,13 @@ const Header = () => {
 										<span>Dashboard</span>
 									</Link>
 								</DropdownMenuItem>
-								
-									<button type="submit" className="flex w-full" onClick={() => signOut()}>
-										<DropdownMenuItem className="w-full flex-1 cursor-pointer">
-											<LogOut className="mr-2 h-4 w-4" />
-											<span>Sign out</span>
-										</DropdownMenuItem>
-									</button>
-								
+
+								<button type="submit" className="flex w-full" onClick={() => signOut()}>
+									<DropdownMenuItem className="w-full flex-1 cursor-pointer">
+										<LogOut className="mr-2 h-4 w-4" />
+										<span>Sign out</span>
+									</DropdownMenuItem>
+								</button>
 							</DropdownMenuContent>
 						</DropdownMenu>
 					) : (

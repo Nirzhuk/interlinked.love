@@ -3,18 +3,21 @@ import bcrypt from "bcryptjs";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
-import NextAuth from "next-auth";
+import NextAuth, { type DefaultSession } from "next-auth";
+import Discord from "next-auth/providers/discord";
+import Google from "next-auth/providers/google";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
 	adapter: DrizzleAdapter(db),
+	session: { strategy: "jwt" },
 	pages: {
 		signIn: "/auth/sign-in",
 	},
 	secret: process.env.AUTH_SECRET,
-	session: { strategy: "jwt" },
 	debug: process.env.NODE_ENV !== "production",
-
 	providers: [
+		Discord,
+		Google,
 		CredentialsProvider({
 			name: "Sign in",
 			id: "credentials",
@@ -67,6 +70,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 				...params.session,
 				user: {
 					...params.session.user,
+					role: params.token.role as string,
 					id: params.token.id as string,
 					randomKey: params.token.randomKey,
 				},
@@ -74,10 +78,19 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 		},
 	},
 });
-
 declare module "next-auth" {
-	interface Session {
-		accessToken?: string;
-		role?: string;
+	// eslint-disable-next-line no-unused-vars
+	interface Session extends DefaultSession {
+		user: {
+			id: string;
+			role: string;
+			// ...other properties
+			// role: UserRole;
+		} & DefaultSession["user"];
+	}
+
+	// eslint-disable-next-line no-unused-vars
+	interface User {
+		role: string;
 	}
 }
