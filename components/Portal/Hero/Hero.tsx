@@ -1,15 +1,8 @@
-import AvatarCircles from "@/components/ui/avatar-circles";
 import React from "react";
-import BGhero from "./BGhero";
+import BackgroundHero from "./BackgroundHero";
 
 import WordRotate from "@/components/ui/word-rotate";
 
-const avatarUrls = [
-	"https://avatars.githubusercontent.com/u/16860528",
-	"https://avatars.githubusercontent.com/u/20110627",
-	"https://avatars.githubusercontent.com/u/106103625",
-	"https://avatars.githubusercontent.com/u/59228569",
-];
 const Hero = () => {
 	return (
 		<section className="py-20 relative">
@@ -26,7 +19,7 @@ const Hero = () => {
 					</div>
 				</div>
 			</div>
-			<BGhero />
+			<BackgroundHero />
 		</section>
 	);
 };
