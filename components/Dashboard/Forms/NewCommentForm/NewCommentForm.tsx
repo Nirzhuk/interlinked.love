@@ -2,8 +2,10 @@
 
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { useCalendar } from "@/contexts/CalendarContext";
+import type { EventCommentWithUser } from "@/types/comments";
 import { Loader2 } from "lucide-react";
-import React from "react";
+import React, { useEffect } from "react";
 import { useActionState } from "react";
 import { createComment } from "../../../../app/(app)/app/calendar/actions";
 
@@ -14,13 +16,22 @@ interface NewCommentFormProps {
 type ActionState = {
 	error?: string;
 	success?: string;
+	comment?: EventCommentWithUser;
 };
 
 const NewCommentForm = ({ eventId }: NewCommentFormProps) => {
+	const { addComment } = useCalendar();
 	const [state, formAction, isPending] = useActionState<ActionState, FormData>(createComment, {
 		error: "",
 		success: "",
 	});
+
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+	useEffect(() => {
+		if (state.success) {
+			addComment(eventId, state.comment as EventCommentWithUser);
+		}
+	}, [state]);
 
 	return (
 		<form action={formAction} className="flex flex-col gap-1">

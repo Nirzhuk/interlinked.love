@@ -7,6 +7,7 @@ import { use } from "react";
 type CalendarContextType = {
 	comments: EventCommentWithUser[] | null;
 	setComments: (comments: EventCommentWithUser[]) => void;
+	addComment: (eventId: number, comment: EventCommentWithUser) => void;
 };
 
 const CalendarContext = createContext<CalendarContextType | null>(null);
@@ -33,5 +34,9 @@ export function CalendarProvider({
 		setComments(initialComments);
 	}, [initialComments]);
 
-	return <CalendarContext.Provider value={{ comments, setComments }}>{children}</CalendarContext.Provider>;
+	const addComment = (eventId: number, comment: EventCommentWithUser) => {
+		setComments((prevComments) => [...(prevComments || []), { ...comment, eventId }]);
+	};
+
+	return <CalendarContext.Provider value={{ comments, setComments, addComment }}>{children}</CalendarContext.Provider>;
 }

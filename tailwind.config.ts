@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import { fontFamily } from "tailwindcss/defaultTheme";
 
 const config: Config = {
 	darkMode: ["class"],
@@ -51,6 +52,9 @@ const config: Config = {
 					"4": "hsl(var(--chart-4))",
 					"5": "hsl(var(--chart-5))",
 				},
+			},
+			fontFamily: {
+				pacifico: ["var(--font-pacifico)", ...fontFamily.sans],
 			},
 			keyframes: {
 				marquee: {

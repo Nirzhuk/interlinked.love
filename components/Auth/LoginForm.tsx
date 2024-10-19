@@ -42,7 +42,7 @@ export function LoginForm() {
 	useEffect(() => {
 		const fetchProviders = async () => {
 			const providers = await getProviders();
-			console.log("providers", providers);
+
 			setProviders(providers);
 		};
 		fetchProviders();
@@ -64,7 +64,6 @@ export function LoginForm() {
 						await signIn("credentials", {
 							email: formData.get("email"),
 							password: formData.get("password"),
-
 							redirect: true,
 							redirectTo: "/app",
 						});
@@ -127,7 +126,7 @@ export function LoginForm() {
 						Object.values(providers).map((provider: any) => {
 							if (provider.id.includes("credentials")) return null;
 							return (
-								<Button key={provider.id} onClick={() => handleSubmit(provider.id)}>
+								<Button key={provider.id} onClick={() => handleSubmit(provider.id)} type="button">
 									{submittedProvider === provider.id ? (
 										<Loader2 className="w-5 h-5" />
 									) : (

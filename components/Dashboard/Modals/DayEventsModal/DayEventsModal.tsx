@@ -3,10 +3,9 @@ import EventShowcase from "@/components/Dashboard/EventShowcase";
 import EventForm from "@/components/Dashboard/Forms/EventForm";
 import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import type { Event } from "@/lib/db/schema";
 import { Cross2Icon } from "@radix-ui/react-icons";
-import { AnimatePresence, type HTMLMotionProps, motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeftIcon } from "lucide-react";
 import React, { useState } from "react";
 import DayEventsModalCard from "./DayEventsModalCard/DayEventsModalCard";

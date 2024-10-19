@@ -2,7 +2,7 @@ import "../globals.css";
 import Header from "@/components/Portal/Header";
 import type { Metadata, Viewport } from "next";
 import { SessionProvider } from "next-auth/react";
-import { Manrope } from "next/font/google";
+import { Manrope, Pacifico } from "next/font/google";
 export const metadata: Metadata = {
 	title: "Interlinked - Home",
 	description: "Interlinked - Home",
@@ -13,15 +13,22 @@ export const viewport: Viewport = {
 };
 
 const manrope = Manrope({ subsets: ["latin"] });
+const pacifico = Pacifico({
+	subsets: ["latin"],
+	variable: "--font-pacifico",
+	weight: ["400"],
+});
 
 export default function RootLayout({
 	children,
 }: {
 	children: React.ReactNode;
 }) {
-
 	return (
-		<html lang="en" className={`bg-white dark:bg-gray-950 text-black dark:text-white ${manrope.className}`}>
+		<html
+			lang="en"
+			className={`bg-white dark:bg-gray-950 text-black dark:text-white ${manrope.className} ${pacifico.variable}`}
+		>
 			<body className="min-h-[100dvh] bg-gray-50">
 				<SessionProvider>
 					<section className="flex flex-col min-h-screen">

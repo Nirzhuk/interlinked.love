@@ -1,15 +1,9 @@
+import Features from "@/components/Portal/Features";
 import Hero from "@/components/Portal/Hero/Hero";
-import AvatarCircles from "@/components/ui/avatar-circles";
-import { Button } from "@/components/ui/button";
-import WordRotate from "@/components/ui/word-rotate";
-import { ArrowRight, CreditCard, Database } from "lucide-react";
 
-const avatarUrls = [
-	"https://avatars.githubusercontent.com/u/16860528",
-	"https://avatars.githubusercontent.com/u/20110627",
-	"https://avatars.githubusercontent.com/u/106103625",
-	"https://avatars.githubusercontent.com/u/59228569",
-];
+import { Button } from "@/components/ui/button";
+
+import { ArrowRight, CreditCard, Database } from "lucide-react";
 
 export default function HomePage() {
 	return (
@@ -63,7 +57,7 @@ export default function HomePage() {
 					</div>
 				</div>
 			</section>
-
+			<Features />
 			<section className="py-16 bg-gray-50">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 					<div className="lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center">

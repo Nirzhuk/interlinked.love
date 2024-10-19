@@ -6,6 +6,7 @@ import { db } from "@/lib/db/drizzle";
 import { getUserWithCouple } from "@/lib/db/queries";
 
 import { events, ActivityType, type NewActivityLog, activityLogs, eventsComments, users } from "@/lib/db/schema";
+import type { EventCommentWithUser } from "@/types/comments";
 import { eq } from "drizzle-orm";
 
 import { z } from "zod";
@@ -36,6 +37,7 @@ const createCommentSchema = z.object({
 export const createComment = validatedActionWithUser(createCommentSchema, async (data, _, user) => {
 	const { content } = data;
 	const userWithCouple = await getUserWithCouple(user.id as string);
+
 	if (!userWithCouple) {
 		return { error: "User is not in a couple." };
 	}
@@ -53,7 +55,7 @@ export const createComment = validatedActionWithUser(createCommentSchema, async 
 
 	return {
 		success: "Comment created successfully.",
-		comment: createdComment,
+		comment: createdComment as unknown as EventCommentWithUser,
 	};
 });
 
