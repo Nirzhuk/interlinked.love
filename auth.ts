@@ -3,9 +3,17 @@ import bcrypt from "bcryptjs";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
-import NextAuth, { type DefaultSession } from "next-auth";
+import NextAuth, { AuthError, type DefaultSession } from "next-auth";
 import Discord from "next-auth/providers/discord";
 import Google from "next-auth/providers/google";
+
+export class CustomAuthError extends AuthError {
+	constructor(msg: string) {
+		super();
+		this.message = msg;
+		this.stack = undefined;
+	}
+}
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
 	// @ts-expect-error Some random error due using rcs, we will fix it later
@@ -32,7 +40,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 			},
 			async authorize(credentials) {
 				if (!credentials?.email || !credentials.password) {
-					return null;
+					throw new CustomAuthError("Email or password not found");
 				}
 
 				const user = await db.query.users.findFirst({
@@ -40,7 +48,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 				});
 
 				if (!user || !(await bcrypt.compare(String(credentials.password), user.password || ""))) {
-					return null;
+					throw new CustomAuthError("Password not the same");
 				}
 
 				return user;
