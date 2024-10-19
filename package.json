@@ -10,7 +10,8 @@
 		"db:generate": "drizzle-kit generate",
 		"db:migrate": "npx tsx lib/db/migrate.ts",
 		"db:clear": "npx tsx lib/db/clear.ts",
-		"db:studio": "drizzle-kit studio"
+		"db:studio": "drizzle-kit studio",
+		"prepare": "husky"
 	},
 	"dependencies": {
 		"@auth/drizzle-adapter": "1.7.1",
@@ -62,6 +63,8 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.3",
+		"@commitlint/cli": "^19.5.0",
+		"@commitlint/config-conventional": "^19.5.0",
 		"drizzle-kit": "0.24.2"
 	}
 }
