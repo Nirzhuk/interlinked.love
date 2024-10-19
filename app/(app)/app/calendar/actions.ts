@@ -35,7 +35,7 @@ const createCommentSchema = z.object({
 
 export const createComment = validatedActionWithUser(createCommentSchema, async (data, _, user) => {
 	const { content } = data;
-	const userWithCouple = await getUserWithCouple(user.id);
+	const userWithCouple = await getUserWithCouple(user.id as string);
 	if (!userWithCouple) {
 		return { error: "User is not in a couple." };
 	}
@@ -44,12 +44,12 @@ export const createComment = validatedActionWithUser(createCommentSchema, async 
 		.insert(eventsComments)
 		.values({
 			content,
-			userId: user.id,
+			userId: user.id as string,
 			eventId: data.eventId,
 			coupleId: userWithCouple?.coupleId as number,
 		})
 		.returning();
-	await logActivity(userWithCouple?.coupleId, user.id, ActivityType.CREATE_COMMENT);
+	await logActivity(userWithCouple?.coupleId, user.id as string, ActivityType.CREATE_COMMENT);
 
 	return {
 		success: "Comment created successfully.",
@@ -69,7 +69,7 @@ const createEventSchema = z.object({
 
 export const createEvent = validatedActionWithUser(createEventSchema, async (data, _, user) => {
 	const { title, description, initialDate, finalDate, location, color, content } = data;
-	const userWithCouple = await getUserWithCouple(user.id);
+	const userWithCouple = await getUserWithCouple(user.id as string);
 	if (!userWithCouple) {
 		return { error: "User is not in a couple." };
 	}
@@ -87,7 +87,7 @@ export const createEvent = validatedActionWithUser(createEventSchema, async (dat
 		})
 		.returning();
 
-	await logActivity(userWithCouple.coupleId, user.id, ActivityType.CREATE_EVENT);
+	await logActivity(userWithCouple.coupleId, user.id as string, ActivityType.CREATE_EVENT);
 	return {
 		success: "Event created successfully.",
 		event: createdEvent,
@@ -100,7 +100,7 @@ const editEventSchema = createEventSchema.extend({
 
 export const updateEvent = validatedActionWithUser(editEventSchema, async (data, _, user) => {
 	const { title, description, initialDate, finalDate, location, color, content } = data;
-	const userWithCouple = await getUserWithCouple(user.id);
+	const userWithCouple = await getUserWithCouple(user.id as string);
 	if (!userWithCouple) {
 		return { error: "User is not in a couple." };
 	}
@@ -119,7 +119,7 @@ export const updateEvent = validatedActionWithUser(editEventSchema, async (data,
 		.where(eq(events.id, data.eventId))
 		.returning();
 
-	await logActivity(userWithCouple.coupleId, user.id, ActivityType.CREATE_EVENT);
+	await logActivity(userWithCouple.coupleId, user.id as string, ActivityType.CREATE_EVENT);
 	return {
 		success: "Event updated successfully.",
 		event: updatedEvent,

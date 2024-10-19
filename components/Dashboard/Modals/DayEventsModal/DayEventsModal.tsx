@@ -1,10 +1,11 @@
+"use client";
 import EventShowcase from "@/components/Dashboard/EventShowcase";
 import EventForm from "@/components/Dashboard/Forms/EventForm";
 import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 import type { Event } from "@/lib/db/schema";
 import { Cross2Icon } from "@radix-ui/react-icons";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, type HTMLMotionProps, motion } from "framer-motion";
 import { ArrowLeftIcon } from "lucide-react";
 import React, { useState } from "react";
 import DayEventsModalCard from "./DayEventsModalCard/DayEventsModalCard";
@@ -39,12 +40,14 @@ const DayEventsModal = ({ events, currentDay, isModalOpen, setIsModalOpen, modal
 				{isModalOpen && modalPosition && (
 					<DialogContent className="p-0 bg-transparent border-none shadow-none max-w-none">
 						<motion.div
+							// @ts-expect-error - error from using rcs, todo: fix
 							className="fixed inset-0 z-50 flex items-center justify-center"
 							initial={{ opacity: 0 }}
 							animate={{ opacity: 1 }}
 							exit={{ opacity: 0 }}
 						>
 							<motion.div
+								// @ts-expect-error - error from using rcs, todo: fix
 								className="bg-white rounded-lg overflow-hidden"
 								initial={modalPosition}
 								animate={{

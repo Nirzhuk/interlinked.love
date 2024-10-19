@@ -1,6 +1,5 @@
 "use client";
 
-import { signOut } from "next-auth/react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,9 +10,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { ChevronDown, CircleIcon, Home, LogOut, Menu } from "lucide-react";
+import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
@@ -49,7 +48,7 @@ const Header = () => {
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
 	const session = useSession();
-	
+
 	const user = session.data?.user;
 
 	const isActiveRoute = (route: string) => {
@@ -57,9 +56,8 @@ const Header = () => {
 	};
 
 	async function handleSignOut() {
-		signOut({redirectTo: '/'})
-		
-	} 
+		signOut({ redirectTo: "/" });
+	}
 
 	return (
 		<header className="border-b border-gray-200">
@@ -123,8 +121,8 @@ const Header = () => {
 								<Avatar className="cursor-pointer size-9">
 									<AvatarImage alt={user.name || ""} />
 									<AvatarFallback>
-										{user?.email
-											.split(" ")
+										{user.email
+											?.split(" ")
 											.map((n) => n[0])
 											.join("")
 											.toUpperCase()}
@@ -204,11 +202,14 @@ const Header = () => {
 								<span>Dashboard</span>
 							</Link>
 
-								<button type="submit" className="flex items-center text-gray-700 hover:text-violet-900 " onClick={() => signOut({redirectTo: '/'})}>
-									<LogOut className="mr-2 h-4 w-4" />
-									<span>Sign out</span>
-								</button>
-						
+							<button
+								type="submit"
+								className="flex items-center text-gray-700 hover:text-violet-900 "
+								onClick={() => signOut({ redirectTo: "/" })}
+							>
+								<LogOut className="mr-2 h-4 w-4" />
+								<span>Sign out</span>
+							</button>
 						</div>
 					) : (
 						<div className="px-4 py-2">

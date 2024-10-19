@@ -1,8 +1,8 @@
-import { setSession } from "@/lib/auth/session";
 import { db } from "@/lib/db/drizzle";
 import { coupleMembers, couples, users } from "@/lib/db/schema";
 import { stripe } from "@/lib/payments/stripe";
 import { eq } from "drizzle-orm";
+import { signIn } from "@/auth";
 import { type NextRequest, NextResponse } from "next/server";
 import type Stripe from "stripe";
 
@@ -54,7 +54,7 @@ export async function GET(request: NextRequest) {
 		const user = await db
 			.select()
 			.from(users)
-			.where(eq(users.id, Number(userId)))
+			.where(eq(users.id, userId))
 			.limit(1);
 
 		if (user.length === 0) {
@@ -85,7 +85,11 @@ export async function GET(request: NextRequest) {
 			})
 			.where(eq(couples.id, userCouple[0].coupleId));
 
-		await setSession(user[0]);
+		//await setSession(user[0]);
+		await signIn("credentials", {
+			email: user[0].email,
+			password: user[0].password as string,
+		});
 		return NextResponse.redirect(new URL("/app", request.url));
 	} catch (error) {
 		console.error("Error handling successful checkout:", error);

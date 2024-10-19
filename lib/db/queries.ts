@@ -21,33 +21,6 @@ const getDateRange = (date: Date): { startOfRange: Date; endOfRange: Date } => {
 	};
 };
 
-export async function getUser() {
-	const sessionCookie = (await cookies()).get("session");
-	if (!sessionCookie || !sessionCookie.value) {
-		return null;
-	}
-
-	const sessionData = await verifyToken(sessionCookie.value);
-	if (!sessionData || !sessionData.user || typeof sessionData.user.id !== "number") {
-		return null;
-	}
-
-	if (new Date(sessionData.expires) < new Date()) {
-		return null;
-	}
-
-	const user = await db
-		.select()
-		.from(users)
-		.where(and(eq(users.id, sessionData.user.id), isNull(users.deletedAt)))
-		.limit(1);
-
-	if (user.length === 0) {
-		return null;
-	}
-
-	return user[0];
-}
 
 export async function getCoupleByStripeCustomerId(customerId: string) {
 	const result = await db.select().from(couples).where(eq(couples.stripeCustomerId, customerId)).limit(1);
@@ -88,7 +61,11 @@ export async function getUserWithCouple(userId: string) {
 }
 
 export async function getActivityLogs() {
-
+	const session = await auth();
+	const user = session?.user;
+	if (!session || !user) {
+		throw new Error("User not authenticated");
+	}
 
 	return await db
 		.select({
@@ -100,7 +77,7 @@ export async function getActivityLogs() {
 		})
 		.from(activityLogs)
 		.leftJoin(users, eq(activityLogs.userId, users.id))
-		.where(eq(activityLogs.userId, user.id))
+		.where(eq(activityLogs.userId, user.id as string))
 		.orderBy(desc(activityLogs.timestamp))
 		.limit(10);
 }
@@ -180,7 +157,12 @@ export async function getEventComments() {
 }
 
 export async function getSubscription() {
+	const session = await auth();
+	const user = session?.user;
 
+	if (!user) {
+		throw new Error("User not authenticated");
+	}
 
 	return await db
 		.select({
@@ -192,7 +174,7 @@ export async function getSubscription() {
 		})
 		.from(couples)
 		.leftJoin(coupleMembers, eq(couples.id, coupleMembers.coupleId))
-		.where(eq(coupleMembers.userId, user.id))
+		.where(eq(coupleMembers.userId, user.id as string))
 		.limit(1);
 }
 

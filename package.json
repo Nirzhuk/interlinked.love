@@ -13,7 +13,7 @@
 		"db:studio": "drizzle-kit studio"
 	},
 	"dependencies": {
-		"@auth/drizzle-adapter": "^1.7.0",
+		"@auth/drizzle-adapter": "1.7.1",
 		"@hookform/resolvers": "3.9.0",
 		"@radix-ui/react-avatar": "1.1.0",
 		"@radix-ui/react-dialog": "1.1.2",
@@ -23,7 +23,7 @@
 		"@radix-ui/react-popover": "1.1.2",
 		"@radix-ui/react-radio-group": "1.2.0",
 		"@radix-ui/react-scroll-area": "1.1.0",
-		"@radix-ui/react-select": "^2.1.2",
+		"@radix-ui/react-select": "2.1.2",
 		"@radix-ui/react-separator": "1.1.0",
 		"@radix-ui/react-slot": "1.1.0",
 		"@types/bcryptjs": "2.4.6",
@@ -37,38 +37,31 @@
 		"date-fns": "4.1.0",
 		"dotenv": "16.4.5",
 		"drizzle-orm": "0.33.0",
-		"framer-motion": "11.9.0",
+		"framer-motion": "11.11.9",
 		"jose": "5.9.2",
 		"lucide-react": "0.441.0",
 		"next": "15.0.0-canary.195",
 		"next-auth": "5.0.0-beta.22",
-		"next-safe-action": "^7.9.4",
-		"novel": "^0.5.0",
-		"nuqs": "^1.20.0",
+		"next-safe-action": "7.9.4",
+		"novel": "0.5.0",
+		"nuqs": "1.20.0",
 		"postcss": "8.4.47",
 		"postgres": "3.4.4",
 		"react": "19.0.0-rc-cd22717c-20241013",
 		"react-day-picker": "8.10.1",
 		"react-dom": "19.0.0-rc-cd22717c-20241013",
 		"react-hook-form": "7.53.0",
-		"server-only": "0.0.1",
 		"stripe": "16.12.0",
 		"tailwind-merge": "2.5.2",
 		"tailwindcss": "3.4.12",
 		"tailwindcss-animate": "1.0.7",
 		"tailwindcss-react-aria-components": "1.1.5",
 		"typescript": "5.6.2",
-		"use-debounce": "^10.0.3",
+		"use-debounce": "10.0.4",
 		"zod": "3.23.8"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.3",
 		"drizzle-kit": "0.24.2"
-	},
-	"pnpm": {
-		"overrides": {
-			"@types/react": "npm:types-react@19.0.0-rc.1",
-			"@types/react-dom": "npm:types-react-dom@19.0.0-rc.1"
-		}
 	}
 }

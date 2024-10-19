@@ -19,8 +19,9 @@ type ActionState = {
 
 export function InviteCoupleMember() {
 	const { data: session } = useSession();
-	const user = session?.user;
-	const isOwner = user?.role === "owner";
+	console.log(session);
+	const role = session?.role;
+	const isOwner = role === "owner";
 	const [inviteState, inviteAction, isInvitePending] = useActionState<ActionState, FormData>(inviteCoupleMember, {
 		error: "",
 		success: "",

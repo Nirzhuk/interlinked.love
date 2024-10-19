@@ -7,13 +7,13 @@ import NextAuth from "next-auth";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
 	adapter: DrizzleAdapter(db),
-  pages: {
+	pages: {
 		signIn: "/auth/sign-in",
 	},
 	secret: process.env.AUTH_SECRET,
 	session: { strategy: "jwt" },
-	  debug: process.env.NODE_ENV !== "production" ? true : false,
-	
+	debug: process.env.NODE_ENV !== "production",
+
 	providers: [
 		CredentialsProvider({
 			name: "Sign in",
@@ -27,7 +27,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 				password: { label: "Password", type: "password" },
 			},
 			async authorize(credentials) {
-				
 				if (!credentials?.email || !credentials.password) {
 					return null;
 				}
@@ -35,13 +34,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 				const user = await db.query.users.findFirst({
 					where: (users, { eq }) => eq(users.email, String(credentials.email)),
 				});
-				
+
 				if (!user || !(await bcrypt.compare(String(credentials.password), user.password || ""))) {
 					return null;
 				}
-				
-				return user
-				
+
+				return user;
 			},
 		}),
 	],
@@ -51,28 +49,29 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 			if (pathname === "/middleware-example") return !!auth;
 			return true;
 		},
-    jwt: ({ token, user }) => {
-      if (user) {
-        const u = user as unknown as any;
-        return {
-          ...token,
+		jwt: ({ token, user }) => {
+			if (user) {
+				// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+				const u = user as unknown as any;
+				return {
+					...token,
 					id: u.id,
 					role: u.role,
 					randomKey: u.randomKey,
-        };
-      }
-      return token;
-    },
+				};
+			}
+			return token;
+		},
 		session(params) {
-      return {
-        ...params.session,
-        user: {
-          ...params.session.user,
-          id: params.token.id as string,
-          randomKey: params.token.randomKey,
-        },
-      };
-    },
+			return {
+				...params.session,
+				user: {
+					...params.session.user,
+					id: params.token.id as string,
+					randomKey: params.token.randomKey,
+				},
+			};
+		},
 	},
 });
 

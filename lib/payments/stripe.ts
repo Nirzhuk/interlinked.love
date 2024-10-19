@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { getCoupleByStripeCustomerId, getUser, updateCoupleSubscription } from "@/lib/db/queries";
+import { getCoupleByStripeCustomerId, updateCoupleSubscription } from "@/lib/db/queries";
 import type { Couple } from "@/lib/db/schema";
 import { redirect } from "next/navigation";
 import Stripe from "stripe";
@@ -15,7 +15,6 @@ export async function createCheckoutSession({
 	couple: Couple | null;
 	priceId: string;
 }) {
-	
 	const sessionUser = await auth();
 	const user = sessionUser?.user;
 

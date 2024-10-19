@@ -3,7 +3,7 @@
 import { validatedAction, validatedActionWithUser } from "@/lib/auth/middleware";
 import { comparePasswords, hashPassword } from "@/lib/auth/session";
 import { db } from "@/lib/db/drizzle";
-import { getUser, getUserWithCouple } from "@/lib/db/queries";
+import {  getUserWithCouple } from "@/lib/db/queries";
 import {
 	ActivityType,
 	type NewActivityLog,
@@ -171,7 +171,14 @@ const updatePasswordSchema = z
 export const updatePassword = validatedActionWithUser(updatePasswordSchema, async (data, _, user) => {
 	const { currentPassword, newPassword } = data;
 
-	const isPasswordValid = await comparePasswords(currentPassword, user.passwordHash);
+	const userWithPass = await db.select().from(users).where(eq(users.id, user.id as string)).limit(1);
+
+	if (!userWithPass[0]) {
+		return { error: "User does not have a password." };
+	}
+
+	const isPasswordValid = await comparePasswords(currentPassword, userWithPass[0]?.password as string);
+
 
 	if (!isPasswordValid) {
 		return { error: "Current password is incorrect." };
@@ -184,11 +191,11 @@ export const updatePassword = validatedActionWithUser(updatePasswordSchema, asyn
 	}
 
 	const newPasswordHash = await hashPassword(newPassword);
-	const userWithCouple = await getUserWithCouple(user.id);
+	const userWithCouple = await getUserWithCouple(user.id as string);
 
 	await Promise.all([
-		db.update(users).set({ passwordHash: newPasswordHash }).where(eq(users.id, user.id)),
-		logActivity(userWithCouple?.coupleId, user.id, ActivityType.UPDATE_PASSWORD),
+		db.update(users).set({ password: newPasswordHash }).where(eq(users.id, user.id as string)),
+		logActivity(userWithCouple?.coupleId, user.id as string, ActivityType.UPDATE_PASSWORD),
 	]);
 
 	return { success: "Password updated successfully." };
@@ -199,16 +206,26 @@ const deleteAccountSchema = z.object({
 });
 
 export const deleteAccount = validatedActionWithUser(deleteAccountSchema, async (data, _, user) => {
+	if (!user) {
+		return { error: "User not authenticated" };
+	}
 	const { password } = data;
 
-	const isPasswordValid = await comparePasswords(password, user.password as string);
+const userWithPass = await db.select().from(users).where(eq(users.id, user.id as string)).limit(1);
+
+	if (!userWithPass[0]) {
+		return { error: "User does not have a password." };
+	}
+
+	const isPasswordValid = await comparePasswords(password, userWithPass[0].password as string);
+
 	if (!isPasswordValid) {
 		return { error: "Incorrect password. Account deletion failed." };
 	}
 
-	const userWithCouple = await getUserWithCouple(user.id);
+	const userWithCouple = await getUserWithCouple(user.id as string);
 
-	await logActivity(userWithCouple?.coupleId, user.id, ActivityType.DELETE_ACCOUNT);
+	await logActivity(userWithCouple?.coupleId, user.id as string, ActivityType.DELETE_ACCOUNT);
 
 	// Soft delete
 	await db
@@ -217,18 +234,19 @@ export const deleteAccount = validatedActionWithUser(deleteAccountSchema, async 
 			deletedAt: sql`CURRENT_TIMESTAMP`,
 			email: sql`CONCAT(email, '-', id, '-deleted')`, // Ensure email uniqueness
 		})
-		.where(eq(users.id, user.id));
+		.where(eq(users.id, user.id as string));
 
 	if (userWithCouple?.coupleId) {
 		await db
 			.delete(coupleMembers)
-			.where(and(eq(coupleMembers.userId, user.id), eq(coupleMembers.coupleId, userWithCouple.coupleId)));
+			.where(and(eq(coupleMembers.userId, user.id as string), eq(coupleMembers.coupleId, userWithCouple.coupleId)));
 	}
 
 	await signOut({
 		redirect: true,
 		callbackUrl: "/auth/sign-in",
 	});
+	return { success: "Account deleted successfully." };
 });
 
 const updateAccountSchema = z.object({
@@ -238,11 +256,11 @@ const updateAccountSchema = z.object({
 
 export const updateAccount = validatedActionWithUser(updateAccountSchema, async (data, _, user) => {
 	const { name, email } = data;
-	const userWithCouple = await getUserWithCouple(user.id);
+	const userWithCouple = await getUserWithCouple(user.id as string);
 
 	await Promise.all([
-		db.update(users).set({ name, email }).where(eq(users.id, user.id)),
-		logActivity(userWithCouple?.coupleId, user.id, ActivityType.UPDATE_ACCOUNT),
+		db.update(users).set({ name, email }).where(eq(users.id, user.id as string)),
+		logActivity(userWithCouple?.coupleId, user.id as string, ActivityType.UPDATE_ACCOUNT),
 	]);
 
 	return { success: "Account updated successfully." };
@@ -254,7 +272,7 @@ const removeCoupleMemberSchema = z.object({
 
 export const removeCoupleMember = validatedActionWithUser(removeCoupleMemberSchema, async (data, _, user) => {
 	const { memberId } = data;
-	const userWithCouple = await getUserWithCouple(user.id);
+	const userWithCouple = await getUserWithCouple(user.id as string);
 
 	if (!userWithCouple?.coupleId) {
 		return { error: "User is not part of a couple" };
@@ -264,7 +282,7 @@ export const removeCoupleMember = validatedActionWithUser(removeCoupleMemberSche
 		.delete(coupleMembers)
 		.where(and(eq(coupleMembers.id, memberId), eq(coupleMembers.coupleId, userWithCouple.coupleId)));
 
-	await logActivity(userWithCouple.coupleId, user.id, ActivityType.REMOVE_COUPLE_MEMBER);
+	await logActivity(userWithCouple.coupleId, user.id as string, ActivityType.REMOVE_COUPLE_MEMBER);
 
 	return { success: "Couple member removed successfully" };
 });
@@ -278,7 +296,7 @@ const inviteCoupleMemberSchema = z.object({
 
 export const inviteCoupleMember = validatedActionWithUser(inviteCoupleMemberSchema, async (data, _, user) => {
 	const { email, role } = data;
-	const userWithCouple = await getUserWithCouple(user.id);
+	const userWithCouple = await getUserWithCouple(user.id as string);
 
 	if (!userWithCouple?.coupleId) {
 		return { error: "User is not part of a couple" };
@@ -319,12 +337,12 @@ export const inviteCoupleMember = validatedActionWithUser(inviteCoupleMemberSche
 			coupleId: userWithCouple.coupleId,
 			email,
 			role,
-			invitedBy: user.id,
+			invitedBy: user.id as string,
 			status: "pending",
 		})
 		.returning();
 
-	await logActivity(userWithCouple.coupleId, user.id, ActivityType.INVITE_COUPLE_MEMBER);
+	await logActivity(userWithCouple.coupleId, user.id as string, ActivityType.INVITE_COUPLE_MEMBER);
 
 	// TODO: Send invitation email and include ?inviteId={id} to sign-up URL
 	// await sendInvitationEmail(email, userWithCouple.couple.name, role)

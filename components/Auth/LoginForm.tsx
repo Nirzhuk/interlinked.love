@@ -7,11 +7,10 @@ import { CircleIcon, Loader2 } from "lucide-react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
 
 export function LoginForm() {
 	const searchParams = useSearchParams();
-	
+
 	const redirect = searchParams.get("redirect");
 	const priceId = searchParams.get("priceId");
 	const inviteId = searchParams.get("inviteId");
@@ -29,13 +28,12 @@ export function LoginForm() {
 				<form
 					className="space-y-6"
 					action={async (formData) => {
-						
 						await signIn("credentials", {
 							email: formData.get("email"),
 							password: formData.get("password"),
-							
+
 							redirect: true,
-							redirectTo: '/app',
+							redirectTo: "/app",
 						});
 					}}
 				>

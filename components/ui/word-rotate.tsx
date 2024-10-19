@@ -37,6 +37,7 @@ export default function WordRotate({
 	return (
 		<div className="overflow-hidden py-2 inline">
 			<AnimatePresence mode="wait">
+				{/* @ts-expect-error - error from using rcs, todo: fix */}
 				<motion.p key={words[index]} className={cn(className)} {...framerProps}>
 					{words[index]}
 				</motion.p>

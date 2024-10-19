@@ -1,6 +1,5 @@
 import "../globals.css";
 import Header from "@/components/Portal/Header";
-import { getUser } from "@/lib/db/queries";
 import type { Metadata, Viewport } from "next";
 import { SessionProvider } from "next-auth/react";
 import { Manrope } from "next/font/google";
@@ -20,7 +19,6 @@ export default function RootLayout({
 }: {
 	children: React.ReactNode;
 }) {
-	/* const userPromise = getUser(); */
 
 	return (
 		<html lang="en" className={`bg-white dark:bg-gray-950 text-black dark:text-white ${manrope.className}`}>

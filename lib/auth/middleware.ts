@@ -1,5 +1,7 @@
-import { getCoupleForUser, getUser } from "@/lib/db/queries";
-import type { CoupleDataWithMembers, User } from "@/lib/db/schema";
+import { auth } from "@/auth";
+import { getCoupleForUser } from "@/lib/db/queries";
+import type { CoupleDataWithMembers } from "@/lib/db/schema";
+import { User } from "next-auth";
 import { redirect } from "next/navigation";
 import type { z } from "zod";
 
@@ -35,7 +37,8 @@ export function validatedActionWithUser<S extends z.ZodType<any, any>, T>(
 	action: ValidatedActionWithUserFunction<S, T>,
 ) {
 	return async (prevState: ActionState, formData: FormData): Promise<T> => {
-		const user = await getUser();
+		const session = await auth();
+		const user = session?.user;
 		if (!user) {
 			throw new Error("User is not authenticated");
 		}
@@ -54,12 +57,13 @@ type ActionWithCoupleFunction<T> = (formData: FormData, couple: CoupleDataWithMe
 
 export function withCouple<T>(action: ActionWithCoupleFunction<T>) {
 	return async (formData: FormData): Promise<T> => {
-		const user = await getUser();
+		const session = await auth();
+		const user = session?.user;
 		if (!user) {
-			redirect("/sign-in");
+			redirect("/auth/sign-in");
 		}
 
-		const couple = await getCoupleForUser(user.id);
+		const couple = await getCoupleForUser(user.id as string);
 		if (!couple) {
 			throw new Error("Couple not found");
 		}

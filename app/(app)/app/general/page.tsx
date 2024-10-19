@@ -1,12 +1,12 @@
 "use client";
 
-import { deleteAccount, updateAccount, updatePassword } from "@/app/(login)/actions";
+import { deleteAccount, updateAccount, updatePassword } from "@/app/(portal)/auth/actions";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useUser } from "@/lib/auth";
 import { Loader2, Lock, Trash2 } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { startTransition, useActionState } from "react";
 
 type ActionState = {
@@ -15,7 +15,9 @@ type ActionState = {
 };
 
 export default function GeneralPage() {
-	const { user } = useUser();
+	const { data: session } = useSession();
+	const user = session?.user;
+	
 	const [state, formAction, isPending] = useActionState<ActionState, FormData>(updateAccount, {
 		error: "",
 		success: "",
