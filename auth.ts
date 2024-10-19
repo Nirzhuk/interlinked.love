@@ -8,6 +8,7 @@ import Discord from "next-auth/providers/discord";
 import Google from "next-auth/providers/google";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+	// @ts-expect-error Some random error due using rcs, we will fix it later
 	adapter: DrizzleAdapter(db),
 	session: { strategy: "jwt" },
 	pages: {
