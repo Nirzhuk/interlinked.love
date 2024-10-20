@@ -15,7 +15,7 @@ export class CustomAuthError extends AuthError {
 	}
 }
 class InvalidLoginError extends CredentialsSignin {
-	code = "Invalid identifier or password";
+	code = "User not found or password incorrect";
 }
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
@@ -49,7 +49,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 				const user = await db.query.users.findFirst({
 					where: (users, { eq }) => eq(users.email, String(credentials.email)),
 				});
-
+				console.log(user, await bcrypt.compare(String(credentials.password), user?.password || ""));
 				if (!user || !(await bcrypt.compare(String(credentials.password), user.password || ""))) {
 					throw new InvalidLoginError();
 				}
