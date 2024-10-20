@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
-import NextAuth, { AuthError, type DefaultSession } from "next-auth";
+import NextAuth, { AuthError, CredentialsSignin, type DefaultSession } from "next-auth";
 import Discord from "next-auth/providers/discord";
 import Google from "next-auth/providers/google";
 

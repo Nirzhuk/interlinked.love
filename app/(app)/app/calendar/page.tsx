@@ -9,17 +9,15 @@ const searchParamsCache = createSearchParamsCache({
 	date: parseAsIsoDateTime.withDefault(new Date()),
 });
 
-const CalendarPage = async (
-    props: {
-        searchParams: Promise<Record<string, string | string[] | undefined>>;
-    }
-) => {
-    const searchParams = await props.searchParams;
-    const { date } = searchParamsCache.parse(searchParams);
-    const events = await getEvents(date);
+const CalendarPage = async (props: {
+	searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) => {
+	const searchParams = await props.searchParams;
+	const { date } = searchParamsCache.parse(searchParams);
+	const events = await getEvents(date);
 
-    const commentsPromise = getEventComments();
-    return (
+	const commentsPromise = getEventComments();
+	return (
 		<CalendarProvider commentsPromise={commentsPromise}>
 			<Calendar events={events} />
 		</CalendarProvider>

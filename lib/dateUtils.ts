@@ -8,9 +8,7 @@ export const firstDayOfMonth = (date: Date): number => {
 	return new Date(date.getFullYear(), date.getMonth(), 1).getDay();
 };
 
-export const sortEventsByStartDate = (
-	events: Partial<Event>[],
-): Partial<Event>[] => {
+export const sortEventsByStartDate = (events: Partial<Event>[]): Partial<Event>[] => {
 	return [...events].sort((a, b) => {
 		const startA = new Date(a.initialDate || "").getTime();
 		const startB = new Date(b.initialDate || "").getTime();

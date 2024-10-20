@@ -17,7 +17,7 @@ type ActionState = {
 export default function GeneralPage() {
 	const { data: session } = useSession();
 	const user = session?.user;
-	
+
 	const [state, formAction, isPending] = useActionState<ActionState, FormData>(updateAccount, {
 		error: "",
 		success: "",

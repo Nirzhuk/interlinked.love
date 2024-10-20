@@ -1,8 +1,8 @@
+import { signIn } from "@/auth";
 import { db } from "@/lib/db/drizzle";
 import { coupleMembers, couples, users } from "@/lib/db/schema";
 import { stripe } from "@/lib/payments/stripe";
 import { eq } from "drizzle-orm";
-import { signIn } from "@/auth";
 import { type NextRequest, NextResponse } from "next/server";
 import type Stripe from "stripe";
 
@@ -51,11 +51,7 @@ export async function GET(request: NextRequest) {
 			throw new Error("No user ID found in session's client_reference_id.");
 		}
 
-		const user = await db
-			.select()
-			.from(users)
-			.where(eq(users.id, userId))
-			.limit(1);
+		const user = await db.select().from(users).where(eq(users.id, userId)).limit(1);
 
 		if (user.length === 0) {
 			throw new Error("User not found in database.");

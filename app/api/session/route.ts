@@ -2,10 +2,10 @@ import { auth } from "@/auth";
 import { NextResponse } from "next/server";
 
 export async function GET(_request: Request) {
-  const session = await auth();
+	const session = await auth();
 
-  return NextResponse.json({
-    authenticated: !!session,
-    session,
-  });
+	return NextResponse.json({
+		authenticated: !!session,
+		session,
+	});
 }

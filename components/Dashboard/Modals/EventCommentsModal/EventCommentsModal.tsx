@@ -4,10 +4,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 
 import type { Event } from "@/lib/db/schema";
 
+import { useSession } from "next-auth/react";
 import type React from "react";
 import { memo } from "react";
 import EventShowcase from "../../EventShowcase/EventShowcase";
-import { useSession } from "next-auth/react";
 
 interface EventCommentsModalProps {
 	isOpen: boolean;

@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { getCoupleForUser } from "@/lib/db/queries";
 import type { CoupleDataWithMembers } from "@/lib/db/schema";
-import { User } from "next-auth";
+import type { User } from "next-auth";
 import { redirect } from "next/navigation";
 import type { z } from "zod";
 

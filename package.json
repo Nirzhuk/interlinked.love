@@ -11,7 +11,8 @@
 		"db:migrate": "npx tsx lib/db/migrate.ts",
 		"db:clear": "npx tsx lib/db/clear.ts",
 		"db:studio": "drizzle-kit studio",
-		"prepare": "husky"
+		"prepare": "husky",
+		"lint": "biome check --write"
 	},
 	"dependencies": {
 		"@auth/drizzle-adapter": "1.7.1",

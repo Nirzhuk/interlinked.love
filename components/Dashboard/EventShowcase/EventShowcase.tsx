@@ -20,7 +20,6 @@ const EventShowcase = ({ event }: { event: Partial<Event> }) => {
 		() => (comments?.filter((comment) => comment.eventId === event.id) as EventCommentWithUser[]) ?? [],
 		[comments, event.id],
 	);
-	
 
 	return (
 		<>

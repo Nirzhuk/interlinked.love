@@ -22,19 +22,15 @@ export default function DashboardLayout({
 }: {
 	children: React.ReactNode;
 }) {
-	
-
 	return (
 		<html lang="en" className={`${manrope.className}`}>
 			<body className="bg-gray-50">
 				<SessionProvider>
-				
 					<div className="flex flex-col min-h-screen">
 						<Header />
 						<main className="sm:w-10/12 sm:mx-auto w-full h-full px-4 pb-0 pt-8">{children}</main>
 					</div>
-					
-					</SessionProvider>
+				</SessionProvider>
 			</body>
 		</html>
 	);
