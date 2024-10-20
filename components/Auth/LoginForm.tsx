@@ -31,6 +31,8 @@ export function LoginForm() {
 	const redirect = searchParams.get("redirect");
 	const priceId = searchParams.get("priceId");
 	const inviteId = searchParams.get("inviteId");
+	const error = searchParams.get("error");
+	const code = searchParams.get("code");
 
 	const [submittedProvider, setSubmittedProvider] = useState<LiteralUnion<any> | null>(null);
 
@@ -109,7 +111,7 @@ export function LoginForm() {
 							/>
 						</div>
 					</div>
-
+					{error && <div className="text-red-500 text-sm">{code}</div>}
 					{/* 					{state?.error && <div className="text-red-500 text-sm">{state.error}</div>}
 					 */}
 					<div>
