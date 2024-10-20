@@ -184,7 +184,7 @@ const DayCell: React.FC<DayCellProps> = memo(({ day, events, currentDate, eventL
 			/>
 			<EventCommentsModal
 				isOpen={isCommentsModalOpen}
-				onClose={() => setIsCommentsModalOpen(false)}
+				onChange={(state) => setIsCommentsModalOpen(state)}
 				event={selectedEvent || {}}
 			/>
 		</>

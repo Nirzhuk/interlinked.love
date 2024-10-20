@@ -14,8 +14,8 @@ import type { JSONContent } from "novel";
 import { useQueryState } from "nuqs";
 import React from "react";
 import { useActionState } from "react";
-import { ColorPicker } from "../../Modals/CreateEventModal/components/ColorPicker";
-import { FormField } from "../../Modals/CreateEventModal/components/FormField";
+import { ColorPicker } from "./components/ColorPicker";
+import { FormField } from "./components/FormField";
 
 interface EditEventFormProps {
 	event: Partial<Event> | null;

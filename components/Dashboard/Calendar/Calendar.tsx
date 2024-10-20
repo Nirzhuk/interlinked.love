@@ -8,8 +8,9 @@ import type { Event } from "@/lib/db/schema";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import { useSession } from "next-auth/react";
-import { useQueryState } from "nuqs";
+import { parseAsInteger, useQueryState } from "nuqs";
 import React, { useMemo, useState, useCallback } from "react";
+import EventCommentsModal from "../Modals/EventCommentsModal";
 import DayCell from "./DayCell";
 
 interface CalendarProps {
@@ -27,6 +28,12 @@ const Calendar = ({ events }: CalendarProps) => {
 		serialize: (value) => value,
 		shallow: false,
 	});
+
+	const [selectedEventId, setSelectedEventId] = useQueryState("event", parseAsInteger.withDefault(0));
+	const selectedEventFromQueryState = selectedEventId
+		? events.find((event) => event.id === selectedEventId)
+		: undefined;
+
 	const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
 	const currentDate = useMemo(() => parseUrlDate(currentDateParam), [currentDateParam]);
@@ -147,6 +154,11 @@ const Calendar = ({ events }: CalendarProps) => {
 				{renderCalendar()}
 			</div>
 			<CreateEventModal isOpen={isCreateModalOpen} onChange={(state) => setIsCreateModalOpen(state)} />
+			<EventCommentsModal
+				isOpen={!!selectedEventId}
+				onChange={() => setSelectedEventId(null)}
+				event={selectedEventFromQueryState}
+			/>
 		</div>
 	);
 };

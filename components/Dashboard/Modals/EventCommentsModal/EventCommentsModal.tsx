@@ -11,18 +11,20 @@ import EventShowcase from "../../EventShowcase/EventShowcase";
 
 interface EventCommentsModalProps {
 	isOpen: boolean;
-	onClose: () => void;
-	event: Partial<Event>;
+	onChange: (state: boolean) => void;
+	event: Partial<Event> | undefined;
 }
 
-const EventCommentsModal: React.FC<EventCommentsModalProps> = memo(({ isOpen, onClose, event }) => {
+const EventCommentsModal: React.FC<EventCommentsModalProps> = memo(({ isOpen, onChange, event }) => {
 	const session = useSession();
 	const user = session.data?.user;
-	if (!user || !event.id) {
+
+	if (!user || !event) {
 		return null;
 	}
+
 	return (
-		<Dialog open={isOpen} onOpenChange={onClose}>
+		<Dialog open={isOpen} onOpenChange={onChange}>
 			<DialogContent>
 				<DialogHeader className="mt-2 flex flex-row place-items-center items-center justify-between">
 					<DialogTitle>
