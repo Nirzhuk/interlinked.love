@@ -31,8 +31,8 @@ export async function createCheckoutSession({
 			},
 		],
 		mode: "subscription",
-		success_url: `${process.env.BASE_URL}/api/stripe/checkout?session_id={CHECKOUT_SESSION_ID}`,
-		cancel_url: `${process.env.BASE_URL}/pricing`,
+		success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/stripe/checkout?session_id={CHECKOUT_SESSION_ID}`,
+		cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/pricing`,
 		customer: couple.stripeCustomerId || undefined,
 		client_reference_id: user?.id as string,
 		allow_promotion_codes: true,
@@ -95,7 +95,7 @@ export async function createCustomerPortalSession(couple: Couple) {
 			},
 		});
 	}
-
+	console.log("2");
 	return stripe.billingPortal.sessions.create({
 		customer: couple.stripeCustomerId,
 		return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/app`,
