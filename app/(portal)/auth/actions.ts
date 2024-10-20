@@ -61,7 +61,6 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
 	const existingUser = await db.select().from(users).where(eq(users.email, email)).limit(1);
 
 	if (existingUser.length > 0) {
-		console.log("existingUser", existingUser);
 		return { error: "Failed to create user. Please try again." };
 	}
 
@@ -75,9 +74,8 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
 	};
 
 	const [createdUser] = await db.insert(users).values(newUser).returning();
-	console.log("createdUser", createdUser);
+
 	if (!createdUser) {
-		console.log("no createdUser");
 		return { error: "Failed to create user. Please try again." };
 	}
 
