@@ -18,10 +18,6 @@ import { actionClient } from "@/lib/safe-action";
 import { and, eq } from "drizzle-orm";
 import { z } from "zod";
 
-const changeCoupleTypeSchema = z.object({
-	type: z.enum(coupleEnum.enumValues),
-});
-
 export async function logActivity(
 	coupleId: number | null | undefined,
 	userId: string,
@@ -40,6 +36,10 @@ export async function logActivity(
 	await db.insert(activityLogs).values(newActivity);
 }
 
+const changeCoupleTypeSchema = z.object({
+	type: z.enum(coupleEnum.enumValues),
+});
+
 export const changeCoupleType = actionClient
 	.schema(changeCoupleTypeSchema)
 	.action(async ({ parsedInput: { type } }) => {
@@ -54,10 +54,10 @@ export const changeCoupleType = actionClient
 			return { error: "User is not in a couple." };
 		}
 		if (userWithCouple.coupleType === type) {
-			return { error: "Couple type is already set to this type." };
+			return { error: "group type is already set to this type." };
 		}
 		if (userWithCouple.user.role !== "owner") {
-			return { error: "Only the owner can change the couple type." };
+			return { error: "Only the owner can change the group type." };
 		}
 
 		await db
@@ -66,7 +66,7 @@ export const changeCoupleType = actionClient
 			.where(eq(couples.id, userWithCouple.coupleId as number));
 
 		return {
-			success: "Successfully changed couple type.",
+			success: "Successfully changed group type.",
 		};
 	});
 
@@ -79,6 +79,7 @@ const inviteCoupleMemberSchema = z.object({
 
 export const inviteCoupleMember = validatedActionWithUser(inviteCoupleMemberSchema, async (data, _, user) => {
 	const { email, role } = data;
+
 	const userWithCouple = await getUserWithCouple(user.id as string);
 
 	if (!userWithCouple?.coupleId) {
