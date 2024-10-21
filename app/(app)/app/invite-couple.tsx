@@ -1,6 +1,6 @@
 "use client";
 
-import { inviteCoupleMember } from "@/app/(portal)/auth/actions";
+import { inviteCoupleMember } from "@/app/(app)/app/actions";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";

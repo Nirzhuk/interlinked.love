@@ -9,25 +9,10 @@ import { events, ActivityType, type NewActivityLog, activityLogs, eventsComments
 import type { EventCommentWithUser } from "@/types/comments";
 import { and, eq } from "drizzle-orm";
 
+import { auth } from "@/auth";
+import { actionClient } from "@/lib/safe-action";
 import { z } from "zod";
-
-async function logActivity(
-	coupleId: number | null | undefined,
-	userId: string,
-	type: ActivityType,
-	ipAddress?: string,
-) {
-	if (coupleId === null || coupleId === undefined) {
-		return;
-	}
-	const newActivity: NewActivityLog = {
-		coupleId,
-		userId,
-		action: type,
-		ipAddress: ipAddress || "",
-	};
-	await db.insert(activityLogs).values(newActivity);
-}
+import { logActivity } from "../actions";
 
 const createCommentSchema = z.object({
 	content: z.string().min(2, "Comment is required").max(250),
@@ -58,9 +43,6 @@ export const createComment = validatedActionWithUser(createCommentSchema, async 
 		comment: createdComment as unknown as EventCommentWithUser,
 	};
 });
-
-import { auth } from "@/auth";
-import { actionClient } from "@/lib/safe-action";
 
 const removeCommentSchema = z.object({
 	commentId: z.number(),

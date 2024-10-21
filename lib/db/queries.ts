@@ -48,6 +48,8 @@ export async function getUserWithCouple(userId: string) {
 		.select({
 			user: users,
 			coupleId: coupleMembers.coupleId,
+			coupleType: couples.type,
+			coupleName: couples.name,
 		})
 		.from(users)
 		.leftJoin(coupleMembers, eq(users.id, coupleMembers.userId))

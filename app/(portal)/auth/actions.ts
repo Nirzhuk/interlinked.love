@@ -1,17 +1,15 @@
 "use server";
 
+import { logActivity } from "@/app/(app)/app/actions";
 import { validatedAction, validatedActionWithUser } from "@/lib/auth/middleware";
 import { comparePasswords, hashPassword } from "@/lib/auth/session";
 import { db } from "@/lib/db/drizzle";
 import { getUserWithCouple } from "@/lib/db/queries";
 import {
 	ActivityType,
-	type NewActivityLog,
 	type NewCouple,
 	type NewCoupleMember,
 	type NewUser,
-	type User,
-	activityLogs,
 	coupleMembers,
 	couples,
 	invitations,
@@ -22,24 +20,6 @@ import { and, eq, sql } from "drizzle-orm";
 import { signOut } from "next-auth/react";
 
 import { z } from "zod";
-
-async function logActivity(
-	coupleId: number | null | undefined,
-	userId: string,
-	type: ActivityType,
-	ipAddress?: string,
-) {
-	if (coupleId === null || coupleId === undefined) {
-		return;
-	}
-	const newActivity: NewActivityLog = {
-		coupleId,
-		userId,
-		action: type,
-		ipAddress: ipAddress || "",
-	};
-	await db.insert(activityLogs).values(newActivity);
-}
 
 const signUpSchema = z.object({
 	email: z.string().email("Please enter a valid email address"),
@@ -295,67 +275,4 @@ export const removeCoupleMember = validatedActionWithUser(removeCoupleMemberSche
 	await logActivity(userWithCouple.coupleId, user.id as string, ActivityType.REMOVE_COUPLE_MEMBER);
 
 	return { success: "Couple member removed successfully" };
-});
-
-const inviteCoupleMemberSchema = z.object({
-	email: z.string().email("Please enter a valid email address for the invitation"),
-	role: z.enum(["member", "owner"], {
-		errorMap: () => ({ message: "Invalid role. Must be either 'member' or 'owner'" }),
-	}),
-});
-
-export const inviteCoupleMember = validatedActionWithUser(inviteCoupleMemberSchema, async (data, _, user) => {
-	const { email, role } = data;
-	const userWithCouple = await getUserWithCouple(user.id as string);
-
-	if (!userWithCouple?.coupleId) {
-		return { error: "User is not part of a couple" };
-	}
-
-	const existingMember = await db
-		.select()
-		.from(users)
-		.leftJoin(coupleMembers, eq(users.id, coupleMembers.userId))
-		.where(and(eq(users.email, email), eq(coupleMembers.coupleId, userWithCouple.coupleId)))
-		.limit(1);
-
-	if (existingMember.length > 0) {
-		return { error: "User is already a member of this couple" };
-	}
-
-	// Check if there's an existing invitation
-	const existingInvitation = await db
-		.select()
-		.from(invitations)
-		.where(
-			and(
-				eq(invitations.email, email),
-				eq(invitations.coupleId, userWithCouple.coupleId),
-				eq(invitations.status, "pending"),
-			),
-		)
-		.limit(1);
-
-	if (existingInvitation.length > 0) {
-		return { error: "An invitation has already been sent to this email" };
-	}
-
-	// Create a new invitation
-	const [invitation] = await db
-		.insert(invitations)
-		.values({
-			coupleId: userWithCouple.coupleId,
-			email,
-			role,
-			invitedBy: user.id as string,
-			status: "pending",
-		})
-		.returning();
-
-	await logActivity(userWithCouple.coupleId, user.id as string, ActivityType.INVITE_COUPLE_MEMBER);
-
-	// TODO: Send invitation email and include ?inviteId={id} to sign-up URL
-	// await sendInvitationEmail(email, userWithCouple.couple.name, role)
-
-	return { inviteId: invitation.id, success: "Invitation sent successfully" };
 });
