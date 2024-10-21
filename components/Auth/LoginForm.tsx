@@ -7,7 +7,7 @@ import { CircleIcon, Loader2 } from "lucide-react";
 import { type LiteralUnion, getProviders, signIn } from "next-auth/react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { use, useState } from "react";
 
 const providerSvgs = {
 	github: (
@@ -25,7 +25,7 @@ const providerSvgs = {
 };
 
 export function LoginForm() {
-	const [providers, setProviders] = useState<any>(null);
+	const providers = use(getProviders());
 	const searchParams = useSearchParams();
 
 	const redirect = searchParams.get("redirect");
@@ -34,21 +34,14 @@ export function LoginForm() {
 	const error = searchParams.get("error");
 	const code = searchParams.get("code");
 
+	// biome-ignore lint/suspicious/noExplicitAny: any due to next-auth/react not exporting the type
 	const [submittedProvider, setSubmittedProvider] = useState<LiteralUnion<any> | null>(null);
 
-	const handleSubmit = (provider: LiteralUnion<any>) => {
+	// biome-ignore lint/suspicious/noExplicitAny: any due to next-auth/react not exporting the type
+	const handleSubmit = (provider: any) => {
 		setSubmittedProvider(provider);
 		signIn(provider);
 	};
-
-	useEffect(() => {
-		const fetchProviders = async () => {
-			const providers = await getProviders();
-
-			setProviders(providers);
-		};
-		fetchProviders();
-	}, []);
 
 	return (
 		<div className="min-h-[100dvh] flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
@@ -56,7 +49,7 @@ export function LoginForm() {
 				<div className="flex justify-center">
 					<CircleIcon className="h-12 w-12 text-violet-500" />
 				</div>
-				<h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account </h2>
+				<h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
 			</div>
 
 			<div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
