@@ -1,11 +1,11 @@
 "use client";
 import type { Event } from "@/lib/db/schema";
 
-import DayEventsModal from "@/components/Dashboard/Modals/DayEventsModal";
+import DailyEventsModal from "@/components/Dashboard/Modals/DailyEventsModal";
 import { eventColorStyle } from "@/lib/colors";
 import { cn } from "@/lib/utils";
 
-import EventCommentsModal from "@/components/Dashboard/Modals/EventCommentsModal";
+import EventDetailsModal from "@/components/Dashboard/Modals/EventDetailsModal";
 import React, { memo, useState, useCallback, useMemo } from "react";
 
 interface DayCellProps {
@@ -175,14 +175,14 @@ const DayCell: React.FC<DayCellProps> = memo(({ day, events, currentDate, eventL
 						</div>
 					)} */}
 			</div>
-			<DayEventsModal
+			<DailyEventsModal
 				events={events}
 				currentDay={currentDay}
 				isModalOpen={isModalOpen}
 				setIsModalOpen={setIsModalOpen}
 				modalPosition={modalPosition}
 			/>
-			<EventCommentsModal
+			<EventDetailsModal
 				isOpen={isCommentsModalOpen}
 				onChange={(state) => setIsCommentsModalOpen(state)}
 				event={selectedEvent || {}}

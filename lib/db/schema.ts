@@ -13,6 +13,8 @@ import {
 } from "drizzle-orm/pg-core";
 import type { AdapterAccount } from "next-auth/adapters";
 
+export const coupleEnum = pgEnum("couple_type", ["couple", "group"]);
+
 export const users = pgTable("users", {
 	id: text("id")
 		.primaryKey()
@@ -94,8 +96,6 @@ export const authenticators = pgTable(
 		}),
 	}),
 );
-
-export const coupleEnum = pgEnum("couple_type", ["couple", "family", "friends", "other"]);
 
 export const couples = pgTable("couples", {
 	id: serial("id").primaryKey(),
@@ -270,6 +270,7 @@ export type Event = typeof events.$inferSelect;
 export type NewEvent = typeof events.$inferInsert;
 export type EventComment = typeof eventsComments.$inferSelect;
 export type NewEventComment = typeof eventsComments.$inferInsert;
+export type CoupleType = (typeof coupleEnum.enumValues)[number];
 
 export type CoupleDataWithMembers = Couple & {
 	coupleMembers: (CoupleMember & {

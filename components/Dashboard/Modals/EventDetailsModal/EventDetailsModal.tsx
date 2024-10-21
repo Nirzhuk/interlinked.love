@@ -11,13 +11,13 @@ import type React from "react";
 import { memo } from "react";
 import EventShowcase from "../../EventShowcase/EventShowcase";
 
-interface EventCommentsModalProps {
+interface EventDetailsModalProps {
 	isOpen: boolean;
 	onChange: (state: boolean) => void;
 	event: Partial<Event> | undefined;
 }
 
-const EventCommentsModal: React.FC<EventCommentsModalProps> = memo(({ isOpen, onChange, event }) => {
+const EventDetailsModal: React.FC<EventDetailsModalProps> = memo(({ isOpen, onChange, event }) => {
 	const session = useSession();
 	const { toast } = useToast();
 	const user = session.data?.user;
@@ -55,4 +55,4 @@ const EventCommentsModal: React.FC<EventCommentsModalProps> = memo(({ isOpen, on
 	);
 });
 
-export default EventCommentsModal;
+export default EventDetailsModal;

@@ -8,6 +8,7 @@ import {
 	ActivityType,
 	type NewActivityLog,
 	activityLogs,
+	coupleEnum,
 	coupleMembers,
 	couples,
 	invitations,
@@ -17,8 +18,8 @@ import { actionClient } from "@/lib/safe-action";
 import { and, eq } from "drizzle-orm";
 import { z } from "zod";
 
-const schema = z.object({
-	type: z.enum(["couple", "family", "friends", "other"]),
+const changeCoupleTypeSchema = z.object({
+	type: z.enum(coupleEnum.enumValues),
 });
 
 export async function logActivity(
@@ -39,32 +40,35 @@ export async function logActivity(
 	await db.insert(activityLogs).values(newActivity);
 }
 
-export const changeCoupleType = actionClient.schema(schema).action(async ({ parsedInput: { type } }) => {
-	const session = await auth();
-	const user = session?.user;
-	if (!user) {
-		return { error: "User is not authenticated." };
-	}
-	const userWithCouple = await getUserWithCouple(user.id as string);
-	if (!userWithCouple) {
-		return { error: "User is not in a couple." };
-	}
-	if (userWithCouple.coupleType === type) {
-		return { error: "Couple type is already set to this type." };
-	}
-	if (userWithCouple.user.role !== "owner") {
-		return { error: "Only the owner can change the couple type." };
-	}
+export const changeCoupleType = actionClient
+	.schema(changeCoupleTypeSchema)
+	.action(async ({ parsedInput: { type } }) => {
+		const session = await auth();
+		const user = session?.user;
 
-	await db
-		.update(couples)
-		.set({ type })
-		.where(eq(couples.id, userWithCouple.coupleId as number));
+		if (!user) {
+			return { error: "User is not authenticated." };
+		}
+		const userWithCouple = await getUserWithCouple(user.id as string);
+		if (!userWithCouple) {
+			return { error: "User is not in a couple." };
+		}
+		if (userWithCouple.coupleType === type) {
+			return { error: "Couple type is already set to this type." };
+		}
+		if (userWithCouple.user.role !== "owner") {
+			return { error: "Only the owner can change the couple type." };
+		}
 
-	return {
-		success: "Successfully changed couple type.",
-	};
-});
+		await db
+			.update(couples)
+			.set({ type })
+			.where(eq(couples.id, userWithCouple.coupleId as number));
+
+		return {
+			success: "Successfully changed couple type.",
+		};
+	});
 
 const inviteCoupleMemberSchema = z.object({
 	email: z.string().email("Please enter a valid email address for the invitation"),

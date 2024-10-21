@@ -5,15 +5,15 @@ import { formatDateTime } from "@/lib/dateUtils";
 import type { Event } from "@/lib/db/schema";
 import { Pencil1Icon } from "@radix-ui/react-icons";
 
-import React, { useState } from "react";
+import React from "react";
 
-interface DayEventsModalCardProps {
+interface DailyEventsModalCardProps {
 	event: Partial<Event>;
 	onClickEditButton: (event: Partial<Event>) => void;
 	onClick: (event: Partial<Event>) => void;
 }
 
-const DayEventsModalCard = ({ event, onClickEditButton, onClick }: DayEventsModalCardProps) => {
+const DailyEventsModalCard = ({ event, onClickEditButton, onClick }: DailyEventsModalCardProps) => {
 	return (
 		<Card
 			key={event.id}
@@ -60,4 +60,4 @@ const DayEventsModalCard = ({ event, onClickEditButton, onClick }: DayEventsModa
 	);
 };
 
-export default DayEventsModalCard;
+export default DailyEventsModalCard;

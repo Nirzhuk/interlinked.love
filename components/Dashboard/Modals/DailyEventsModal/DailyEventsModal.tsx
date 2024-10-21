@@ -8,9 +8,9 @@ import { Cross2Icon } from "@radix-ui/react-icons";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeftIcon } from "lucide-react";
 import React, { useState } from "react";
-import DayEventsModalCard from "./DayEventsModalCard/DayEventsModalCard";
+import DayEventsModalCard from "./DailyEventsModalCard";
 
-interface DayEventsModalProps {
+interface DailyEventsModalProps {
 	events: Partial<Event>[];
 	currentDay: Date;
 	isModalOpen: boolean;
@@ -23,7 +23,13 @@ interface DayEventsModalProps {
 	} | null;
 }
 
-const DayEventsModal = ({ events, currentDay, isModalOpen, setIsModalOpen, modalPosition }: DayEventsModalProps) => {
+const DailyEventsModal = ({
+	events,
+	currentDay,
+	isModalOpen,
+	setIsModalOpen,
+	modalPosition,
+}: DailyEventsModalProps) => {
 	const [selectedEvent, setSelectedEvent] = useState<Partial<Event> | null>(null);
 	const [modalState, setModalState] = useState<"edit" | "showcase" | "general">("general");
 
@@ -160,4 +166,4 @@ const DayEventsModal = ({ events, currentDay, isModalOpen, setIsModalOpen, modal
 	);
 };
 
-export default DayEventsModal;
+export default DailyEventsModal;

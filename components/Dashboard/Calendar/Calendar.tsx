@@ -10,7 +10,7 @@ import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { parseAsInteger, useQueryState } from "nuqs";
 import React, { useMemo, useState, useCallback } from "react";
-import EventCommentsModal from "../Modals/EventCommentsModal";
+import EventDetailsModal from "../Modals/EventDetailsModal";
 import DayCell from "./DayCell";
 
 const Calendar = () => {
@@ -150,7 +150,7 @@ const Calendar = () => {
 				{renderCalendar()}
 			</div>
 			<CreateEventModal isOpen={isCreateModalOpen} onChange={(state) => setIsCreateModalOpen(state)} />
-			<EventCommentsModal
+			<EventDetailsModal
 				isOpen={!!selectedEventId}
 				onChange={() => setSelectedEventId(null)}
 				event={selectedEventFromQueryState}
