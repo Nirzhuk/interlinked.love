@@ -9,6 +9,10 @@ const searchParamsCache = createSearchParamsCache({
 	date: parseAsIsoDateTime.withDefault(new Date()),
 });
 
+export const metadata = {
+	title: "Calendar - Interlinked",
+};
+
 const CalendarPage = async (props: {
 	searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) => {

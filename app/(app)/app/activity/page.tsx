@@ -81,6 +81,10 @@ function formatAction(action: ActivityType): string {
 	}
 }
 
+export const metadata = {
+	title: "Activity Log - Interlinked",
+};
+
 export default async function ActivityPage() {
 	const logs = await getActivityLogs();
 

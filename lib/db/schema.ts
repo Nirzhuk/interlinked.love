@@ -1,5 +1,16 @@
 import { relations } from "drizzle-orm";
-import { boolean, integer, json, pgTable, primaryKey, serial, text, timestamp, varchar } from "drizzle-orm/pg-core";
+import {
+	boolean,
+	integer,
+	json,
+	pgEnum,
+	pgTable,
+	primaryKey,
+	serial,
+	text,
+	timestamp,
+	varchar,
+} from "drizzle-orm/pg-core";
 import type { AdapterAccount } from "next-auth/adapters";
 
 export const users = pgTable("users", {
@@ -84,6 +95,8 @@ export const authenticators = pgTable(
 	}),
 );
 
+export const coupleEnum = pgEnum("couple_type", ["couple", "family", "friends", "other"]);
+
 export const couples = pgTable("couples", {
 	id: serial("id").primaryKey(),
 	name: varchar("name", { length: 100 }).notNull(),
@@ -94,6 +107,7 @@ export const couples = pgTable("couples", {
 	stripeProductId: text("stripe_product_id"),
 	planName: varchar("plan_name", { length: 50 }),
 	subscriptionStatus: varchar("subscription_status", { length: 20 }),
+	type: coupleEnum("type").notNull().default("couple"),
 });
 
 export const coupleMembers = pgTable("couple_members", {

@@ -7,8 +7,8 @@ import type { Metadata, Viewport } from "next";
 import { SessionProvider } from "next-auth/react";
 
 export const metadata: Metadata = {
-	title: "Interlinked - Dashboard",
-	description: "Interlinked - Dashboard",
+	title: "Dashboard - Interlinked",
+	description: "Dashboard - Interlinked",
 };
 
 export const viewport: Viewport = {
