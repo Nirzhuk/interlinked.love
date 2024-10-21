@@ -7,7 +7,7 @@ import { getUserWithCouple } from "@/lib/db/queries";
 
 import { events, ActivityType, type NewActivityLog, activityLogs, eventsComments, users } from "@/lib/db/schema";
 import type { EventCommentWithUser } from "@/types/comments";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 
 import { z } from "zod";
 
@@ -58,6 +58,45 @@ export const createComment = validatedActionWithUser(createCommentSchema, async 
 		comment: createdComment as unknown as EventCommentWithUser,
 	};
 });
+
+import { auth } from "@/auth";
+import { actionClient } from "@/lib/safe-action";
+
+const removeCommentSchema = z.object({
+	commentId: z.number(),
+});
+
+export const removeCommentAction = actionClient
+	.schema(removeCommentSchema)
+	.action(async ({ parsedInput: { commentId } }) => {
+		const session = await auth();
+		const user = session?.user;
+		if (!user) {
+			return { error: "User is not authenticated." };
+		}
+		const userWithCouple = await getUserWithCouple(user.id as string);
+
+		if (!userWithCouple) {
+			return { error: "User is not in a couple." };
+		}
+
+		// Check if the comment belongs to the user
+		const comment = await db.query.eventsComments.findFirst({
+			where: and(eq(eventsComments.id, commentId), eq(eventsComments.userId, user.id)),
+		});
+
+		if (!comment) {
+			return { error: "Comment not found or you don't have permission to delete it." };
+		}
+
+		// Delete the comment
+		await db.delete(eventsComments).where(eq(eventsComments.id, commentId));
+		await logActivity(userWithCouple?.coupleId, user.id as string, ActivityType.DELETE_COMMENT);
+
+		return {
+			success: "Comment deleted successfully.",
+		};
+	});
 
 const createEventSchema = z.object({
 	title: z.string().min(2, "Title is required").max(250),

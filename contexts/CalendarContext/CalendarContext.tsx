@@ -8,6 +8,7 @@ type CalendarContextType = {
 	comments: EventCommentWithUser[] | null;
 	setComments: (comments: EventCommentWithUser[]) => void;
 	addComment: (eventId: number, comment: EventCommentWithUser) => void;
+	removeComment: (commentId: number) => void;
 };
 
 const CalendarContext = createContext<CalendarContextType | null>(null);
@@ -38,5 +39,13 @@ export function CalendarProvider({
 		setComments((prevComments) => [...(prevComments || []), { ...comment, eventId }]);
 	};
 
-	return <CalendarContext.Provider value={{ comments, setComments, addComment }}>{children}</CalendarContext.Provider>;
+	const removeComment = (commentId: number) => {
+		setComments((prevComments) => prevComments?.filter((comment) => comment.id !== commentId) || null);
+	};
+
+	return (
+		<CalendarContext.Provider value={{ comments, setComments, addComment, removeComment }}>
+			{children}
+		</CalendarContext.Provider>
+	);
 }

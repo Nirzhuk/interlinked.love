@@ -1,4 +1,6 @@
+import { removeCommentAction } from "@/app/(app)/app/calendar/actions";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useCalendar } from "@/contexts/CalendarContext";
 import type { EventCommentWithUser } from "@/types/comments";
 import { XIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
@@ -11,11 +13,21 @@ interface CommentsProps {
 
 const Comments = ({ comments, height = "200px" }: CommentsProps) => {
 	const session = useSession();
+	const { removeComment } = useCalendar();
 	const user = session.data?.user;
 
 	if (!user) {
 		return null;
 	}
+
+	const handleDeleteComment = async (commentId: number) => {
+		console.log("commentId", commentId);
+		const result = await removeCommentAction({ commentId });
+
+		if (result?.data?.success) {
+			removeComment(commentId);
+		}
+	};
 
 	return (
 		<ScrollArea className={"w-full p-4"} style={{ height }}>
@@ -28,7 +40,10 @@ const Comments = ({ comments, height = "200px" }: CommentsProps) => {
 							}`}
 						>
 							{comment.userId === user.id && (
-								<div className="absolute top-2 right-2 -0 w-2 h-2 rounded-full cursor-pointer">
+								<div
+									className="absolute top-2 right-2 -0 w-2 h-2 rounded-full cursor-pointer"
+									onClick={() => handleDeleteComment(comment.id)}
+								>
 									<XIcon className="w-2 h-2" />
 								</div>
 							)}

@@ -38,7 +38,7 @@ export function LoginForm() {
 	const [submittedProvider, setSubmittedProvider] = useState<LiteralUnion<any> | null>(null);
 
 	// biome-ignore lint/suspicious/noExplicitAny: any due to next-auth/react not exporting the type
-	const handleSubmit = (provider: any) => {
+	const handleProviderClick = (provider: any) => {
 		setSubmittedProvider(provider);
 		signIn(provider);
 	};
@@ -46,9 +46,6 @@ export function LoginForm() {
 	return (
 		<div className="min-h-[100dvh] flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
 			<div className="sm:mx-auto sm:w-full sm:max-w-md">
-				<div className="flex justify-center">
-					<CircleIcon className="h-12 w-12 text-violet-500" />
-				</div>
 				<h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
 			</div>
 
@@ -118,10 +115,10 @@ export function LoginForm() {
 				</form>
 				<div className="mt-6 flex flex-col gap-4">
 					{providers &&
-						Object.values(providers).map((provider: any) => {
+						Object.values(providers).map((provider) => {
 							if (provider.id.includes("credentials")) return null;
 							return (
-								<Button key={provider.id} onClick={() => handleSubmit(provider.id)} type="button">
+								<Button key={provider.id} onClick={() => handleProviderClick(provider.id)} type="button">
 									{submittedProvider === provider.id ? (
 										<Loader2 className="w-5 h-5" />
 									) : (
