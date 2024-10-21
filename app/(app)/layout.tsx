@@ -1,6 +1,7 @@
 import "../globals.css";
 import "../prosemirror.css";
 import Header from "@/components/Dashboard/Header";
+import { Toaster } from "@/components/ui/toaster";
 
 import type { Metadata, Viewport } from "next";
 import { SessionProvider } from "next-auth/react";
@@ -26,6 +27,7 @@ export default function DashboardLayout({
 					<Header />
 					<main className="sm:w-10/12 sm:mx-auto w-full h-full px-4 pb-0 pt-8">{children}</main>
 				</div>
+				<Toaster />
 			</SessionProvider>
 		</body>
 	);

@@ -108,7 +108,7 @@ const createEventSchema = z.object({
 	content: z.string(),
 });
 
-export const createEvent = validatedActionWithUser(createEventSchema, async (data, _, user) => {
+export const createEventAction = validatedActionWithUser(createEventSchema, async (data, _, user) => {
 	const { title, description, initialDate, finalDate, location, color, content } = data;
 	const userWithCouple = await getUserWithCouple(user.id as string);
 	if (!userWithCouple) {
@@ -139,7 +139,7 @@ const editEventSchema = createEventSchema.extend({
 	eventId: z.string().transform((value) => Number(value)),
 });
 
-export const updateEvent = validatedActionWithUser(editEventSchema, async (data, _, user) => {
+export const updateEventAction = validatedActionWithUser(editEventSchema, async (data, _, user) => {
 	const { title, description, initialDate, finalDate, location, color, content } = data;
 	const userWithCouple = await getUserWithCouple(user.id as string);
 	if (!userWithCouple) {

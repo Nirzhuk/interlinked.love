@@ -13,12 +13,8 @@ import React, { useMemo, useState, useCallback } from "react";
 import EventCommentsModal from "../Modals/EventCommentsModal";
 import DayCell from "./DayCell";
 
-interface CalendarProps {
-	events: Partial<Event>[];
-}
-
-const Calendar = ({ events }: CalendarProps) => {
-	const { comments } = useCalendar();
+const Calendar = () => {
+	const { comments, events } = useCalendar();
 	const { data: session } = useSession();
 	const user = session?.user;
 

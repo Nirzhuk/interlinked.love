@@ -19,7 +19,7 @@ type ActionState = {
 
 export function InviteCoupleMember() {
 	const { data: session } = useSession();
-	console.log(process.env.NEXT_PUBLIC_BASE_URL);
+
 	const role = session?.user.role;
 	const isOwner = role === "owner";
 	const [inviteState, inviteAction, isInvitePending] = useActionState<ActionState, FormData>(inviteCoupleMember, {

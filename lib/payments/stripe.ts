@@ -95,7 +95,7 @@ export async function createCustomerPortalSession(couple: Couple) {
 			},
 		});
 	}
-	console.log("2");
+
 	return stripe.billingPortal.sessions.create({
 		customer: couple.stripeCustomerId,
 		return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/app`,

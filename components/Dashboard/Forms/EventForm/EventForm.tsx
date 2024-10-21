@@ -1,18 +1,19 @@
 "use client";
 
+import { createEventAction, updateEventAction } from "@/app/(app)/app/calendar/actions";
 import { Button } from "@/components/ui/button";
-import { createEvent, updateEvent } from "../../../../app/(app)/app/calendar/actions";
 
 import TailwindEditor from "@/components/TailwindEditor";
 import { DatePicker } from "@/components/ui/date-picker";
 import { DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { useCalendar } from "@/contexts/CalendarContext";
+import { useToast } from "@/hooks/use-toast";
 import type { Event } from "@/lib/db/schema";
 import { Loader2 } from "lucide-react";
 import type { JSONContent } from "novel";
 import { useQueryState } from "nuqs";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useActionState } from "react";
 import { ColorPicker } from "./components/ColorPicker";
 import { FormField } from "./components/FormField";
@@ -25,33 +26,58 @@ interface EditEventFormProps {
 type ActionState = {
 	error?: string;
 	success?: string;
+	event?: Partial<Event>;
 };
 
 const EventForm = ({ mode, event }: EditEventFormProps) => {
+	const { toast } = useToast();
+	const { updateEvent } = useCalendar();
+
+	const [eventState, setEventState] = useState<Partial<Event> | null>(event);
+
 	const [currentDateParam, setCurrentDateParam] = useQueryState("date", {
 		defaultValue: new Date().toISOString().split("T")[0],
 		parse: (value) => value,
 		serialize: (value) => value,
 	});
+
 	const [state, formAction, isPending] = useActionState<ActionState, FormData>(
-		mode === "create" ? createEvent : updateEvent,
+		mode === "create" ? createEventAction : updateEventAction,
 		{ error: "", success: "" },
 	);
+
+	useEffect(() => {
+		if (state.success) {
+			if (mode === "create") {
+				toast({
+					title: "Event created",
+					description: "Event created successfully",
+				});
+			} else {
+				toast({
+					title: "Event updated",
+					description: "Event updated successfully",
+				});
+				updateEvent(state.event as Partial<Event>);
+				setEventState(state.event as Partial<Event>);
+			}
+		}
+	}, [state, toast, mode, updateEvent]);
 
 	return (
 		<form action={formAction}>
 			<div className="grid gap-4 py-4">
 				<div className="flex gap-2">
-					<input type="hidden" name="eventId" value={event?.id} />
+					<input type="hidden" name="eventId" value={eventState?.id} />
 					<FormField label="Title" required>
-						<Input name="title" required defaultValue={event?.title || ""} />
+						<Input name="title" required defaultValue={eventState?.title || ""} />
 					</FormField>
 
 					<FormField label="Description" mainClassName="flex-1">
-						<Input id="description" name="description" defaultValue={event?.description || ""} />
+						<Input id="description" name="description" defaultValue={eventState?.description || ""} />
 					</FormField>
 					<FormField label="Location">
-						<Input id="location" name="location" defaultValue={event?.location || ""} />
+						<Input id="location" name="location" defaultValue={eventState?.location || ""} />
 					</FormField>
 				</div>
 
@@ -60,7 +86,7 @@ const EventForm = ({ mode, event }: EditEventFormProps) => {
 						<DatePicker
 							id="initialDate"
 							name="initialDate"
-							defaultValue={event?.initialDate}
+							defaultValue={eventState?.initialDate}
 							fromYear={currentDateParam ? new Date(currentDateParam).getFullYear() : new Date().getFullYear()}
 							fromMonth={currentDateParam ? new Date(currentDateParam) : new Date()}
 						/>
@@ -70,14 +96,14 @@ const EventForm = ({ mode, event }: EditEventFormProps) => {
 						<DatePicker
 							id="finalDate"
 							name="finalDate"
-							defaultValue={event?.finalDate}
+							defaultValue={eventState?.finalDate}
 							fromYear={currentDateParam ? new Date(currentDateParam).getFullYear() : new Date().getFullYear()}
 							fromMonth={currentDateParam ? new Date(currentDateParam) : new Date()}
 						/>
 					</FormField>
 				</div>
 				<FormField label="Color" required>
-					<ColorPicker id="color" name="color" defaultValue={event?.color} />
+					<ColorPicker id="color" name="color" defaultValue={eventState?.color} />
 				</FormField>
 
 				<FormField
@@ -87,7 +113,7 @@ const EventForm = ({ mode, event }: EditEventFormProps) => {
 						</span>
 					}
 				>
-					<TailwindEditor name="content" content={event?.content as JSONContent} editable={true} />
+					<TailwindEditor name="content" content={eventState?.content as JSONContent} editable={true} />
 				</FormField>
 			</div>
 			<DialogFooter>

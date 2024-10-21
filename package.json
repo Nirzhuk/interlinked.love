@@ -30,6 +30,7 @@
 		"@radix-ui/react-select": "2.1.2",
 		"@radix-ui/react-separator": "1.1.0",
 		"@radix-ui/react-slot": "1.1.0",
+		"@radix-ui/react-toast": "^1.2.2",
 		"@types/bcryptjs": "2.4.6",
 		"@types/node": "22.5.5",
 		"@types/react": "npm:types-react@19.0.0-rc.1",

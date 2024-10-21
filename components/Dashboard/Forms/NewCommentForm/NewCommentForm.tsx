@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useCalendar } from "@/contexts/CalendarContext";
+import { useToast } from "@/hooks/use-toast";
 import type { EventCommentWithUser } from "@/types/comments";
 import { Loader2 } from "lucide-react";
 import React, { useEffect } from "react";
@@ -21,6 +22,7 @@ type ActionState = {
 
 const NewCommentForm = ({ eventId }: NewCommentFormProps) => {
 	const { addComment } = useCalendar();
+	const { toast } = useToast();
 	const [state, formAction, isPending] = useActionState<ActionState, FormData>(createComment, {
 		error: "",
 		success: "",
@@ -30,6 +32,10 @@ const NewCommentForm = ({ eventId }: NewCommentFormProps) => {
 	useEffect(() => {
 		if (state.success) {
 			addComment(eventId, state.comment as EventCommentWithUser);
+			toast({
+				title: "Comment created",
+				description: "Comment created successfully",
+			});
 		}
 	}, [state]);
 

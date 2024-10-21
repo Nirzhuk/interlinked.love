@@ -18,8 +18,8 @@ const CalendarPage = async (props: {
 
 	const commentsPromise = getEventComments();
 	return (
-		<CalendarProvider commentsPromise={commentsPromise}>
-			<Calendar events={events} />
+		<CalendarProvider commentsPromise={commentsPromise} initialEvents={events}>
+			<Calendar />
 		</CalendarProvider>
 	);
 };
