@@ -1,10 +1,7 @@
 import { SignupForm } from "@/components/Auth/SignupForm";
-import { Suspense } from "react";
+
+export const dynamic = "force-dynamic";
 
 export default function SignUpPage() {
-	return (
-		<Suspense>
-			<SignupForm />
-		</Suspense>
-	);
+	return <SignupForm />;
 }
