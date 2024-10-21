@@ -14,6 +14,7 @@ import {
 import type { AdapterAccount } from "next-auth/adapters";
 
 export const coupleEnum = pgEnum("couple_type", ["couple", "group"]);
+export const invitationStatusEnum = pgEnum("invitation_status", ["pending", "accepted", "declined"]);
 
 export const users = pgTable("users", {
 	id: text("id")
@@ -179,7 +180,7 @@ export const invitations = pgTable("invitations", {
 		.notNull()
 		.references(() => users.id),
 	invitedAt: timestamp("invited_at").notNull().defaultNow(),
-	status: varchar("status", { length: 20 }).notNull().default("pending"),
+	status: invitationStatusEnum("status").notNull().default("pending"),
 });
 
 export const couplesRelations = relations(couples, ({ many }) => ({
@@ -271,6 +272,7 @@ export type NewEvent = typeof events.$inferInsert;
 export type EventComment = typeof eventsComments.$inferSelect;
 export type NewEventComment = typeof eventsComments.$inferInsert;
 export type CoupleType = (typeof coupleEnum.enumValues)[number];
+export type InvitationStatus = (typeof invitationStatusEnum.enumValues)[number];
 
 export type CoupleDataWithMembers = Couple & {
 	coupleMembers: (CoupleMember & {

@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { Settings } from "./settings";
 
 import { auth } from "@/auth";
+import { getInvitations } from "./actions";
 
 export default async function SettingsPage() {
 	const session = await auth();
@@ -17,9 +18,13 @@ export default async function SettingsPage() {
 
 	const upcomingEvents = await getUpcomingEvents();
 
+	const invitations = await getInvitations(coupleData?.id);
+
+	console.log("invitations", invitations);
+
 	if (!coupleData) {
 		throw new Error("Couple not found");
 	}
 
-	return <Settings coupleData={coupleData} upcomingEvents={upcomingEvents} />;
+	return <Settings coupleData={coupleData} upcomingEvents={upcomingEvents} invitations={invitations} />;
 }

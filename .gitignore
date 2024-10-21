@@ -31,6 +31,7 @@ yarn-error.log*
 .env.prod
 .cursorrules
 README_DEV.md
+drizzle.config.test.ts
 
 # vercel
 .vercel

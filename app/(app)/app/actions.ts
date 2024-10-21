@@ -90,7 +90,7 @@ export const inviteCoupleMember = validatedActionWithUser(inviteCoupleMemberSche
 		.select()
 		.from(users)
 		.leftJoin(coupleMembers, eq(users.id, coupleMembers.userId))
-		.where(and(eq(users.email, email), eq(coupleMembers.coupleId, userWithCouple.coupleId)))
+		.where(and(eq(users.email, email.toLowerCase()), eq(coupleMembers.coupleId, userWithCouple.coupleId)))
 		.limit(1);
 
 	if (existingMember.length > 0) {
@@ -119,7 +119,7 @@ export const inviteCoupleMember = validatedActionWithUser(inviteCoupleMemberSche
 		.insert(invitations)
 		.values({
 			coupleId: userWithCouple.coupleId,
-			email,
+			email: email.toLowerCase(),
 			role,
 			invitedBy: user.id as string,
 			status: "pending",
@@ -133,3 +133,11 @@ export const inviteCoupleMember = validatedActionWithUser(inviteCoupleMemberSche
 
 	return { inviteId: invitation.id, success: "Invitation sent successfully" };
 });
+
+export const getInvitations = async (coupleId: number | undefined) => {
+	if (!coupleId) {
+		return [];
+	}
+	const invitationsByCouple = await db.select().from(invitations).where(eq(invitations.coupleId, coupleId));
+	return invitationsByCouple;
+};

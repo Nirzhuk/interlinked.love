@@ -2,12 +2,14 @@
 
 import { removeCoupleMember } from "@/app/(portal)/auth/actions";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Marquee from "@/components/ui/marquee";
-import type { CoupleDataWithMembers, Event, User } from "@/lib/db/schema";
+import type { CoupleDataWithMembers, Event, Invitation, User } from "@/lib/db/schema";
 import { customerPortalAction } from "@/lib/payments/actions";
 import { cn } from "@/lib/utils";
+import { useSession } from "next-auth/react";
 import { useActionState } from "react";
 import { InviteCoupleMember } from "./invite-couple";
 
@@ -19,7 +21,11 @@ type ActionState = {
 export function Settings({
 	coupleData,
 	upcomingEvents,
-}: { coupleData: CoupleDataWithMembers; upcomingEvents: Partial<Event>[] }) {
+	invitations,
+}: { coupleData: CoupleDataWithMembers; upcomingEvents: Partial<Event>[]; invitations: Invitation[] }) {
+	const session = useSession();
+	const user = session.data?.user;
+
 	const [removeState, removeAction, isRemovePending] = useActionState<ActionState, FormData>(removeCoupleMember, {
 		error: "",
 		success: "",
@@ -115,6 +121,27 @@ export function Settings({
 				</CardContent>
 			</Card>
 			<InviteCoupleMember />
+			{user?.role === "owner" && (
+				<Card className="mt-8">
+					<CardHeader>
+						<CardTitle>Invitations</CardTitle>
+					</CardHeader>
+					<CardContent>
+						<ul className="space-y-4">
+							{invitations.map((invitation, index) => (
+								<li key={invitation.id} className="flex items-center justify-between">
+									<div className="flex items-center space-x-4">
+										<p className="font-medium">{invitation.email}</p>
+										<p className="text-sm text-muted-foreground capitalize">{invitation.role}</p>
+										<Badge variant="outline">{invitation.status}</Badge>
+									</div>
+								</li>
+							))}
+						</ul>
+						{removeState?.error && <p className="text-red-500 mt-4">{removeState.error}</p>}
+					</CardContent>
+				</Card>
+			)}
 		</section>
 	);
 }
