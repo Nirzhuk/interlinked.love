@@ -25,11 +25,7 @@ import { ColorSelector } from "./selectors/color-selector";
 
 const extensions = [...defaultExtensions];
 
-const TailwindEditor = ({
-	content,
-	editable = false,
-	name,
-}: { content: JSONContent; editable?: boolean; name?: string }) => {
+const Editor = ({ content, editable = false, name }: { content: JSONContent; editable?: boolean; name?: string }) => {
 	const [initialValue, setInitialValue] = useState<JSONContent | undefined>(content || defaultValue);
 	const [saveStatus, setSaveStatus] = useState<"Saved" | "Unsaved">("Saved");
 
@@ -105,4 +101,4 @@ const TailwindEditor = ({
 		</div>
 	);
 };
-export default TailwindEditor;
+export default Editor;

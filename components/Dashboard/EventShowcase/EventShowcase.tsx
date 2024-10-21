@@ -2,7 +2,7 @@
 
 import Comments from "@/components/Dashboard/Comments";
 import NewCommentForm from "@/components/Dashboard/Forms/NewCommentForm";
-import TailwindEditor from "@/components/TailwindEditor";
+import Editor from "@/components/Editor";
 
 import { useCalendar } from "@/contexts/CalendarContext/CalendarContext";
 import type { Event } from "@/lib/db/schema";
@@ -43,7 +43,7 @@ const EventShowcase = ({ event }: { event: Partial<Event> }) => {
 				<div>
 					<p className="text-xs text-muted-foreground">Content: </p>
 					<div className="prose">
-						<TailwindEditor content={event.content as JSONContent} />
+						<Editor content={event.content as JSONContent} />
 					</div>
 				</div>
 			</div>

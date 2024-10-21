@@ -3,7 +3,7 @@
 import { createEventAction, updateEventAction } from "@/app/(app)/app/calendar/actions";
 import { Button } from "@/components/ui/button";
 
-import TailwindEditor from "@/components/TailwindEditor";
+import Editor from "@/components/Editor";
 import { DatePicker } from "@/components/ui/date-picker";
 import { DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -113,7 +113,7 @@ const EventForm = ({ mode, event }: EditEventFormProps) => {
 						</span>
 					}
 				>
-					<TailwindEditor name="content" content={eventState?.content as JSONContent} editable={true} />
+					<Editor name="content" content={eventState?.content as JSONContent} editable={true} />
 				</FormField>
 			</div>
 			<DialogFooter>
