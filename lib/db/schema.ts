@@ -14,7 +14,7 @@ import {
 import type { AdapterAccount } from "next-auth/adapters";
 
 export const coupleEnum = pgEnum("couple_type", ["couple", "group"]);
-export const invitationStatusEnum = pgEnum("invitation_status", ["pending", "accepted", "declined"]);
+export const invitationStatusEnum = pgEnum("invitation_status", ["pending", "accepted", "declined", "cancelled"]);
 
 export const users = pgTable("users", {
 	id: text("id")

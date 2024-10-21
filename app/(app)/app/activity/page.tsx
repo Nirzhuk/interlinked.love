@@ -72,6 +72,8 @@ function formatAction(action: ActivityType): string {
 			return "You created a comment";
 		case ActivityType.DELETE_COMMENT:
 			return "You deleted a comment";
+		case ActivityType.CREATE_EVENT:
+			return "You created an event";
 		case ActivityType.DELETE_EVENT:
 			return "You deleted an event";
 		case ActivityType.UPDATE_EVENT:

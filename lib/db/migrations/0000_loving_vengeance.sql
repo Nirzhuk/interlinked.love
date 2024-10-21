@@ -1,3 +1,15 @@
+DO $$ BEGIN
+ CREATE TYPE "public"."couple_type" AS ENUM('couple', 'group');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ CREATE TYPE "public"."invitation_status" AS ENUM('pending', 'accepted', 'declined', 'cancelled');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "account" (
 	"userId" text NOT NULL,
 	"type" text NOT NULL,
@@ -53,6 +65,7 @@ CREATE TABLE IF NOT EXISTS "couples" (
 	"stripe_product_id" text,
 	"plan_name" varchar(50),
 	"subscription_status" varchar(20),
+	"type" "couple_type" DEFAULT 'couple' NOT NULL,
 	CONSTRAINT "couples_stripe_customer_id_unique" UNIQUE("stripe_customer_id"),
 	CONSTRAINT "couples_stripe_subscription_id_unique" UNIQUE("stripe_subscription_id")
 );
@@ -88,7 +101,7 @@ CREATE TABLE IF NOT EXISTS "invitations" (
 	"role" varchar(50) NOT NULL,
 	"invited_by" text NOT NULL,
 	"invited_at" timestamp DEFAULT now() NOT NULL,
-	"status" varchar(20) DEFAULT 'pending' NOT NULL
+	"status" "invitation_status" DEFAULT 'pending' NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "session" (
@@ -100,9 +113,10 @@ CREATE TABLE IF NOT EXISTS "session" (
 CREATE TABLE IF NOT EXISTS "users" (
 	"id" text PRIMARY KEY NOT NULL,
 	"name" varchar(100) NOT NULL,
+	"password" text,
 	"email" varchar(255) NOT NULL,
 	"emailVerified" timestamp,
-	"password" text,
+	"image" text,
 	"role" varchar(20) DEFAULT 'member' NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL,
