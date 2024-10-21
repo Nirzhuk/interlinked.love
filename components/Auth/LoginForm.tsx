@@ -54,7 +54,7 @@ export function LoginForm() {
 					className="space-y-6"
 					action={async (formData) => {
 						await signIn("credentials", {
-							email: formData.get("email"),
+							email: formData.get("email")?.toString().trim().toLowerCase(),
 							password: formData.get("password"),
 							redirect: true,
 							redirectTo: "/app",

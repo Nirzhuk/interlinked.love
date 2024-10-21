@@ -81,7 +81,7 @@ export const inviteCoupleMember = validatedActionWithUser(inviteCoupleMemberSche
 	const { email, role } = data;
 
 	const userWithCouple = await getUserWithCouple(user.id as string);
-
+	const emailTrimmed = email.toLowerCase().trim();
 	if (!userWithCouple?.coupleId) {
 		return { error: "User is not part of a couple" };
 	}
@@ -90,7 +90,7 @@ export const inviteCoupleMember = validatedActionWithUser(inviteCoupleMemberSche
 		.select()
 		.from(users)
 		.leftJoin(coupleMembers, eq(users.id, coupleMembers.userId))
-		.where(and(eq(users.email, email.toLowerCase()), eq(coupleMembers.coupleId, userWithCouple.coupleId)))
+		.where(and(eq(users.email, emailTrimmed), eq(coupleMembers.coupleId, userWithCouple.coupleId)))
 		.limit(1);
 
 	if (existingMember.length > 0) {
@@ -103,7 +103,7 @@ export const inviteCoupleMember = validatedActionWithUser(inviteCoupleMemberSche
 		.from(invitations)
 		.where(
 			and(
-				eq(invitations.email, email),
+				eq(invitations.email, emailTrimmed),
 				eq(invitations.coupleId, userWithCouple.coupleId),
 				eq(invitations.status, "pending"),
 			),
@@ -119,7 +119,7 @@ export const inviteCoupleMember = validatedActionWithUser(inviteCoupleMemberSche
 		.insert(invitations)
 		.values({
 			coupleId: userWithCouple.coupleId,
-			email: email.toLowerCase(),
+			email: emailTrimmed,
 			role,
 			invitedBy: user.id as string,
 			status: "pending",
