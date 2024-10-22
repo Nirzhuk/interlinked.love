@@ -24,28 +24,8 @@ const TODO_ITEMS: RoadmapItem[] = [
 	},
 	{
 		title: "Add Property 'Project' to the Event",
-		description: "Add Property 'Project' to the Events so we can filter them in the calendar and list them properly.",
-		status: "TODO",
-		type: "FEATURE",
-		paidFeature: false,
-	},
-	{
-		title: "Voting/Karma System",
-		description: "Add a voting system to the app so users can vote on the events and decide if they like it or not.",
-		status: "TODO",
-		type: "FEATURE",
-		paidFeature: true,
-	},
-	{
-		title: "Ping to the Event",
-		description: "Ping system so other users can create a alert for an event to other users to check it out.",
-		status: "TODO",
-		type: "FEATURE",
-		paidFeature: true,
-	},
-	{
-		title: "Add image to the Event",
-		description: "Add image to the Event so we can show it in the calendar and list them properly.",
+		description:
+			"Add Property 'Project' to the Events so we can filter them in the calendar and list by project (example: Japan Trip 2025).",
 		status: "TODO",
 		type: "FEATURE",
 		paidFeature: false,
@@ -76,6 +56,27 @@ const TODO_ITEMS: RoadmapItem[] = [
 		description: "Redesign the Main Dashboard to be more user friendly and intuitive.",
 		status: "TODO",
 		type: "DESIGN",
+		paidFeature: false,
+	},
+	{
+		title: "Voting/Karma System",
+		description: "Add a voting system to the app so users can vote on the events and decide if they like it or not.",
+		status: "TODO",
+		type: "FEATURE",
+		paidFeature: true,
+	},
+	{
+		title: "Ping to the Event",
+		description: "Ping system so other users can create a alert for an event to other users to check it out.",
+		status: "TODO",
+		type: "FEATURE",
+		paidFeature: true,
+	},
+	{
+		title: "Add image to the Event",
+		description: "Add image to the Event so we can show it in the calendar and list them properly.",
+		status: "TODO",
+		type: "FEATURE",
 		paidFeature: false,
 	},
 ];
