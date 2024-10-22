@@ -57,7 +57,7 @@ export function LoginForm() {
 							email: formData.get("email")?.toString().trim().toLowerCase(),
 							password: formData.get("password"),
 							redirect: true,
-							redirectTo: "/app",
+							redirectTo: "/app/calendar",
 						});
 					}}
 				>

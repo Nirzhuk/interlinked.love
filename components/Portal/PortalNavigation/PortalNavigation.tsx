@@ -16,11 +16,9 @@ import Link from "next/link";
 
 import { useState } from "react";
 
-const Header = () => {
+const PortalNavigation = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const session = useSession();
-	/* const { user, setUser } = useUser();
-	const router = useRouter(); */
 
 	const user = session.data?.user;
 	return (
@@ -30,9 +28,12 @@ const Header = () => {
 					<HeartIcon className="h-6 w-6 text-violet-500" />
 					<span className="ml-2 text-xl font-semibold text-gray-900">Interlinked.love</span>
 				</Link>
-				<div className="flex items-center space-x-4">
+				<nav className="flex items-center space-x-4">
 					<Link href="/pricing" className="text-sm font-medium text-gray-700 hover:text-gray-900">
 						Pricing
+					</Link>
+					<Link href="/roadmap" className="text-sm font-medium text-gray-700 hover:text-gray-900">
+						Roadmap
 					</Link>
 					{user ? (
 						<DropdownMenu open={isMenuOpen} onOpenChange={setIsMenuOpen}>
@@ -69,10 +70,10 @@ const Header = () => {
 							<Link href="/auth/sign-up">Sign Up</Link>
 						</Button>
 					)}
-				</div>
+				</nav>
 			</div>
 		</header>
 	);
 };
 
-export default Header;
+export default PortalNavigation;

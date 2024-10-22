@@ -1,5 +1,5 @@
 import "../globals.css";
-import Header from "@/components/Portal/Header";
+import PortalNavigation from "@/components/Portal/PortalNavigation";
 import type { Metadata, Viewport } from "next";
 import { SessionProvider } from "next-auth/react";
 export const metadata: Metadata = {
@@ -20,8 +20,8 @@ export default function RootLayout({
 		<body className="min-h-[100dvh] bg-gray-50">
 			<SessionProvider>
 				<section className="flex flex-col min-h-screen">
-					<Header />
-					{children}
+					<PortalNavigation />
+					<main>{children}</main>
 				</section>
 			</SessionProvider>
 		</body>

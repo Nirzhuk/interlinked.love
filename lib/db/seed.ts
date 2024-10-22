@@ -55,6 +55,7 @@ async function seed() {
 			},
 		])
 		.returning();
+	console.log("Initial user created.");
 	const [user2] = await db
 		.insert(users)
 		.values([
@@ -67,7 +68,7 @@ async function seed() {
 		])
 		.returning();
 
-	console.log("Initial user created.");
+	console.log("Second user created.");
 
 	const [couple] = await db
 		.insert(couples)
@@ -75,6 +76,8 @@ async function seed() {
 			name: "Test Couple",
 		})
 		.returning();
+
+	console.log("Couple created.");
 
 	await db.insert(coupleMembers).values({
 		coupleId: couple.id,
@@ -86,6 +89,7 @@ async function seed() {
 		userId: user2.id,
 		role: "owner",
 	});
+	console.log("Couple members created.");
 
 	const eventData = [
 		{
@@ -107,7 +111,7 @@ async function seed() {
 			description: "Test Description 3",
 		},
 	];
-
+	console.log("Event data created.");
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	const eventIds: any[] = [];
 
@@ -128,7 +132,7 @@ async function seed() {
 
 		eventIds.push(eventt.id);
 	}
-	console.log(eventIds);
+	console.log("Event ids created.");
 
 	await db.insert(eventsComments).values({
 		content: "This is a test comment",

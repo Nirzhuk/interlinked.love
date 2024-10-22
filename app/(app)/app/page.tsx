@@ -20,10 +20,9 @@ export default async function SettingsPage() {
 
 	const invitations = await getInvitations(coupleData?.id);
 
-	console.log("invitations", invitations);
-
 	if (!coupleData) {
-		throw new Error("Couple not found");
+		console.log("Couple not found in app page");
+		redirect("/auth/sign-in?error=no-couple-user-auth&code=no-couple");
 	}
 
 	return <Settings coupleData={coupleData} upcomingEvents={upcomingEvents} invitations={invitations} />;
