@@ -1,4 +1,4 @@
-import "dotenv/config";
+import "./scripts/envConfig";
 import type { Config } from "drizzle-kit";
 
 export default {
@@ -8,4 +8,6 @@ export default {
 	dbCredentials: {
 		url: process.env.POSTGRES_URL!,
 	},
+	verbose: true,
+	strict: true,
 } satisfies Config;
