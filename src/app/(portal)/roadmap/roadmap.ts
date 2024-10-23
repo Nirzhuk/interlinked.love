@@ -9,6 +9,13 @@ const TODO_ITEMS: RoadmapItem[] = [
 		paidFeature: false,
 	},
 	{
+		title: "Add forgot password & reset password flow",
+		description: "Add forgot password so users can reset their password.",
+		status: "TODO",
+		type: "FEATURE",
+		paidFeature: false,
+	},
+	{
 		title: "Send email when invite user to group/couple",
 		description: "Send email when invite user to group/couple",
 		status: "TODO",
@@ -78,6 +85,13 @@ const TODO_ITEMS: RoadmapItem[] = [
 		status: "TODO",
 		type: "FEATURE",
 		paidFeature: false,
+	},
+	{
+		title: "3D Map of the location",
+		description: "Add a 3D map of the location so we can show it in the calendar and list them properly.",
+		status: "TODO",
+		type: "FEATURE",
+		paidFeature: true,
 	},
 ];
 const WORKING_ITEMS: RoadmapItem[] = [
