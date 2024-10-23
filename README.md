@@ -1,7 +1,7 @@
 # Interlinked.love
 
 
-**Demo: [https://interlinked.love/](https://interlinked.adophite.com/)**
+**Demo: [https://interlinked.so/](https://interlinked.adophite.com/)**
 
 <details>
   <summary>Why did I make this?</summary>

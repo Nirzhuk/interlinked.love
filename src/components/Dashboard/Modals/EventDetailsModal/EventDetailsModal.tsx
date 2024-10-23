@@ -36,7 +36,7 @@ const EventDetailsModal: React.FC<EventDetailsModalProps> = memo(({ isOpen, onCh
 
 	return (
 		<Dialog open={isOpen} onOpenChange={onChange}>
-			<DialogContent>
+			<DialogContent noCloseButton={false}>
 				<DialogHeader className="mt-2 flex flex-row place-items-center items-center justify-between">
 					<DialogTitle>
 						<span className="font-semibold">{event.title}</span>

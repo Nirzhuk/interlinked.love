@@ -66,8 +66,8 @@ const EventForm = ({ mode, event }: EditEventFormProps) => {
 
 	return (
 		<form action={formAction}>
-			<div className="grid gap-4 py-4">
-				<div className="flex gap-2">
+			<div className="grid gap-4 py-4 max-w-[90vw]">
+				<div className="flex gap-2 max-w-[90vw]">
 					<input type="hidden" name="eventId" value={eventState?.id} />
 					<FormField label="Title" required>
 						<Input name="title" required defaultValue={eventState?.title || ""} />
@@ -81,7 +81,7 @@ const EventForm = ({ mode, event }: EditEventFormProps) => {
 					</FormField>
 				</div>
 
-				<div className="flex gap-2">
+				<div className="flex gap-2 max-w-[90vw]">
 					<FormField label="Start Date" required>
 						<DatePicker
 							id="initialDate"

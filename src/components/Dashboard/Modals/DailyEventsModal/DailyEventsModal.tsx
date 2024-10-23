@@ -32,6 +32,7 @@ const DailyEventsModal = ({
 }: DailyEventsModalProps) => {
 	const [selectedEvent, setSelectedEvent] = useState<Partial<Event> | null>(null);
 	const [modalState, setModalState] = useState<"edit" | "showcase" | "general">("general");
+	const isMobile = window.innerWidth < 768; //Add the width you want to check for here (now 768px)
 
 	return (
 		<Dialog
@@ -59,7 +60,7 @@ const DailyEventsModal = ({
 								animate={{
 									top: `calc(50% - ${modalPosition.height / 2}px)`,
 									left: "calc(50% - 12rem)",
-									width: modalState !== "general" ? "60%" : "90%",
+									width: isMobile ? "95vw" : modalState !== "general" ? "60vw" : "90vw", //TODO: Improve
 									height: "auto",
 								}}
 								exit={modalPosition}

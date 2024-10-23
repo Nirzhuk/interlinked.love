@@ -97,7 +97,7 @@ const Header = () => {
 								key={route.url}
 								href={route.url}
 								className={cn(
-									"text-sm font-medium",
+									" font-medium",
 									isActiveRoute(route.url) ? "text-violet-900 font-bold" : "text-gray-700 hover:text-violet-900",
 									route.url === "/app/calendar" && "font-bold uppercase",
 								)}

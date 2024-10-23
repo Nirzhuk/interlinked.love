@@ -150,6 +150,13 @@ async function generateAuthSecret() {
 	await execAsync("npx auth secret");
 }
 
+async function askSelfHost() {
+	console.info("Step 5: Generating AUTH_SECRET...");
+	const answer = await question("Are you hosting this app on your own server (Remove Stripe integration)? (y/n): ");
+
+	return answer.toLowerCase() === "y";
+}
+
 async function writeEnvFile(envVars: Record<string, string>) {
 	console.info("Step 6: Writing environment variables to .env");
 	const envContent = Object.entries(envVars)
@@ -164,18 +171,25 @@ async function main() {
 	await checkStripeCLI();
 
 	const POSTGRES_URL = await getPostgresURL();
-	/* 	const STRIPE_SECRET_KEY = await getStripeSecretKey();
-	const STRIPE_WEBHOOK_SECRET = await createStripeWebhook();
+	const SELF_HOST = await askSelfHost();
+	let StripeKeys = null;
+	if (!SELF_HOST) {
+		const STRIPE_SECRET_KEY = await getStripeSecretKey();
+		const STRIPE_WEBHOOK_SECRET = await createStripeWebhook();
+		StripeKeys = {
+			STRIPE_SECRET_KEY,
+			STRIPE_WEBHOOK_SECRET,
+		};
+	}
 	const NEXT_PUBLIC_BASE_URL = "http://localhost:3000";
-	generateAuthSecret(); */
-
 	await writeEnvFile({
 		POSTGRES_URL,
-		/* 		STRIPE_SECRET_KEY,
-		STRIPE_WEBHOOK_SECRET,
+		...StripeKeys,
 		NEXT_PUBLIC_BASE_URL,
-		*/
+		SELF_HOST: SELF_HOST ? "true" : "false",
 	});
+
+	generateAuthSecret();
 
 	console.info("🎉 Setup completed successfully!");
 }
