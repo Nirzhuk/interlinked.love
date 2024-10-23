@@ -152,7 +152,7 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
 					<div className="my-1 px-2 text-sm font-semibold text-muted-foreground">Background</div>
 					{HIGHLIGHT_COLORS.map(({ name, color }, index) => (
 						<EditorBubbleItem
-							key={`${name}-${index}`}
+							key={`${name}-${Math.random()}`}
 							onSelect={() => {
 								editor.commands.unsetHighlight();
 								name !== "Default" && editor.chain().focus().setHighlight({ color }).run();

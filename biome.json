@@ -28,7 +28,7 @@
 		"rules": {
 			"recommended": true,
 			"suspicious": {
-				"noConsoleLog": "info"
+				"noConsoleLog": "warn"
 			},
 			"a11y": {
 				"useSemanticElements": "off"

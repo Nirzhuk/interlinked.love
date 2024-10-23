@@ -26,6 +26,7 @@ const BentoCard = ({
 	name: string;
 	className: string;
 	background: ReactNode;
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	Icon: any;
 	description: string;
 	href: string;

@@ -4,7 +4,7 @@ import { db } from "./drizzle";
 import { events, coupleMembers, couples, eventsComments, users } from "./schema";
 
 async function createStripeProducts() {
-	console.log("Creating Stripe products and prices...");
+	console.info("Creating Stripe products and prices...");
 
 	const baseProduct = await stripe.products.create({
 		name: "Couple",
@@ -36,7 +36,7 @@ async function createStripeProducts() {
 		},
 	}); */
 
-	console.log("Stripe products and prices created successfully.");
+	console.info("Stripe products and prices created successfully.");
 }
 
 async function seed() {
@@ -55,7 +55,7 @@ async function seed() {
 			},
 		])
 		.returning();
-	console.log("Initial user created.");
+	console.info("Initial user created.");
 	const [user2] = await db
 		.insert(users)
 		.values([
@@ -68,7 +68,7 @@ async function seed() {
 		])
 		.returning();
 
-	console.log("Second user created.");
+	console.info("Second user created.");
 
 	const [couple] = await db
 		.insert(couples)
@@ -77,7 +77,7 @@ async function seed() {
 		})
 		.returning();
 
-	console.log("Couple created.");
+	console.info("Couple created.");
 
 	await db.insert(coupleMembers).values({
 		coupleId: couple.id,
@@ -89,7 +89,7 @@ async function seed() {
 		userId: user2.id,
 		role: "owner",
 	});
-	console.log("Couple members created.");
+	console.info("Couple members created.");
 
 	const eventData = [
 		{
@@ -111,7 +111,7 @@ async function seed() {
 			description: "Test Description 3",
 		},
 	];
-	console.log("Event data created.");
+	console.info("Event data created.");
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	const eventIds: any[] = [];
 
@@ -132,7 +132,7 @@ async function seed() {
 
 		eventIds.push(eventt.id);
 	}
-	console.log("Event ids created.");
+	console.info("Event ids created.");
 
 	await db.insert(eventsComments).values({
 		content: "This is a test comment",
@@ -141,7 +141,7 @@ async function seed() {
 		coupleId: couple.id,
 	});
 
-	console.log("Multiple events created for the test couple.");
+	console.info("Multiple events created for the test couple.");
 
 	await createStripeProducts();
 }
@@ -152,6 +152,6 @@ seed()
 		process.exit(1);
 	})
 	.finally(() => {
-		console.log("Seed process finished. Exiting...");
+		console.info("Seed process finished. Exiting...");
 		process.exit(0);
 	});

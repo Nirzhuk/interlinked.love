@@ -5,14 +5,19 @@ import type { User } from "next-auth";
 import { redirect } from "next/navigation";
 import type { z } from "zod";
 
+//TODO Remove any types for Generics
+
 export type ActionState = {
 	error?: string;
 	success?: string;
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	[key: string]: any; // This allows for additional properties
 };
 
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 type ValidatedActionFunction<S extends z.ZodType<any, any>, T> = (data: z.infer<S>, formData: FormData) => Promise<T>;
 
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export function validatedAction<S extends z.ZodType<any, any>, T>(schema: S, action: ValidatedActionFunction<S, T>) {
 	return async (prevState: ActionState, formData: FormData): Promise<T> => {
 		const result = schema.safeParse(Object.fromEntries(formData));
@@ -26,12 +31,14 @@ export function validatedAction<S extends z.ZodType<any, any>, T>(schema: S, act
 	};
 }
 
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 type ValidatedActionWithUserFunction<S extends z.ZodType<any, any>, T> = (
 	data: z.infer<S>,
 	formData: FormData,
 	user: User,
 ) => Promise<T>;
 
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export function validatedActionWithUser<S extends z.ZodType<any, any>, T>(
 	schema: S,
 	action: ValidatedActionWithUserFunction<S, T>,

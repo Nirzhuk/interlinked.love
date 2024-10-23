@@ -52,7 +52,7 @@ export async function POST(req: Request) {
 			},
 		});
 	} catch (error) {
-		console.log(error);
+		console.info(error);
 		if (error instanceof ZodError) {
 			return NextResponse.json(
 				{

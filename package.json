@@ -13,7 +13,7 @@
 		"db:clear": "npx tsx lib/db/clear.ts",
 		"db:studio": "drizzle-kit studio",
 		"prepare": "husky",
-		"lint": "biome check --write"
+		"lint": "biome check --write src"
 	},
 	"dependencies": {
 		"@auth/drizzle-adapter": "1.7.1",
