@@ -1,14 +1,19 @@
 "use client";
+
+import { AnimatePresence, motion } from "framer-motion";
+import { ArrowLeftIcon } from "lucide-react";
+
+import { useState } from "react";
+
 import EventShowcase from "@/components/Dashboard/EventShowcase";
 import EventForm from "@/components/Dashboard/Forms/EventForm";
 import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Cross2Icon } from "@radix-ui/react-icons";
+
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 import type { Event } from "@/lib/db/schema";
-import { Cross2Icon } from "@radix-ui/react-icons";
-import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeftIcon } from "lucide-react";
-import React, { useState } from "react";
-import DayEventsModalCard from "./DailyEventsModalCard";
+import DailyEventsModalCard from "./DailyEventsModalCard";
 
 interface DailyEventsModalProps {
 	events: Partial<Event>[];
@@ -32,7 +37,7 @@ const DailyEventsModal = ({
 }: DailyEventsModalProps) => {
 	const [selectedEvent, setSelectedEvent] = useState<Partial<Event> | null>(null);
 	const [modalState, setModalState] = useState<"edit" | "showcase" | "general">("general");
-	const isMobile = window.innerWidth < 768; //Add the width you want to check for here (now 768px)
+	const isMobile = useMediaQuery("(max-width: 768px)");
 
 	return (
 		<Dialog
@@ -138,7 +143,7 @@ const DailyEventsModal = ({
 											{events.length > 0 ? (
 												<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 													{events.map((event) => (
-														<DayEventsModalCard
+														<DailyEventsModalCard
 															key={event.id}
 															event={event}
 															onClickEditButton={(eve) => {
