@@ -3,6 +3,8 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 });
 
 const nextConfig = {
+	output: "standalone",
+	compress: false,
 	async headers() {
 		return [
 			{
