@@ -1,6 +1,7 @@
 "use server"; // don't forget to add this!
 
 import { auth } from "@/auth";
+import { InviteToCoupleEmail } from "@/emails/emails/invite-to-couple";
 import { validatedActionWithUser } from "@/lib/auth/middleware";
 import { db } from "@/lib/db/drizzle";
 import { getUserWithCouple } from "@/lib/db/queries";
@@ -14,6 +15,7 @@ import {
 	invitations,
 	users,
 } from "@/lib/db/schema";
+import { resend } from "@/lib/resend";
 import { actionClient } from "@/lib/safe-action";
 import { and, eq } from "drizzle-orm";
 import { z } from "zod";
@@ -131,6 +133,18 @@ export const inviteCoupleMember = validatedActionWithUser(inviteCoupleMemberSche
 	// TODO: Send invitation email and include ?inviteId={id} to sign-up URL
 	// await sendInvitationEmail(email, userWithCouple.couple.name, role)
 
+	const emailResponse = await resend.emails.send({
+		from: "Interlinked <team@interlinked.love>",
+		to: [email],
+		subject: `You have been invited to join ${userWithCouple.coupleName}`,
+		react: InviteToCoupleEmail({
+			inviteCode: invitation.id,
+			coupleName: userWithCouple.coupleName ?? "",
+			userName: user.name ?? "",
+			typeOfInvite: userWithCouple.coupleType ?? "couple",
+		}),
+	});
+	console.info(emailResponse);
 	return { inviteId: invitation.id, success: "Invitation sent successfully" };
 });
 

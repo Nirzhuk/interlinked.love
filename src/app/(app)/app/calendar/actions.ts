@@ -148,3 +148,20 @@ export const updateEventAction = validatedActionWithUser(editEventSchema, async 
 		event: updatedEvent,
 	};
 });
+
+const removeEventSchema = z.object({
+	eventId: z.string().transform((value) => Number(value)),
+});
+
+export const removeEventAction = validatedActionWithUser(removeEventSchema, async (data, _, user) => {
+	const { eventId } = data;
+	const userWithCouple = await getUserWithCouple(user.id as string);
+	if (!userWithCouple) {
+		return { error: "User is not in a couple." };
+	}
+	await db.delete(events).where(eq(events.id, eventId));
+	await logActivity(userWithCouple.coupleId, user.id as string, ActivityType.DELETE_EVENT);
+	return {
+		success: "Event deleted successfully.",
+	};
+});

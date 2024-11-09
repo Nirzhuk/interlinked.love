@@ -6,6 +6,8 @@
 .pnp.js
 .yarn/install-state.gz
 
+src/emails/.react-email/
+src/emails/node_modules/
 # testing
 /coverage
 

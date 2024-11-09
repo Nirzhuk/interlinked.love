@@ -70,13 +70,6 @@ export function InviteCoupleMember() {
 							</>
 						)}
 					</Button>
-					<h2>Due the feature being in development, invite the user and after that give them this link</h2>
-					{inviteState?.inviteId && (
-						<pre>
-							{process.env.NEXT_PUBLIC_BASE_URL}/auth/sign-up?inviteId=
-							{inviteState?.inviteId}
-						</pre>
-					)}
 				</form>
 			</CardContent>
 			{!isOwner && (
