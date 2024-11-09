@@ -10,6 +10,7 @@ const withPWA = require("next-pwa")({
 
 const nextConfig = {
 	output: "standalone",
+	compress: false,
 	async headers() {
 		return [
 			{

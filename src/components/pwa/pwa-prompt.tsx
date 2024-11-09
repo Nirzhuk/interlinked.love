@@ -1,7 +1,7 @@
 "use client";
 import { dismissPwaPromptCookieAction } from "@/app/actions";
 
-import { PlusIcon, X, XIcon } from "lucide-react";
+import { PlusIcon, ShareIcon, X, XIcon } from "lucide-react";
 
 import { useEffect, useState } from "react";
 
@@ -38,14 +38,15 @@ const PwaPrompt = ({ closed }: { closed: boolean }) => {
 				<XIcon className="w-4 h-4 inline" onClick={handleDismiss} />
 			</div>
 			<div className="mt-2 text-sm space-y-1 text-muted-foreground">
+				<p className="flex items-center gap-1">1. Open Safari</p>
 				<p className="flex items-center gap-1">
-					1. Tap the share button
+					2. Tap the share button
 					<span role="img" aria-label="share icon" className="inline-block">
-						⎋
+						<ShareIcon className="w-4 h-4 inline" />
 					</span>
 				</p>
 				<p className="flex items-center gap-1">
-					2. Select "Add to Home Screen"
+					3. Select "Add to Home Screen"
 					<PlusIcon className="w-4 h-4 inline" />
 				</p>
 			</div>
