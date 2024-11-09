@@ -59,7 +59,7 @@ const Editor = ({ content, editable = false, name }: { content: JSONContent; edi
 					}}
 					className={cn(
 						"relative h-auto min-h-[60px] max-h-[300px] bg-background  sm:rounded-lg sm:border ring-0 focus:ring-0",
-						editable ? "border-muted dark:bg-zinc-950" : "pointer-events-none border-none dark:bg-zinc-900",
+						editable ? "border-muted dark:bg-zinc-950" : "border-none dark:bg-zinc-900",
 					)}
 				>
 					{/*  Need to fix this

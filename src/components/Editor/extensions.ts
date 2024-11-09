@@ -26,6 +26,9 @@ const tiptapLink = TiptapLink.configure({
 			"text-muted-foreground underline underline-offset-[3px] hover:text-primary transition-colors cursor-pointer",
 		),
 	},
+	openOnClick: true,
+	autolink: true,
+	defaultProtocol: "https",
 });
 
 const tiptapImage = TiptapImage.extend({
