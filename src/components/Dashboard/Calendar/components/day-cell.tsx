@@ -65,6 +65,14 @@ const DayCell = memo(({ day, events, currentDate, eventLayers, hasComments }: Da
 				currentDay.getTime() ===
 				new Date(eventEndDate.getFullYear(), eventEndDate.getMonth(), eventEndDate.getDate()).getTime();
 
+			//TODO Refactor LayerIndexes to generate better events
+			// Rules:
+			// 1. If the event is the first of the day, it should be on top
+			// 2. If the event is the last of the day, it should be on top
+			// 3. If the event is in the same layer as the previous event, it should be on top
+			// 4. If the event is in the same layer as the next event, it should be in the bottom layers or not shown.
+			// 5. If the event finishes the same day and starts the same day should be in the bottom layers or not shown.
+
 			const layerIndex = eventLayers.findIndex((layer) => layer.includes(event));
 
 			const style = eventColorStyle[event.color as keyof typeof eventColorStyle];
@@ -72,12 +80,12 @@ const DayCell = memo(({ day, events, currentDate, eventLayers, hasComments }: Da
 			const eventClass = cn(
 				"hidden sm:block absolute left-0 right-0 text-xs p-1 overflow-hidden",
 				"border-t border-b",
-				isFirstDay && "rounded-l-md  border-l ",
-				isLastDay && "rounded-r-md mr-2 border-r",
+				isFirstDay && "rounded-l-md ml-0.5 border-l ",
+				isLastDay && "rounded-r-md mr-0.5 border-r",
 				"transition-colors duration-200 text-center ease-in-out cursor-pointer font-semibold ",
 			);
 
-			const isHighPositionedEvent = layerIndex >= 3 && events.length <= 2;
+			const isHighPositionedEvent = layerIndex >= MAX_VISIBLE_EVENTS && events.length <= 2;
 			if (layerIndex >= MAX_VISIBLE_EVENTS && !isHighPositionedEvent) return null;
 
 			const eventStyle: React.CSSProperties = {

@@ -52,13 +52,13 @@ const EventShowcase = ({ event }: EventShowcaseProps) => {
 						<Editor content={event.content as JSONContent} />
 					</div>
 				</div>
+				<hr className="my-2" />
 			</div>
-			<hr className="my-2" />
-			<div>
+			<div className="flex mt-8">
 				<h3 className="text-lg font-semibold mb-2">Comments:</h3>
 				{commentsEvent.length > 0 ? <Comments comments={commentsEvent} /> : <p>No comments yet</p>}
+				{event.id && <NewCommentForm eventId={event.id} />}
 			</div>
-			{event.id && <NewCommentForm eventId={event.id} />}
 		</>
 	);
 };
