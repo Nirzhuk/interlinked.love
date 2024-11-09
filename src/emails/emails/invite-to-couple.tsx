@@ -15,7 +15,7 @@ const mapTypeOfInvite: Record<InviteToCoupleEmailProps["typeOfInvite"], string> 
 	group: "Group",
 };
 
-const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "";
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ? `${process.env.NEXT_PUBLIC_BASE_URL}` : "";
 
 export const InviteToCoupleEmail = ({ inviteCode, coupleName, userName, typeOfInvite }: InviteToCoupleEmailProps) => (
 	<EmailWrapper>
@@ -25,7 +25,7 @@ export const InviteToCoupleEmail = ({ inviteCode, coupleName, userName, typeOfIn
 					alt="Love"
 					className="w-full rounded-[12px] object-cover border border-gray-300"
 					height={320}
-					src={`${baseUrl}/static/hearts-luv.png`}
+					src={`${baseUrl}/images/hearts-luv.png`}
 				/>
 				<Section className="mt-[32px] text-center">
 					<Text className="mt-[16px] text-[18px] font-semibold leading-[28px] text-indigo-600">

@@ -130,9 +130,6 @@ export const inviteCoupleMember = validatedActionWithUser(inviteCoupleMemberSche
 
 	await logActivity(userWithCouple.coupleId, user.id as string, ActivityType.INVITE_COUPLE_MEMBER);
 
-	// TODO: Send invitation email and include ?inviteId={id} to sign-up URL
-	// await sendInvitationEmail(email, userWithCouple.couple.name, role)
-
 	const emailResponse = await resend.emails.send({
 		from: "Interlinked <team@interlinked.love>",
 		to: [email],
