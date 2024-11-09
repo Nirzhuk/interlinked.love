@@ -2,15 +2,17 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { useIsSelfHosted } from "@/hooks/use-self-hosted";
 
-import { Home, LogOut } from "lucide-react";
+import { Home, LayoutDashboard, LogOut, MenuIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
@@ -31,7 +33,7 @@ const PortalNavigation = () => {
 					<Image src="/icon-256x256.png" alt="Interlinked" width={24} height={24} />
 					<span className="ml-2 text-xl font-semibold text-gray-900">Interlinked.love</span>
 				</Link>
-				<nav className="flex items-center space-x-4">
+				<nav className="hidden md:flex items-center space-x-4">
 					{!isSelfHosted && (
 						<Link href="/pricing" className="text-sm font-medium text-gray-700 hover:text-gray-900">
 							Pricing
@@ -75,6 +77,37 @@ const PortalNavigation = () => {
 							<Link href="/auth/sign-up">Sign Up</Link>
 						</Button>
 					)}
+				</nav>
+				<nav className="md:hidden flex items-center space-x-4">
+					<Sheet>
+						<SheetTrigger asChild>
+							<Button variant="outline" size="icon">
+								<MenuIcon className="w-4 h-4" />
+							</Button>
+						</SheetTrigger>
+						<SheetContent>
+							<SheetHeader>
+								<SheetTitle>Interlinked</SheetTitle>
+							</SheetHeader>
+							<div className="flex flex-col gap-4 items-end">
+								<Link href="/pricing">Pricing</Link>
+								<Link href="/roadmap">Roadmap</Link>
+
+								{user && (
+									<>
+										<Link href="/app/calendar" className="flex items-center gap-2">
+											<LayoutDashboard className="mr-2 h-4 w-4" />
+											App Calendar
+										</Link>
+										<div className="flex items-center gap-2" onKeyDown={() => signOut()}>
+											<LogOut className="mr-2 h-4 w-4" />
+											<span>Sign out</span>
+										</div>
+									</>
+								)}
+							</div>
+						</SheetContent>
+					</Sheet>
 				</nav>
 			</div>
 		</header>

@@ -2,7 +2,7 @@
 	"name": "interlinked.love",
 	"private": true,
 	"scripts": {
-		"dev": "next dev --turbo --experimental-https",
+		"dev": "next dev --turbo ",
 		"build": "next build",
 		"start": "next start",
 		"analyze": "ANALYZE=true pnpm build",
