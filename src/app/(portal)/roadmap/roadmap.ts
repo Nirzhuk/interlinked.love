@@ -8,7 +8,6 @@ const TODO_ITEMS: RoadmapItem[] = [
 		type: "FEATURE",
 		paidFeature: false,
 	},
-
 	{
 		title: "Confirmation Emails in Register",
 		description: "Use Resend to send confirmation emails in the register flow",
@@ -23,13 +22,7 @@ const TODO_ITEMS: RoadmapItem[] = [
 		type: "FEATURE",
 		paidFeature: false,
 	},
-	{
-		title: "Send email when invite user to group/couple",
-		description: "Send email when invite user to group/couple",
-		status: "TODO",
-		type: "FEATURE",
-		paidFeature: false,
-	},
+
 	{
 		title: "Reminder Emails & Notifications",
 		description: "Send reminder emails and notifications to users when they have an event coming up.",
@@ -134,6 +127,13 @@ const WORKING_ITEMS: RoadmapItem[] = [
 	},
 ];
 const DONE_ITEMS: RoadmapItem[] = [
+	{
+		title: "Send email when invite user to group/couple",
+		description: "Send email when invite user to group/couple",
+		status: "DONE",
+		type: "FEATURE",
+		paidFeature: false,
+	},
 	{
 		title: "Change to Auth.js",
 		description: "Move from our own Auth to Auth.js to have a better user experience and 0Auth Integrations",
