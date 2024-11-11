@@ -93,7 +93,7 @@ const PortalNavigation = () => {
 								<Link href="/pricing">Pricing</Link>
 								<Link href="/roadmap">Roadmap</Link>
 
-								{user && (
+								{user ? (
 									<>
 										<Link href="/app/calendar" className="flex items-center gap-2">
 											<LayoutDashboard className="mr-2 h-4 w-4" />
@@ -104,6 +104,10 @@ const PortalNavigation = () => {
 											<span>Sign out</span>
 										</div>
 									</>
+								) : (
+									<Button asChild className="bg-black hover:bg-gray-800 text-white text-sm px-4 py-2 rounded-full">
+										<Link href="/auth/sign-up">Sign Up</Link>
+									</Button>
 								)}
 							</div>
 						</SheetContent>
