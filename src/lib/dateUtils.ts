@@ -31,3 +31,8 @@ export const parseUrlDate = (dateString: string | null): Date => {
 	const parsedDate = new Date(dateString);
 	return Number.isNaN(parsedDate.getTime()) ? new Date() : parsedDate;
 };
+
+export const concateDateAndTime = (date: Date, time: string) => {
+	const [hours, minutes] = time.split(":");
+	return new Date(date.setHours(Number.parseInt(hours), Number.parseInt(minutes))).toISOString();
+};

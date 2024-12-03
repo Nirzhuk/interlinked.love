@@ -22,7 +22,6 @@ const TODO_ITEMS: RoadmapItem[] = [
 		type: "FEATURE",
 		paidFeature: false,
 	},
-
 	{
 		title: "Reminder Emails & Notifications",
 		description: "Send reminder emails and notifications to users when they have an event coming up.",
@@ -104,13 +103,6 @@ const WORKING_ITEMS: RoadmapItem[] = [
 		paidFeature: false,
 	},
 	{
-		title: "PWA",
-		description: "Add PWA to the project",
-		status: "WORKING",
-		type: "FEATURE",
-		paidFeature: false,
-	},
-	{
 		title: "Open source",
 		description: "Open source the project",
 		status: "WORKING",
@@ -127,6 +119,13 @@ const WORKING_ITEMS: RoadmapItem[] = [
 	},
 ];
 const DONE_ITEMS: RoadmapItem[] = [
+	{
+		title: "PWA",
+		description: "Add PWA to the project",
+		status: "DONE",
+		type: "FEATURE",
+		paidFeature: false,
+	},
 	{
 		title: "Send email when invite user to group/couple",
 		description: "Send email when invite user to group/couple",

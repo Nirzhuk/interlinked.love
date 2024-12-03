@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
+import Link from "next/link";
 
 import React, { useMemo, useState, useCallback } from "react";
 
@@ -11,10 +12,9 @@ interface ControllersCalendarProps {
 	currentDate: Date;
 	prevMonth: () => void;
 	nextMonth: () => void;
-	setIsCreateModalOpen: (open: boolean) => void;
 }
 
-const CalendarControllers = ({ currentDate, prevMonth, nextMonth, setIsCreateModalOpen }: ControllersCalendarProps) => {
+const CalendarControllers = ({ currentDate, prevMonth, nextMonth }: ControllersCalendarProps) => {
 	return (
 		<section className="flex items-center justify-between w-full md:w-[50rem]">
 			<h2 className="text-2xl font-bold mr-4 relative h-10 overflow-hidden">
@@ -41,9 +41,11 @@ const CalendarControllers = ({ currentDate, prevMonth, nextMonth, setIsCreateMod
 					</Button>
 				</div>
 				<div className="flex justify-end">
-					<Button onClick={() => setIsCreateModalOpen(true)} variant="outline">
-						<Plus className="mr-2 h-4 w-4" /> New Event
-					</Button>
+					<Link href="/app/events/create">
+						<Button variant="outline">
+							<Plus className="mr-2 h-4 w-4" /> New Event
+						</Button>
+					</Link>
 				</div>
 			</div>
 		</section>

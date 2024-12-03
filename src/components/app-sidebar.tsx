@@ -42,12 +42,20 @@ const data = {
 		},
 		{
 			title: "Events",
-			url: "/app/events",
 			icon: CalendarHeartIcon,
+			items: [
+				{
+					title: "List",
+					url: "/app/events",
+				},
+				{
+					title: "Create Event",
+					url: "/app/events/create",
+				},
+			],
 		},
 		{
 			title: "Settings",
-			url: "#",
 			icon: Settings2,
 			items: [
 				{

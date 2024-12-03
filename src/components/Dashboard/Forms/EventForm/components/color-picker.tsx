@@ -34,7 +34,7 @@ export function ColorPicker({ name, defaultValue = "pink" }: ColorPickerProps) {
 	return (
 		<>
 			<input type="hidden" name={name} value={value} />
-			<RadioGroup onValueChange={setValue} defaultValue={value} className="flex flex-wrap gap-2">
+			<RadioGroup onValueChange={setValue} defaultValue={value} className="grid grid-cols-9 gap-2">
 				{colorOptions.map((color) => (
 					<ColorOption key={color.value} value={color.value} label={color.label} cssClass={color.cssClass} />
 				))}

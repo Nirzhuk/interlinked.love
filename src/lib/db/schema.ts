@@ -129,6 +129,12 @@ export const events = pgTable("events", {
 	updatedAt: timestamp("updated_at").notNull().defaultNow(),
 	initialDate: timestamp("initial_date").notNull(),
 	finalDate: timestamp("final_date").notNull(),
+	initialDayInitialTime: text("initial_day_initial_time"),
+	initialDayFinalTime: text("initial_day_final_time"),
+	finalDayInitialTime: text("final_day_initial_time"),
+	finalDayFinalTime: text("final_day_final_time"),
+	initialDayIsAllDay: boolean("initial_day_is_all_day").notNull().default(false),
+	finalDayIsAllDay: boolean("final_day_is_all_day").notNull().default(false),
 	location: text("location"),
 	description: text("description"),
 	content: json("content").notNull().default({

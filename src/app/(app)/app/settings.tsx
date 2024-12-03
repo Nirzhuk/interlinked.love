@@ -5,10 +5,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import Marquee from "@/components/ui/marquee";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
 import type { CoupleDataWithMembers, Event, Invitation, User } from "@/lib/db/schema";
 import { cn } from "@/lib/utils";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { useActionState } from "react";
 import { InviteCoupleMember } from "./invite-couple";
 
@@ -39,18 +43,19 @@ export function Settings({
 			<h2 className="text-lg lg:text-2xl font-medium mb-6">Upcoming Events</h2>
 			<Marquee className="mb-6 py-2 bg-violet-100 rounded-lg" repeat={1} pauseOnHover={true}>
 				{upcomingEvents.map((e, index) => (
-					<div
+					<Link
 						key={`${e.id}-${index}`}
+						href={`/app/calendar?event=${e.id}`}
 						className={cn(
 							"mx-4 cursor-pointer flex flex-col space-x-2 px-4",
 							index !== upcomingEvents.length - 1 && "border-r border-violet-200",
 						)}
 					>
-						<div className="text-sm font-medium">{e.location}</div>
+						<div className="text-sm font-medium">{e.title}</div>
 						<div className="text-xs text-muted-foreground">
 							{e.initialDate ? new Date(e.initialDate).toLocaleDateString() : "No date set"}
 						</div>
-					</div>
+					</Link>
 				))}
 			</Marquee>
 
@@ -91,6 +96,18 @@ export function Settings({
 						))}
 					</ul>
 					{removeState?.error && <p className="text-red-500 mt-4">{removeState.error}</p>}
+					<Separator className="my-4" />
+					<div>
+						<Select>
+							<SelectTrigger>
+								<SelectValue placeholder="Type of couple" />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectItem value="couple">Couple</SelectItem>
+								<SelectItem value="friends">Friends</SelectItem>
+							</SelectContent>
+						</Select>
+					</div>
 				</CardContent>
 			</Card>
 			<InviteCoupleMember />

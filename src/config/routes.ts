@@ -12,6 +12,11 @@ export const routes: Record<string, RouteConfig> = {
 			},
 			events: {
 				label: "Events List",
+				children: {
+					create: {
+						label: "Create Event",
+					},
+				},
 			},
 			"invite-couple": {
 				label: "Invite Couple",

@@ -63,7 +63,7 @@ const DailyEventsModal = ({
 								animate={{
 									top: `calc(50% - ${modalPosition.height / 2}px)`,
 									left: "calc(50% - 12rem)",
-									width: isMobile ? "95vw" : modalState !== "general" ? "60vw" : "90vw", //TODO: Improve
+									width: isMobile ? "95vw" : modalState !== "general" ? "75vw" : "90vw", //TODO: Improve
 									height: "auto",
 								}}
 								exit={modalPosition}
@@ -96,9 +96,9 @@ const DailyEventsModal = ({
 								)}
 
 								{modalState === "edit" && (
-									<div className="p-6">
-										<DialogHeader className="relative">
-											<DialogTitle className="text-xl font-bold flex">
+									<div className="max-h-[100vh] h-full overflow-scroll p-6">
+										<DialogHeader className="relative ">
+											<DialogTitle className="text-xl font-bold flex items-center mb-2">
 												<ArrowLeftIcon
 													className="mr-2 size-5 cursor-pointer text-muted-foreground"
 													onClick={() => setModalState("general")}
@@ -115,13 +115,13 @@ const DailyEventsModal = ({
 												<span className="sr-only">Close</span>
 											</DialogClose>
 										</DialogHeader>
-										<div>
+										<div className="h-full overflow-scroll">
 											<EventForm mode="edit" event={selectedEvent} />
 										</div>
 									</div>
 								)}
 								{modalState === "general" && (
-									<div className="p-6">
+									<div className="max-h-[100vh] h-full overflow-scroll p-6">
 										<DialogHeader className="relative">
 											<DialogTitle className="text-xl font-bold">
 												{currentDay.toLocaleDateString("en-US", {

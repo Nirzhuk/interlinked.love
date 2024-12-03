@@ -21,7 +21,7 @@ const CalendarContext = createContext<CalendarContextType | null>(null);
 export function useCalendar(): CalendarContextType {
 	const context = useContext(CalendarContext);
 	if (context === null) {
-		throw new Error("useUser must be used within a UserProvider");
+		throw new Error("useCalendar must be used within a CalendarProvider");
 	}
 	return context;
 }

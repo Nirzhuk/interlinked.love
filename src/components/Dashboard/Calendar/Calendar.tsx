@@ -31,8 +31,6 @@ const Calendar = () => {
 		? events.find((event) => event.id === selectedEventId)
 		: undefined;
 
-	const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-
 	const currentDate = useMemo(() => parseUrlDate(currentDateParam), [currentDateParam]);
 
 	const sortedEvents = useMemo(() => sortEventsByStartDate(events), [events]);
@@ -111,12 +109,7 @@ const Calendar = () => {
 
 	return (
 		<div className="flex flex-col mb-10 max-w-6xl justify-center items-center">
-			<CalendarControllers
-				currentDate={currentDate}
-				prevMonth={prevMonth}
-				nextMonth={nextMonth}
-				setIsCreateModalOpen={setIsCreateModalOpen}
-			/>
+			<CalendarControllers currentDate={currentDate} prevMonth={prevMonth} nextMonth={nextMonth} />
 			<div className="grid grid-cols-7 gap-1">
 				{["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
 					<div key={day} className="font-bold text-center p-2">
@@ -125,7 +118,7 @@ const Calendar = () => {
 				))}
 				{renderCalendar()}
 			</div>
-			<CreateEventModal isOpen={isCreateModalOpen} onChange={(state) => setIsCreateModalOpen(state)} />
+
 			<EventDetailsModal
 				isOpen={!!selectedEventId}
 				onChange={() => setSelectedEventId(null)}

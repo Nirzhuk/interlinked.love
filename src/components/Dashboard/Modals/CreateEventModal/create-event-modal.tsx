@@ -10,14 +10,14 @@ interface CreateEventModalProps {
 const CreateEventModal = ({ isOpen, onChange }: CreateEventModalProps) => {
 	return (
 		<Dialog open={isOpen} onOpenChange={onChange}>
-			<DialogContent
-				noCloseButton={false}
-				className="w-full sm:max-w-3xl bg-background dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800"
-			>
-				<DialogHeader>
-					<DialogTitle>Create New Event</DialogTitle>
-				</DialogHeader>
-				<EventForm mode="create" />
+			<DialogContent noCloseButton={true} className="w-[78vw] h-full overflow-scroll max-w-none" isRounded={false}>
+				<div>
+					<DialogHeader>
+						<DialogTitle>Create New Event</DialogTitle>
+					</DialogHeader>
+
+					<EventForm mode="create" />
+				</div>
 			</DialogContent>
 		</Dialog>
 	);

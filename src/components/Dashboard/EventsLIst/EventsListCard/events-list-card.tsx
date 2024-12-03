@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { eventColorStyle } from "@/lib/colors";
 import { formatDateTime } from "@/lib/dateUtils";
 import type { Event } from "@/lib/db/schema";
+import { Edit } from "lucide-react";
 import { useTheme } from "next-themes";
 
 import React from "react";
@@ -27,10 +28,20 @@ const EventsListCard = ({ event }: EventsListCardProps) => {
 				onClick(event);
 			}}
 		>
+			<div
+				className="absolute top-4 right-4 z-10"
+				onClick={(e) => {
+					e.stopPropagation();
+					e.preventDefault();
+					onClick(event);
+				}}
+			>
+				<Edit className="size-4 text-black/30 dark:text-white/30" />
+			</div>
 			<div className="absolute p-px z-10  w-full h-full border-2 border-white dark:border-gray-950 pointer-events-none rounded-xl" />
-			<div className="absolute -top-10 right-2 z-0">
+			<div className="absolute -top-10 right-0 z-0">
 				<div
-					className="size-40 blur-xl"
+					className="size-40 blur-xl dark:blur-2xl rounded-full"
 					style={{
 						backgroundColor: isDark
 							? eventColorStyle[event.color as keyof typeof eventColorStyle].darkBackgroundColor

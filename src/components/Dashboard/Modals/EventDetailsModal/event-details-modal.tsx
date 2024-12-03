@@ -36,20 +36,26 @@ const EventDetailsModal = memo(({ isOpen, onChange, event }: EventDetailsModalPr
 
 	return (
 		<Dialog open={isOpen} onOpenChange={onChange}>
-			<DialogContent noCloseButton={false} className=" dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800">
-				<DialogHeader className="mt-2 flex flex-row place-items-center items-center justify-between ">
-					<DialogTitle>
-						<span className="font-semibold">{event.title}</span>
-						<button onClick={clickOnShare} className="p-1 rounded-md" type="button">
-							<Link className="size-3.5 hover:text-purple-500" />
-						</button>
-					</DialogTitle>
-					<div>
-						<span className="text-muted-foreground text-xs">Location: </span>
-						<span className="text-sm font-semibold">{event.location}</span>
-					</div>
-				</DialogHeader>
-				<EventShowcase event={event} />
+			<DialogContent
+				noCloseButton={false}
+				isRounded={true}
+				className=" dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800"
+			>
+				<div>
+					<DialogHeader className="mt-2 block align-middle items-center justify-between">
+						<DialogTitle>
+							<span className="font-semibold">{event.title}</span>
+							<button onClick={clickOnShare} className="p-1 rounded-md" type="button">
+								<Link className="size-3.5 hover:text-purple-500" />
+							</button>
+						</DialogTitle>
+						<div>
+							<span className="text-muted-foreground text-xs">Location: </span>
+							<span className="text-sm font-semibold">{event.location}</span>
+						</div>
+					</DialogHeader>
+					<EventShowcase event={event} />
+				</div>
 			</DialogContent>
 		</Dialog>
 	);

@@ -88,10 +88,31 @@ const createEventSchema = z.object({
 	location: z.string().min(2, "Location is required").max(250).optional().or(z.literal("")),
 	color: z.enum(Object.keys(eventColorStyle) as [string, ...string[]]),
 	content: z.string(),
+	initialDayIsAllDay: z.boolean().optional(),
+	finalDayIsAllDay: z.boolean().optional(),
+	initialDayInitialTime: z.string().optional(),
+	initialDayFinalTime: z.string().optional(),
+	finalDayInitialTime: z.string().optional(),
+	finalDayFinalTime: z.string().optional(),
 });
 
 export const createEventAction = validatedActionWithUser(createEventSchema, async (data, _, user) => {
-	const { title, description, initialDate, finalDate, location, color, content } = data;
+	const {
+		title,
+		description,
+		initialDate,
+		finalDate,
+		location,
+		color,
+		content,
+		initialDayIsAllDay,
+		finalDayIsAllDay,
+		initialDayInitialTime,
+		initialDayFinalTime,
+		finalDayInitialTime,
+		finalDayFinalTime,
+	} = data;
+
 	const userWithCouple = await getUserWithCouple(user.id as string);
 	if (!userWithCouple) {
 		return { error: "User is not in a couple." };
@@ -107,6 +128,12 @@ export const createEventAction = validatedActionWithUser(createEventSchema, asyn
 			color,
 			coupleId: userWithCouple.coupleId as number,
 			content: JSON.parse(content),
+			initialDayIsAllDay,
+			finalDayIsAllDay,
+			initialDayInitialTime,
+			initialDayFinalTime,
+			finalDayInitialTime,
+			finalDayFinalTime,
 		})
 		.returning();
 

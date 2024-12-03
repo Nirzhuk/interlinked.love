@@ -28,7 +28,7 @@ const EventShowcase = ({ event }: EventShowcaseProps) => {
 
 	return (
 		<>
-			<div className="flex flex-col gap-2">
+			<div className="">
 				<h3 className="font-semibold mb-2">Details</h3>
 				<div className="flex flex-row place-items-center items-center justify-between">
 					<div>
@@ -54,10 +54,12 @@ const EventShowcase = ({ event }: EventShowcaseProps) => {
 				</div>
 				<hr className="my-2" />
 			</div>
-			<div className="flex mt-8">
+			<div className="flex flex-col gap-2">
 				<h3 className="text-lg font-semibold mb-2">Comments:</h3>
-				{commentsEvent.length > 0 ? <Comments comments={commentsEvent} /> : <p>No comments yet</p>}
-				{event.id && <NewCommentForm eventId={event.id} />}
+				<div className="flex flex-col gap-2">
+					{commentsEvent.length > 0 ? <Comments comments={commentsEvent} /> : <p>No comments yet</p>}
+					{event.id && <NewCommentForm eventId={event.id} />}
+				</div>
 			</div>
 		</>
 	);
