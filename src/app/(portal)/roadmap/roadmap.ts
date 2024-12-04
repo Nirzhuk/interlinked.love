@@ -45,13 +45,6 @@ const TODO_ITEMS: RoadmapItem[] = [
 		paidFeature: false,
 	},
 	{
-		title: "Redesign Form Event Modal",
-		description: "Redesign the Form Event Modal to be more user friendly and intuitive.",
-		status: "TODO",
-		type: "DESIGN",
-		paidFeature: false,
-	},
-	{
 		title: "Redesign Main Dashboard",
 		description: "Redesign the Main Dashboard to be more user friendly and intuitive.",
 		status: "TODO",
@@ -119,6 +112,13 @@ const WORKING_ITEMS: RoadmapItem[] = [
 	},
 ];
 const DONE_ITEMS: RoadmapItem[] = [
+	{
+		title: "Redesign Form Event Modal",
+		description: "Redesign the Form Event Modal to be more user friendly and intuitive.",
+		status: "DONE",
+		type: "DESIGN",
+		paidFeature: false,
+	},
 	{
 		title: "PWA",
 		description: "Add PWA to the project",
